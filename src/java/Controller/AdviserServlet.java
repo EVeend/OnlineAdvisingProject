@@ -52,6 +52,7 @@ public class AdviserServlet extends HttpServlet {
             System.out.println("hahaha");
             employeeNumber = Integer.parseInt(request.getParameter("employeeNumber"));
             password = (String) request.getParameter("password");
+            System.out.println(employeeNumber + " " + password);
             if (Adviser.isUser(employeeNumber, password)) {
                 System.out.println("You have successfully logged in");
                 session = request.getSession();

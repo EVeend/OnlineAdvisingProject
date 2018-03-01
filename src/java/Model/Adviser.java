@@ -47,16 +47,16 @@ public class Adviser extends User {
     //Check if students exist
     public static boolean isUser(int teacherID, String password) {
         conn = DatabaseConnection.connectDatabase();
-        String loginQuery = "select * from Adviser where Teacher_ID = (?) and password = (?)";
-        String active = "Active";
+        String loginQuery = "select * from Adviser where Teacher_ID = (?) and Password = (?)";
+        int active = 1;
         try {
             state = conn.prepareStatement(loginQuery);
             state.setInt(1, teacherID);
             state.setString(2, password);
             rs = state.executeQuery();
             while (rs.next()) {
-                if (rs.getString("AccountStatus").equals(active)) {
-                    if (rs.getInt("Teacher_ID") == teacherID && rs.getString("password").equals(password)) {
+                if (rs.getInt("AccountStatus") == active) {
+                    if (rs.getInt("Teacher_ID") == teacherID && rs.getString("Password").equals(password)) {
                         rs.close();
                         state.close();
                         conn.close();
