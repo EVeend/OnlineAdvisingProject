@@ -77,26 +77,7 @@
 
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                    <h4 class="modal-title"><center> 2012012911'S PROPOSED SCHEDULE </center> </h4>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <section style="padding:0px;">
-                                                                        <p>
-                                                                        <section>
-                                                                            <form method="POST" action="UserController" role="form">
-                                                                                <div class="form-group">
-                                                                            </form>
-                                                                        </section>
-                                                                        </p>
-                                                                    </section>
-                                                                    <button type="button" style="margin-left: 800px; font-family: arial;" class="btn btn-success" data-dismiss="modal">Approve</button> <br> <br>
-                                                                    <button type="button" style="margin-left: 800px; font-family: arial;" class="btn btn-danger" data-dismiss="modal">Reject</button>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Back</button>
-                                                                </div>
+
                                                             </div>
 
                                                         </div>
