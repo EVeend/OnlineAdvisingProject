@@ -263,7 +263,7 @@ public class Student extends User {
 
     //Adds a course to the student's schedule
     //Returns true if success; else return false
-    public static boolean addToMySchedule(Course desiredCourse, Student currentStudent) {
+    public static boolean addToMyProposedSchedule(Course desiredCourse, Student currentStudent) {
         ArrayList<Course> schedule = currentStudent.getStudentSchedule();
 
         if (schedule.isEmpty() || isQualified(currentStudent, desiredCourse)) {
@@ -272,7 +272,7 @@ public class Student extends User {
             conn = DatabaseConnection.connectDatabase();
             String getCourseDeficiencyQuery = "Insert into Student_Schedule(Student_ID, Course_ID, Section, Status) Values(?, ?, ?, ?)";
             String updateCourseQuery = "UPDATE Available_Courses SET AvailableSlot = (?) Where Course_ID = (?) and Section = (?)";
-            String status = "NotSubmitted";
+            int notYetSubmittedStatus = 4;
 
             try {
                 //Adds Subject
@@ -280,7 +280,7 @@ public class Student extends User {
                 state.setInt(1, currentStudent.getUserID());
                 state.setString(2, desiredCourse.getCourseID());
                 state.setString(3, desiredCourse.getSection());
-                state.setString(4, status);
+                state.setInt(4, notYetSubmittedStatus);
                 state.executeUpdate();
                 
 
@@ -334,7 +334,7 @@ public class Student extends User {
     }
 
     //Removes a course from the student's schedule
-    public static void removeFromMySchedule(int studentID, String courseID, String section) {
+    public static void removeFromMySchedule(Student student, String courseID, String section) {
 
         conn = DatabaseConnection.connectDatabase();
         String removeCourseQuery = "DELETE FROM Student_Schedule WHERE Student_ID = (?) and Course_ID = (?)";
@@ -342,9 +342,22 @@ public class Student extends User {
         try {
             //Removes Subject
             state = conn.prepareStatement(removeCourseQuery);
-            state.setInt(1, studentID);
+            state.setInt(1, student.getUserID());
             state.setString(2, courseID);
             state.executeUpdate();
+            
+            //Remove the Subject to Student Schedule
+            ArrayList<Course> studentSchedule = student.getStudentSchedule();
+            //The course to be removed
+            Course removeCourse = Course.getCourse(courseID, section);
+            System.out.println(removeCourse);
+            for(Course studentCourse : studentSchedule){
+                if(studentCourse.getCourseID().equals(removeCourse.getCourseID())){
+                    studentSchedule.remove(studentCourse);
+                    System.out.println("Course removed");
+                    break;
+                }
+            }
 
             //Open 1 slot
             pState = conn.prepareStatement(updateCourseQuery);
@@ -415,13 +428,16 @@ public class Student extends User {
     //Check if student has submitted a schedule
     public static boolean hasSubmittedSchedule(int studentID) {
         test = DatabaseConnection.connectDatabase();
-        String hasSubmittedScheduleQuery = "select * from Student_Back_Subjects where Student_ID = (?)";
-
+        String hasSubmittedScheduleQuery = "select * from Student_Schedule where Student_ID = (?) and Status = (?)";
+        int forApprovalStatus = 3;
+        
         try {
             pState = test.prepareStatement(hasSubmittedScheduleQuery);
             pState.setInt(1, studentID);
+            pState.setInt(2, forApprovalStatus);
             rSet = pState.executeQuery();
             if (rSet.next()) {
+                System.out.println("Returns True");
                 return true;
             }
             rSet.close();
@@ -463,13 +479,13 @@ public class Student extends User {
     public static ArrayList<Course> getMySchedule(int studentID) {
         test = DatabaseConnection.connectDatabase();
         ArrayList<Course> schedules = new ArrayList<>();
-        String status = "Approve";
+        int status = 1;
         String getStudentScheduleQuery = "select * from Student_Schedule where Student_ID = (?) and Status = (?)";
 
         try {
             pState = test.prepareStatement(getStudentScheduleQuery);
             pState.setInt(1, studentID);
-            pState.setString(2, status);
+            pState.setInt(2, status);
             rSet = pState.executeQuery();
 
             while (rSet.next()) {

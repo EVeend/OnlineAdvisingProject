@@ -142,7 +142,7 @@ public class StudentServlet extends HttpServlet {
 
             Course desiredCourse = Course.getCourse(courseID, courseSection);
 
-            if (Student.addToMySchedule(desiredCourse, currentStudent)) {
+            if (Student.addToMyProposedSchedule(desiredCourse, currentStudent)) {
                 System.out.println("Successfully Added Schedule");
                 loadStudentProposedSchedule(request, response);
             } else {
@@ -155,14 +155,14 @@ public class StudentServlet extends HttpServlet {
         } //Remove Course
         else if (request.getParameter("removeFromSchedule") != null) {
 
-            int sessionStudent = (Integer) session.getAttribute("studentNumber");
+            Student currentStudent = (Student) session.getAttribute("currentStudent");
             String courseID = (String) request.getParameter("courseID");
             String courseSection = (String) request.getParameter("courseSection");
 
             System.out.println(courseID);
             System.out.println(courseSection);
 
-            Student.removeFromMySchedule(sessionStudent, courseID, courseSection);
+            Student.removeFromMySchedule(currentStudent, courseID, courseSection);
             loadStudentProposedSchedule(request, response);
         }//Reset Proposed Schedules
         else if (request.getParameter("resetSchedule") != null) {
