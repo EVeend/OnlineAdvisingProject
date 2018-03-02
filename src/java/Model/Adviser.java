@@ -115,10 +115,11 @@ public class Adviser extends User {
         conn = DatabaseConnection.connectDatabase();
         ArrayList<Student> proposedSchedList = new ArrayList<>();
         
-        String getProposedScheduleList = "Select * from Submited_Schedule where Status = 'Proposed'";
-        
+        String getProposedScheduleList = "Select * from Student_Schedule where Status = (?)";
+        int forApprovalStatus = 3;
         try{
             state = conn.prepareStatement(getProposedScheduleList);
+            state.setInt(1, forApprovalStatus);
             rs = state.executeQuery();
             
             while(rs.next()){

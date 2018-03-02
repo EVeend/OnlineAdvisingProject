@@ -116,14 +116,12 @@ public class Student extends User {
     public void setYear(int year) {
         this.year = year;
     }
-    
-    
 
     public static Student getStudent(int studentNumber, String password) {
         conn = DatabaseConnection.connectDatabase();
         String getStudentQuery = "select * from Student where Student_Id = (?) and password = (?)";
         Student student = new Student();
-        
+
         try {
             state = conn.prepareStatement(getStudentQuery);
             state.setInt(1, studentNumber);
@@ -282,7 +280,6 @@ public class Student extends User {
                 state.setString(3, desiredCourse.getSection());
                 state.setInt(4, notYetSubmittedStatus);
                 state.executeUpdate();
-                
 
                 //Update Subject
                 pState = conn.prepareStatement(updateCourseQuery);
@@ -339,39 +336,45 @@ public class Student extends User {
         conn = DatabaseConnection.connectDatabase();
         String removeCourseQuery = "DELETE FROM Student_Schedule WHERE Student_ID = (?) and Course_ID = (?)";
         String updateCourseQuery = "UPDATE Available_Courses SET AvailableSlot = (?) Where Course_ID = (?) and Section = (?)";
-        try {
-            //Removes Subject
-            state = conn.prepareStatement(removeCourseQuery);
-            state.setInt(1, student.getUserID());
-            state.setString(2, courseID);
-            state.executeUpdate();
-            
-            //Remove the Subject to Student Schedule
-            ArrayList<Course> studentSchedule = student.getStudentSchedule();
-            //The course to be removed
-            Course removeCourse = Course.getCourse(courseID, section);
-            System.out.println(removeCourse);
-            for(Course studentCourse : studentSchedule){
-                if(studentCourse.getCourseID().equals(removeCourse.getCourseID())){
-                    studentSchedule.remove(studentCourse);
-                    System.out.println("Course removed");
-                    break;
+
+        if (!Student.hasSubmittedSchedule(student.getUserID())) {
+            try {
+                //Removes Subject
+                state = conn.prepareStatement(removeCourseQuery);
+                state.setInt(1, student.getUserID());
+                state.setString(2, courseID);
+                state.executeUpdate();
+
+                //Remove the Subject to Student Schedule
+                ArrayList<Course> studentSchedule = student.getStudentSchedule();
+                //The course to be removed
+                Course removeCourse = Course.getCourse(courseID, section);
+                System.out.println(removeCourse);
+                for (Course studentCourse : studentSchedule) {
+                    if (studentCourse.getCourseID().equals(removeCourse.getCourseID())) {
+                        studentSchedule.remove(studentCourse);
+                        System.out.println("Course removed");
+                        break;
+                    }
                 }
+
+                //Open 1 slot
+                pState = conn.prepareStatement(updateCourseQuery);
+                Course courseSlots = Course.getCourse(courseID, section);
+                pState.setInt(1, courseSlots.getAvailableSlot() + 1);
+                pState.setString(2, courseID);
+                pState.setString(3, section);
+                pState.executeUpdate();
+
+                state.close();
+                pState.close();
+                conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            //Open 1 slot
-            pState = conn.prepareStatement(updateCourseQuery);
-            Course courseSlots = Course.getCourse(courseID, section);
-            pState.setInt(1, courseSlots.getAvailableSlot() + 1);
-            pState.setString(2, courseID);
-            pState.setString(3, section);
-            pState.executeUpdate();
-
-            state.close();
-            pState.close();
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        else{
+            System.out.println("You cannot remove a subject you have already submitted");
         }
     }
     //Returns a specific course from the student's schedule
@@ -397,22 +400,13 @@ public class Student extends User {
     public static void submitSchedule(int studentID) {
         conn = DatabaseConnection.connectDatabase();
         ArrayList<Course> studentProposedSchedule = Student.getStudentSchedule(studentID);
-        String status = "Proposed";
+        int status = 3;
         String updateStudentSchedStatus = "Update Student_Schedule set Status = (?) where Student_ID = (?)";
-        String submitScheduleQuery = "Insert into Submited_Schedule(Student_ID, Course_ID, Block, Status) Values(?, ?, ?, ?)";
 
         if (!hasSubmittedSchedule(studentID)) {
             try {
-                state = conn.prepareStatement(submitScheduleQuery);
-                for (Course course : studentProposedSchedule) {
-                    state.setInt(1, studentID);
-                    state.setString(2, course.getCourseID());
-                    state.setString(3, course.getSection());
-                    state.setString(4, status);
-                    state.executeUpdate();
-                }
-                pState = test.prepareStatement(updateStudentSchedStatus);
-                pState.setString(1, status);
+                pState = conn.prepareStatement(updateStudentSchedStatus);
+                pState.setInt(1, status);
                 pState.setInt(2, studentID);
                 pState.executeUpdate();
 
@@ -430,7 +424,7 @@ public class Student extends User {
         test = DatabaseConnection.connectDatabase();
         String hasSubmittedScheduleQuery = "select * from Student_Schedule where Student_ID = (?) and Status = (?)";
         int forApprovalStatus = 3;
-        
+
         try {
             pState = test.prepareStatement(hasSubmittedScheduleQuery);
             pState.setInt(1, studentID);

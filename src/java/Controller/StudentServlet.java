@@ -173,8 +173,8 @@ public class StudentServlet extends HttpServlet {
             loadStudentProposedSchedule(request, response);
         }//Submit schedule
         else if (request.getParameter("submitSchedule") != null) {
-            int sessionStudent = (Integer) session.getAttribute("studentNumber");
-            Student.submitSchedule(sessionStudent);
+            Student currentStudent = (Student) session.getAttribute("currentStudent");
+            Student.submitSchedule(currentStudent.getUserID());
 
             loadStudentProposedSchedule(request, response);
         } //Change Password Action
