@@ -64,6 +64,7 @@
                                             <th style="width:100px;">Lab Units</th>
                                             <th style="width:140px;">Section </th>
                                             <th style="width:280px;">Schedule </th>
+                                            <th style="width:200px;">Status</th>
                                             <th> </th>
                                         </tr>
                                     </thead>
@@ -83,70 +84,15 @@
                                                             </c:forEach>
                                                         </c:if>
                                                     </td>
-                                                    <td> 
-                                                        <!-- Trigger the modal with a button -->
-                                                        <button type="button" class="btn btn-info btn-md btn-warning" data-toggle="modal" data-target="#edit">EDIT</button>
-
-                                                        <!-- Modal -->
-                                                        <div id="edit" class="modal fade" role="dialog">
-                                                            <div class="modal-dialog modal-md">
-
-                                                                <!-- Modal content-->
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                        <h4 class="modal-title"><center>UPDATE COURSE</center></h4>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <form>
-                                                                            <div class="form-group row">
-                                                                                <label for="" class="col-sm-2 col-form-label">Course Code</label>
-                                                                                <div class="col-sm-10">
-                                                                                    <input type="text" class="form-control" id="">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row">
-                                                                                <label for="" class="col-sm-2 col-form-label">Course Title</label>
-                                                                                <div class="col-sm-10">
-                                                                                    <input type="text" class="form-control" id="">
-                                                                                </div>
-                                                                            </div>  
-                                                                            <div class="form-group row">
-                                                                                <label for="" class="col-sm-2 col-form-label">No. of Units</label>
-                                                                                <div class="col-sm-10">
-                                                                                    <input type="text" class="form-control" id="">
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group row">
-                                                                                <label for="" class="col-sm-2 col-form-label">Section</label>
-                                                                                <div class="col-sm-10">
-                                                                                    <input type="text" class="form-control" id="">
-                                                                                </div>
-                                                                            </div> 
-                                                                            <div class="form-group row">
-                                                                                <label for="" class="col-sm-2 col-form-label">Schedule</label>
-                                                                                <div class="col-sm-10">
-                                                                                    <textarea class="form-control" id=""></textarea>
-                                                                                </div>
-                                                                            </div> 
-                                                                            <center>
-                                                                                <button type="submit" class="btn btn-warning">Reset</button> &nbsp;
-                                                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                                                            </center>
-                                                                        </form>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-default btn-info" data-dismiss="modal">Back</button>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td> 
-                                                        <form action="AdviserServlet" method="post">
-                                                            <button class="btn btn-danger" type="submit">DELETE </button>
-                                                        </form>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${course.getAvailableSlot() eq 0}">
+                                                                FULL
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                AVAILABLE
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -154,85 +100,19 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div>
-
-                                <!-- Trigger the modal with a button -->
-                                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#add">Add a course</button>
-
-                                <!-- Modal -->
-                                <div id="add" class="modal fade" role="dialog">
-                                    <div class="modal-dialog modal-md">
-
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                <h4 class="modal-title"><center>ADD A COURSE</center></h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form>
-                                                    <div class="form-group row">
-                                                        <label for="" class="col-sm-2 col-form-label">Course Code</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label for="" class="col-sm-2 col-form-label">Course Title</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="">
-                                                        </div>
-                                                    </div>  
-                                                    <div class="form-group row">
-                                                        <label for="" class="col-sm-2 col-form-label">No. of Units</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label for="" class="col-sm-2 col-form-label">Section</label>
-                                                        <div class="col-sm-10">
-                                                            <input type="text" class="form-control" id="">
-                                                        </div>
-                                                    </div> 
-                                                    <div class="form-group row">
-                                                        <label for="" class="col-sm-2 col-form-label">Schedule</label>
-                                                        <div class="col-sm-10">
-                                                            <select>
-                                                                <option value="volvo">Volvo</option>
-
-                                                            </select>
-
-                                                        </div>
-                                                    </div> 
-                                                    <center>
-                                                        <button type="submit" class="btn btn-warning">Reset</button> &nbsp;
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </center>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default btn-info" data-dismiss="modal">Back</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                        </form>
                     </div>
                 </div>
             </div>
+        </section>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </body>
+    <footer> 
+        <div id="footer">
+            <div class="navbar navbar-fixed-bottom" style="background-color: #000000; padding: 2px; width: 1500px;">
+                <p class="muted credit"><h5 style="margin-left: 250px; color: white;"> Copyright © 2016 University of Santo Tomas. All Rights Reserved. Powered by Santo Tomas e-Service Providers (sTeps) </h5>
+                </p>
+            </div>
         </div>
-    </section>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</body>
-<footer> 
-    <div id="footer">
-        <div class="navbar navbar-fixed-bottom" style="background-color: #000000; padding: 2px; width: 1500px;">
-            <p class="muted credit"><h5 style="margin-left: 250px; color: white;"> Copyright © 2016 University of Santo Tomas. All Rights Reserved. Powered by Santo Tomas e-Service Providers (sTeps) </h5>
-            </p>
-        </div>
-    </div>
-</footer>
+    </footer>
 </html>

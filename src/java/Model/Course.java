@@ -18,7 +18,8 @@ public class Course {
     private String Section;
     private String instructor;
     private ArrayList<String> prerequisite;
-    private Integer slot;
+    private Integer availableSlot;
+    private Integer maxSlot;
     private ArrayList<CourseSchedule> schedule;
     private Integer courseType;
 
@@ -86,14 +87,23 @@ public class Course {
         this.prerequisite = prerequisite;
     }
 
-    public Integer getSlot() {
-        return slot;
+    public Integer getAvailableSlot() {
+        return availableSlot;
     }
 
-    public void setSlot(Integer slot) {
-        this.slot = slot;
+    public void setAvailableSlot(Integer availableSlot) {
+        this.availableSlot = availableSlot;
     }
 
+    public Integer getMaxSlot() {
+        return maxSlot;
+    }
+
+    public void setMaxSlot(Integer maxSlot) {
+        this.maxSlot = maxSlot;
+    }
+
+    
     public ArrayList<CourseSchedule> getSchedule() {
         return schedule;
     }
@@ -112,7 +122,7 @@ public class Course {
     
     public static Course getCourse(String courseID, String section) {
         conn = DatabaseConnection.connectDatabase();
-        String getCourseQuery = "select distinct Course_ID, Section, Instructor, Slots from Available_Courses where Course_ID =(?) and Section =(?)";
+        String getCourseQuery = "select distinct Course_ID, Section, Instructor, AvailableSlot, MaxSlot from Available_Courses where Course_ID =(?) and Section =(?)";
 
         try {
             state = conn.prepareStatement(getCourseQuery);
@@ -124,7 +134,8 @@ public class Course {
                 System.out.println("get Course method");
                 Course courseDetails = getCourseDetails(rs.getString("Course_ID"));
                 courseDetails.setSection(rs.getString("Section"));
-                courseDetails.setSlot(rs.getInt("Slots"));
+                courseDetails.setAvailableSlot(rs.getInt("AvailableSlot"));
+                courseDetails.setMaxSlot(rs.getInt("MaxSlot"));
                 courseDetails.setInstructor(rs.getString("Instructor"));
                 courseDetails.setSchedule(getSchedules(courseID, section));
                 rs.close();
@@ -143,7 +154,7 @@ public class Course {
 
         conn = DatabaseConnection.connectDatabase();
         ArrayList<Course> courses = new ArrayList<>();
-        String getAvailableCoursesQuery = "select distinct Course_ID, Section, Instructor, Slots, CourseType from Available_Courses";
+        String getAvailableCoursesQuery = "select distinct Course_ID, Section, Instructor, AvailableSlot, MaxSlot, CourseType from Available_Courses";
         System.out.println("Getting courses");
         try {
             state = conn.prepareStatement(getAvailableCoursesQuery);
@@ -152,7 +163,8 @@ public class Course {
 
                 Course course = getCourseDetails(rs.getString("Course_ID"));
                 course.setSection(rs.getString("Section"));
-                course.setSlot(rs.getInt("Slots"));
+                course.setAvailableSlot(rs.getInt("AvailableSlot"));
+                course.setMaxSlot(rs.getInt("MaxSlot"));
                 course.setInstructor(rs.getString("Instructor"));
                 course.setSchedule(getSchedules(rs.getString("Course_ID"), rs.getString("Section")));
                 course.setCourseType(rs.getInt("CourseType"));
@@ -179,7 +191,7 @@ public class Course {
         System.out.println("Getting student courses");
         for (Course deficiencies : courseDeficiencies) {
             for(Course course : availableCourse){
-                if(deficiencies.getCourseID().equals(course.getCourseID())){
+                if(deficiencies.getCourseID().equals(course.getCourseID()) && course.getAvailableSlot() != 0){
                     listOfCourses.add(course);
                 }
             }    

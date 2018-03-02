@@ -11,14 +11,6 @@
         <link rel="stylesheet" href="assets/JS/homePageJS.js">
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     </head>
-    <script>
-        var errorMessage = ${errorMessage};
-        document.write(errorMessage);
-        if(errorMessage !== null){
-            openModal();
-        }
-        
-    </script>
     <body>
         <header style="height:100px;background-color:#000000;padding:3px;">
             <div><img class="img-responsive" src="assets/img/ustoaheader.png" style="height:93px;margin-top:0px;padding:9px;margin-bottom:0px;"></div>
@@ -79,6 +71,7 @@
                                         <th style="width:100px;">Lecture Units</th>
                                         <th style="width:100px;">Lab Units</th>
                                         <th style="width:140px;">Section </th>
+                                        <th style="width:140px;">Available Slots</th>
                                         <th style="width:140px;">Status</th>
                                         <th style="width:280px;">Schedule </th>
                                         <th> </th>
@@ -93,9 +86,10 @@
                                                 <td>${course.getCourseLectUnits()}</td>
                                                 <td>${course.getCourseLabUnits()}</td>
                                                 <td>${course.getSection()} </td>
+                                                <td>${course.getAvailableSlot()} /${course.getMaxSlot()} </td>
                                                 <td>
                                                     <c:choose>
-                                                        <c:when test="${course.getSlot() eq 0}">
+                                                        <c:when test="${course.getAvailableSlot() eq 0}">
                                                             FULL
                                                         </c:when>
                                                         <c:otherwise>
@@ -112,7 +106,7 @@
                                                 </td>
                                                 <td>
                                                     <c:choose>
-                                                        <c:when test="${course.getSlot() eq 0}">
+                                                        <c:when test="${course.getAvailableSlot() eq 0}">
                                                         </c:when>
                                                         <c:otherwise>
                                                             <form action="StudentServlet" method="post">

@@ -271,7 +271,7 @@ public class Student extends User {
 
             conn = DatabaseConnection.connectDatabase();
             String getCourseDeficiencyQuery = "Insert into Student_Schedule(Student_ID, Course_ID, Section, Status) Values(?, ?, ?, ?)";
-            String updateCourseQuery = "UPDATE Available_Courses SET Slots = (?) Where Course_ID = (?) and Section = (?)";
+            String updateCourseQuery = "UPDATE Available_Courses SET AvailableSlot = (?) Where Course_ID = (?) and Section = (?)";
             String status = "NotSubmitted";
 
             try {
@@ -287,7 +287,7 @@ public class Student extends User {
                 //Update Subject
                 pState = conn.prepareStatement(updateCourseQuery);
                 Course courseSlots = Course.getCourse(desiredCourse.getCourseID(), desiredCourse.getSection());
-                pState.setInt(1, courseSlots.getSlot() - 1);
+                pState.setInt(1, courseSlots.getAvailableSlot() - 1);
                 pState.setString(2, desiredCourse.getCourseID());
                 pState.setString(3, desiredCourse.getSection());
                 pState.executeUpdate();
@@ -338,7 +338,7 @@ public class Student extends User {
 
         conn = DatabaseConnection.connectDatabase();
         String removeCourseQuery = "DELETE FROM Student_Schedule WHERE Student_ID = (?) and Course_ID = (?)";
-        String updateCourseQuery = "UPDATE Available_Courses SET Slots = (?) Where Course_ID = (?) and Section = (?)";
+        String updateCourseQuery = "UPDATE Available_Courses SET AvailableSlot = (?) Where Course_ID = (?) and Section = (?)";
         try {
             //Removes Subject
             state = conn.prepareStatement(removeCourseQuery);
@@ -349,7 +349,7 @@ public class Student extends User {
             //Open 1 slot
             pState = conn.prepareStatement(updateCourseQuery);
             Course courseSlots = Course.getCourse(courseID, section);
-            pState.setInt(1, courseSlots.getSlot() + 1);
+            pState.setInt(1, courseSlots.getAvailableSlot() + 1);
             pState.setString(2, courseID);
             pState.setString(3, section);
             pState.executeUpdate();
@@ -415,7 +415,7 @@ public class Student extends User {
     //Check if student has submitted a schedule
     public static boolean hasSubmittedSchedule(int studentID) {
         test = DatabaseConnection.connectDatabase();
-        String hasSubmittedScheduleQuery = "select * from Submited_Schedule where Student_ID = (?)";
+        String hasSubmittedScheduleQuery = "select * from Student_Back_Subjects where Student_ID = (?)";
 
         try {
             pState = test.prepareStatement(hasSubmittedScheduleQuery);
@@ -504,7 +504,7 @@ public class Student extends User {
 
         //Check if student already passed prerequisite subject
         //Check if there are available slots
-        if (desiredCourse.getSlot() == 0) {
+        if (desiredCourse.getAvailableSlot() == 0) {
             return false;
         }
         for (Course c : studentSchedule) {
