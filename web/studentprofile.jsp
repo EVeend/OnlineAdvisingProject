@@ -62,7 +62,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <h3 class="text-nowrap" style="color:#ffcd48;">Student Profile</h3>
                     </div>
-                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><img class="img-responsive" src="data:image/jpeg;base64,${Student_Picture}" style="height:145px;max-height:100%;"></div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><img class="img-responsive" src="${Student_Picture}" style="height:145px;max-height:100%;"></div>
                     <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
                         <h5 class="header-prof-yellow" style="margin:0px;">Personal Information</h5>
                         <div class="table-responsive">

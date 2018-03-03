@@ -84,8 +84,6 @@ public class Adviser extends User {
             rs = state.executeQuery();
 
             if (rs.next()) {
-                byte[] encodeBase64 = Base64.encodeBase64(rs.getBytes("Advisor_Picture"));
-                String base64Encoded = new String(encodeBase64, "UTF-8");
 
                 adviserProfile.setUserID(teacherID);
                 adviserProfile.setDepartment(rs.getString("Department"));
@@ -97,7 +95,7 @@ public class Adviser extends User {
                 adviserProfile.setPassword(rs.getString("Password"));
                 adviserProfile.setEmail(rs.getString("Email"));
                 adviserProfile.setBirthdate(rs.getString("Birthdate"));
-                adviserProfile.setPicture(base64Encoded);
+                adviserProfile.setPicture(rs.getString("Advisor_Picture"));
 
             }
             rs.close();

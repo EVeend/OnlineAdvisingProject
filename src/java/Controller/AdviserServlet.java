@@ -129,6 +129,7 @@ public class AdviserServlet extends HttpServlet {
         session.setAttribute("Email", adviserProfile.getEmail());
         session.setAttribute("Birthdate", adviserProfile.getBirthdate());
         session.setAttribute("Employee_Picture", adviserProfile.getPicture());
+        System.out.println(adviserProfile.getPicture());
 
                 //CHECKER IF ADMIN
         if(adviserProfile.getUserID()== 123454321 && adviserProfile.getPassword().equals("admin")){

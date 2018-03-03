@@ -129,8 +129,6 @@ public class Student extends User {
             rs = state.executeQuery();
 
             if (rs.next()) {
-                byte[] encodeBase64 = Base64.encodeBase64(rs.getBytes("Student_Picture"));
-                String base64Encoded = new String(encodeBase64, "UTF-8");
 
                 student.setUserID(studentNumber);
                 student.setProgram(rs.getString("Program"));
@@ -145,11 +143,11 @@ public class Student extends User {
                 student.setPassword(rs.getString("Password"));
                 student.setEmail(rs.getString("Email"));
                 student.setBirthdate(rs.getString("Birthdate"));
-                student.setStudentSchedule(getStudentSchedule(studentNumber));
+//                student.setStudentSchedule(getStudentSchedule(studentNumber));
                 student.setAccountStatus(rs.getInt("AccountStatus"));
                 student.setTerm(rs.getInt("Term"));
                 student.setYear(rs.getInt("Year"));
-                student.setPicture(base64Encoded);
+                student.setPicture(rs.getString("Student_Picture"));
 
             }
             rs.close();
@@ -162,79 +160,6 @@ public class Student extends User {
         return null;
     }
 
-//    //Check if students exist
-//    public static String isIrregular(int studentNumber, String password) {
-//        conn = DatabaseConnection.connectDatabase();
-//        String loginQuery = "select * from Student where Student_Id = (?) and password = (?)";
-//        String active = "Active";
-//        try {
-//            state = conn.prepareStatement(loginQuery);
-//            state.setInt(1, studentNumber);
-//            state.setString(2, password);
-//            rs = state.executeQuery();
-//            while (rs.next()) {
-//                if (rs.getInt("Student_ID") == studentNumber && rs.getString("password").equals(password)) {
-//                    if (rs.getString("AccountStatus").equals(active)) {
-//                        if (rs.getString("Retention_Status").equals("Irregular") || rs.getString("Retention_Status").equals("Conditional")) {
-//                            rs.close();
-//                            state.close();
-//                            conn.close();
-//                            return "user";
-//                        } else {
-//                            return "regularStudent";
-//                        }
-//                    }
-//                }
-//            }
-//            rs.close();
-//            state.close();
-//            conn.close();
-//        } catch (Exception e) {
-//            System.out.println(e.toString());
-//        }
-//        return "noUser";
-//    }
-//
-//    //View Profile
-//    public static Student getStudentProfile(int studentID) {
-//        conn = DatabaseConnection.connectDatabase();
-//        Student studentProfile = new Student();
-//        String getProfileQuery = "select * from Student where Student_ID = (?)";
-//        try {
-//            state = conn.prepareStatement(getProfileQuery);
-//            state.setInt(1, studentID);
-//            rs = state.executeQuery();
-//
-//            if (rs.next()) {
-//                byte[] encodeBase64 = Base64.encodeBase64(rs.getBytes("Student_Picture"));
-//                String base64Encoded = new String(encodeBase64, "UTF-8");
-//
-//                studentProfile.setUserID(studentID);
-//                studentProfile.setProgram(rs.getString("Program"));
-//                studentProfile.setCollege(rs.getString("College"));
-//                studentProfile.setBlock(rs.getString("Block"));
-//                studentProfile.setCurrentUnits(rs.getInt("Current_Units"));
-//                studentProfile.setRetentionStatus(rs.getInt("Retention_Status"));
-//                studentProfile.setStatus(rs.getInt("Status"));
-//                studentProfile.setFirstName(rs.getString("First_Name"));
-//                studentProfile.setLastName(rs.getString("Last_Name"));
-//                studentProfile.setMiddleName(rs.getString("Middle_Name"));
-//                studentProfile.setPassword(rs.getString("Password"));
-//                studentProfile.setEmail(rs.getString("Email"));
-//                studentProfile.setBirthdate(rs.getString("Birthdate"));
-//                studentProfile.setStudentSchedule(getStudentSchedule(studentID));
-//                studentProfile.setPicture(base64Encoded);
-//
-//            }
-//            rs.close();
-//            state.close();
-//            conn.close();
-//            return studentProfile;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
     public static ArrayList<Course> getCourseDeficiency(int studentID) {
         conn = DatabaseConnection.connectDatabase();
         ArrayList<Course> deficiencies = new ArrayList<>();
@@ -372,8 +297,7 @@ public class Student extends User {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else{
+        } else {
             System.out.println("You cannot remove a subject you have already submitted");
         }
     }
