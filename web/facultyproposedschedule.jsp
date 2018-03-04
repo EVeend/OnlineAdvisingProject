@@ -64,7 +64,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   
+                                    <c:if test="${not empty proposedSchedList}"> 
+                                        <c:forEach items="${proposedSchedList}" var="sched">
+                                            <tr>
+                                                <td>${sched.getUserID()}</td>
+                                                <td> 
+                                                    <!-- Trigger the modal with a button -->
+                                                    <a data-toggle="modal" data-target="#update" class="btn btn-warning btn-sm" href="AdviserServlet?view=view&studentID=<c:out value="${sched.getUserID()}"/>">View</a>
+                                                    <!-- Modal -->
+                                                    <div id="update" class="modal fade" role="dialog">
+                                                        <div class="modal-dialog modal-lg">
+
+                                                            <!-- Modal content-->
+                                                            <div class="modal-content">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:if>
                                 </tbody>
                             </table>
                         </div>

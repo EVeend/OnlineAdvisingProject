@@ -112,6 +112,7 @@
                                 </c:choose>
                                 </tbody>
                             </table>
+                            <p>Current total units: ${totalUnits}</p>
                         </div>
                         <div>
                             <form action="StudentServlet" method="post">

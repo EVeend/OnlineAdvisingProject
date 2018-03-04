@@ -30,12 +30,12 @@
                             <form action="StudentServlet" method="post">
                                 <p class="errorMessage">
                                     <c:set var="error" value="${errorMessage}" />
-                                    <c:if test="${error eq 'noAccess'}">
-                                        Error: Your account does not have access to this website.
-                                        <c:set var="error" value="" />
-                                    </c:if>
                                     <c:if test="${error eq 'noUser'}">
                                         Error: Incorrect StudentID or Password.
+                                        <c:set var="error" value="" />
+                                    </c:if>
+                                    <c:if test="${error eq 'noAccess'}">
+                                        Error: Your account does not have access to this website.
                                         <c:set var="error" value="" />
                                     </c:if>
                                 </p>

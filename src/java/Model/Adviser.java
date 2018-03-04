@@ -121,6 +121,7 @@ public class Adviser extends User {
             rs = state.executeQuery();
             
             while(rs.next()){
+                System.out.println(rs.next());
                 Student student = new Student();
                 student.setUserID(rs.getInt("Student_ID"));
                 student.setStudentSchedule(Student.getStudentSchedule(rs.getInt("Student_ID")));

@@ -13,7 +13,6 @@ import java.util.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import org.apache.tomcat.util.codec.binary.Base64;
 
 /**
  *
@@ -145,7 +144,7 @@ public class Student extends User {
                 student.setPassword(rs.getString("Password"));
                 student.setEmail(rs.getString("Email"));
                 student.setBirthdate(rs.getString("Birthdate"));
-//                student.setStudentSchedule(getStudentSchedule(studentNumber));
+                student.setStudentSchedule(getStudentSchedule(studentNumber));
                 student.setAccountStatus(rs.getInt("AccountStatus"));
                 student.setTerm(rs.getInt("Term"));
                 student.setYear(rs.getInt("Year"));
@@ -192,6 +191,9 @@ public class Student extends User {
                         break;
                 }
             }
+            else{
+                return null;
+            }
             rs.close();
             state.close();
             conn.close();
@@ -230,7 +232,6 @@ public class Student extends User {
     //Returns true if success; else return false
     public static boolean addToMyProposedSchedule(Course desiredCourse, Student currentStudent) {
         ArrayList<Course> schedule = currentStudent.getStudentSchedule();
-
         if (schedule.isEmpty() || isQualified(currentStudent, desiredCourse)) {
             currentStudent.getStudentSchedule().add(desiredCourse);
 
@@ -465,6 +466,15 @@ public class Student extends User {
         }
         return null;
     }
+    
+    public int getScheduleTotalUnits(){
+        int totalUnits = 0;
+        for(Course course : studentSchedule){
+            totalUnits += course.getCourseLectUnits();
+            totalUnits += course.getCourseLabUnits();
+        }
+        return totalUnits;
+    }
 
     //Check if overlapping
     //Returns true if overlapping, else false
@@ -531,12 +541,17 @@ public class Student extends User {
                             System.out.println("starts before a course and ends at the same time");
                             return false;
                         }
-                        //Fourth Check; if it starts after a course and ends during the course
-                        if (desiredCourseStartTime.after(studentCourseStartTime) && desiredCourseEndTime.before(studentCourseEndTime) && desiredSched.getDay().equals(sc.getDay())) {
-                            advisingErrorMessage = "starts after a course and ends during the course";
-                            System.out.println("starts after a course and ends during the course");
-                            return false;
-                        }
+//                        //Fourth Check; if it starts after a course and ends during the course
+//                        if (desiredCourseStartTime.after(studentCourseStartTime) && desiredCourseEndTime.before(studentCourseEndTime) && desiredSched.getDay().equals(sc.getDay())) {
+//                            advisingErrorMessage = "starts after a course and ends during the course";
+//                            System.out.println("starts after a course and ends during the course");
+//                            System.out.println(desiredCourseStartTime.after(studentCourseStartTime));
+//                            System.out.println(desiredCourseEndTime.before(studentCourseEndTime));
+//                            System.out.println("Desired Course End Time: " + desiredCourseEndTime);
+//                            System.out.println("Student Course end time: " + studentCourseEndTime);
+//                            System.out.println("");
+//                            return false;
+//                        }
                         //Fifth Check; if it starts after a course and ends the same time with the course
                         if (desiredCourseStartTime.after(studentCourseStartTime) && desiredCourseEndTime.equals(studentCourseEndTime) && desiredSched.getDay().equals(sc.getDay())) {
                             advisingErrorMessage = "starts after a course and ends the same time with the course";

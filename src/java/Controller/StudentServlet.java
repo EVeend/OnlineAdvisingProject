@@ -65,6 +65,10 @@ public class StudentServlet extends HttpServlet {
                         rd.forward(request, response);
                     }
 
+                } else {
+                    session.setAttribute("errorMessage", "noUser");
+                    rd = request.getRequestDispatcher("studentindex.jsp");
+                    rd.forward(request, response);
                 }
             } catch (Exception e) {
                 session.setAttribute("errorMessage", "noUser");
@@ -289,8 +293,15 @@ public class StudentServlet extends HttpServlet {
 
         try {
             ArrayList<Course> studentProposedSchedule = Student.getStudentSchedule(currentStudent.getUserID());
-            session.setAttribute("hasSubmittedSchedule", Student.hasSubmittedSchedule(studentNumber));
-            session.setAttribute("studentProposedSchedule", studentProposedSchedule);
+            if (studentProposedSchedule.isEmpty()) {
+                String errorNoProposedSched = "You have yet to add a course, please add a course in the Available Courses page";
+                session.setAttribute("noProposedSched", errorNoProposedSched);
+
+            } else {
+                session.setAttribute("hasSubmittedSchedule", Student.hasSubmittedSchedule(studentNumber));
+                session.setAttribute("studentProposedSchedule", studentProposedSchedule);
+                session.setAttribute("totalUnits", currentStudent.getScheduleTotalUnits());
+            }
             rd = request.getRequestDispatcher("studentproposedschedule.jsp");
             rd.forward(request, response);
 
