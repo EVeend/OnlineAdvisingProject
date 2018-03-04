@@ -85,7 +85,7 @@ public class AdviserServlet extends HttpServlet {
         }//Adviser Approved Schedule
         else if(request.getParameter("approve") != null){
             System.out.println("APPROVE");
-            String approve = "Approve";
+            String approve = "APPROVE";
             String remark = request.getParameter("remark");
             Integer adviserID = (Integer)session.getAttribute("employeeNumber");
             int studentID = Integer.parseInt(request.getParameter("studentID"));

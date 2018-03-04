@@ -64,7 +64,12 @@
                         <div style="height:15px;"></div>
                         <div class="table-responsive">
                             <c:if test="${hasSubmittedSchedule}"> 
-                                <h5>Your schedule has been submitted, please wait for the adviser to evaluate your submitted schedule</h5>
+                                <h5>Your schedule has been submitted, please wait for the adviser to evaluate your submitted schedule.</h5>
+                            </c:if>
+                            <c:if test="${hasScheduleEvaluated}"> 
+                                <h5>Your schedule has been evaluated, check here for the result</h5>
+                                <!-- Trigger the modal with a button -->
+                                <a data-toggle="modal" data-target="#update" class="btn btn-warning btn-sm"/>View</a>
                             </c:if>
 
                             <table class="table table-hover">
@@ -130,6 +135,35 @@
                 </form>
             </div>
         </section>
+
+        <!-- Modal -->
+        <div id="update" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><center> Your Proposed Schedule Evaluation </center> </h4>
+                    </div>
+                    <div class="modal-body">
+                        <section style="padding:0px;">
+                            <p>
+                            <section>
+                                <h3>Result:${evaluation.getEvaluation()} </h3>
+
+                            </section>
+                            </p>
+                            <p>Remarks: ${evaluation.getRemarks()}</p>
+                        </section>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Back</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>

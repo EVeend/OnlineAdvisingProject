@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 /**
@@ -20,7 +22,7 @@ public class Adviser extends User {
     static Connection conn;
     static PreparedStatement state;
     static ResultSet rs;
-    
+
     static Connection test;
     static PreparedStatement pState;
     static ResultSet rSet;
@@ -108,64 +110,84 @@ public class Adviser extends User {
         return null;
     }
 
-    public static ArrayList<Student> getStudentProposedSchedule(){
-        
+    public static Set<Integer> getUniqueStudentProposedSchedule() {
+
         conn = DatabaseConnection.connectDatabase();
-        ArrayList<Student> proposedSchedList = new ArrayList<>();
-        
+        ArrayList<Integer> proposedSchedList = new ArrayList<>();
+
         String getProposedScheduleList = "Select * from Student_Schedule where Status = (?)";
         int forApprovalStatus = 3;
-        try{
+        try {
             state = conn.prepareStatement(getProposedScheduleList);
             state.setInt(1, forApprovalStatus);
             rs = state.executeQuery();
-            
-            while(rs.next()){
-                System.out.println("something here");
+
+            while (rs.next()) {
+                proposedSchedList.add(rs.getInt("Student_ID"));
+                //proposedSchedList.add(rs.getInt("Student_ID"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Set<Integer> uniqueProposedSched = new HashSet<Integer>(proposedSchedList);
+        return uniqueProposedSched;
+    }
+
+    public static ArrayList<Student> getStudentProposedSchedule() {
+        
+        conn = DatabaseConnection.connectDatabase();
+        Set<Integer> propSchedSet = getUniqueStudentProposedSchedule();
+        ArrayList<Integer> proposedSchedList = new ArrayList<>(propSchedSet);
+        ArrayList<Student> outputList = new ArrayList<>();
+        String getProposedScheduleList = "Select * from Student_Schedule where Status = (?)";
+        int forApprovalStatus = 3;
+        try {
+            state = conn.prepareStatement(getProposedScheduleList);
+            state.setInt(1, forApprovalStatus);
+            rs = state.executeQuery();
+
+            while (rs.next()) {
                 Student student = new Student();
                 student.setUserID(rs.getInt("Student_ID"));
                 student.setStudentSchedule(Student.getStudentSchedule(rs.getInt("Student_ID")));
-                proposedSchedList.add(student);
+                outputList.add(student);
                 //proposedSchedList.add(rs.getInt("Student_ID"));
             }
-            rs.close();
-            state.close();
-            conn.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return proposedSchedList;
-    }
-    
-    public static boolean evaluateSchedule(int adviserID, int studentID, String evaluation, String remark){
         
+        return outputList;
+
+    }
+
+    public static boolean evaluateSchedule(int adviserID, int studentID, String evaluation, String remark) {
+
         conn = DatabaseConnection.connectDatabase();
         //String approveSchedule = "Select * from Submited_Schedule where Status = 'Proposed'";
-        String evaluateSchedule = "Update Submited_Schedule set Status = (?), Remark =(?) where Student_ID = (?)";
-        String evaluateStudentSchedStatus = "Update Student_Schedule set Status =(?) where Student_ID = (?)";
-        
-        try{
+        String evaluateStudentSchedStatus = "Update Student_Schedule set Status =(?), Remark = (?) where Student_ID = (?)";
+        int adviserEvaluation = 0;
+
+        switch (evaluation) {
+            case "APPROVE":
+                adviserEvaluation = 2;
+                break;
+            case "REJECTED":
+                adviserEvaluation = 5;
+                break;
+        }
+
+        try {
             //Update student proposed schedule table
-            state = conn.prepareStatement(evaluateSchedule);
-            state.setString(1, evaluation);
+            state = conn.prepareStatement(evaluateStudentSchedStatus);
+            state.setInt(1, adviserEvaluation);
             state.setString(2, remark);
             state.setInt(3, studentID);
             state.executeUpdate();
-            
-            //Update student myschedule status
-            pState = test.prepareStatement(evaluateStudentSchedStatus);
-            pState.setString(1, evaluation);
-            pState.setInt(2, studentID);
-            pState.executeUpdate();
-            
-            pState.close();
-            state.close();
-            test.close();
-            conn.close();
-            
+
             return true;
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;

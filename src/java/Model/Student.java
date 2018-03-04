@@ -374,7 +374,7 @@ public class Student extends User {
         conn = DatabaseConnection.connectDatabase();
         String resetCourse = "DELETE FROM Student_Schedule WHERE Student_ID = (?)";
         ArrayList<Course> studentSchedule = getStudentSchedule(student.getUserID());
-        
+
         try {
             //Removes Subject
             state = conn.prepareStatement(resetCourse);
@@ -383,15 +383,15 @@ public class Student extends User {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         //Open slots
-        for(Course studentCourse : studentSchedule){
+        for (Course studentCourse : studentSchedule) {
             System.out.println(studentCourse.getCourseID());
             Course.openOneSlot(studentCourse.getCourseID(), studentCourse.getSection());
         }
         studentSchedule.clear();
         student.setStudentSchedule(studentSchedule);
-            
+
     }
 
     //Submits schedule
@@ -438,6 +438,59 @@ public class Student extends User {
             e.printStackTrace();
         }
         return false;
+    }
+
+    //Check if student's schedule has been evaluated
+    public static boolean hasScheduleEvaluated(int studentID) {
+        test = DatabaseConnection.connectDatabase();
+        String hasSubmittedScheduleQuery = "select * from Student_Schedule where Student_ID = (?) and (Status = 2 or Status = 5)";
+        int forApprovalStatus = 3;
+
+        try {
+            pState = test.prepareStatement(hasSubmittedScheduleQuery);
+            pState.setInt(1, studentID);
+            rSet = pState.executeQuery();
+            if (rSet.next()) {
+                System.out.println("Returns True");
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    //get adviser's evaluation
+    public static Evaluation getEvaluation(int studentID) {
+        test = DatabaseConnection.connectDatabase();
+        String hasSubmittedScheduleQuery = "select * from Student_Schedule where Student_ID = (?) and (Status = 2 or Status = 5)";
+        int forApprovalStatus = 3;
+
+        try {
+            pState = test.prepareStatement(hasSubmittedScheduleQuery);
+            pState.setInt(1, studentID);
+            rSet = pState.executeQuery();
+            if (rSet.next()) {
+                Evaluation eval = new Evaluation();
+                switch(rSet.getInt("Status")){
+                    case 2:
+                        eval.setEvaluation("APPROVED");
+                        break;
+                    case 5:
+                        eval.setEvaluation("REJECTED");
+                        break;
+                }
+                
+                eval.setRemarks(rSet.getString("Remark"));
+                return eval;
+            }
+            rSet.close();
+            pState.close();
+            test.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     //Change password

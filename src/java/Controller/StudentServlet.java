@@ -295,11 +295,17 @@ public class StudentServlet extends HttpServlet {
         try {
             ArrayList<Course> studentProposedSchedule = Student.getStudentSchedule(currentStudent.getUserID(), proposedStatus);
             if (studentProposedSchedule.isEmpty()) {
-                System.out.println("Empty");
-                String errorNoProposedSched = "You have yet to add a course, please add a course in the Available Courses page";
-                session.setAttribute("studentProposedSchedule", studentProposedSchedule);
-                session.setAttribute("noProposedSched", errorNoProposedSched);
-                session.setAttribute("totalUnits", Student.getScheduleTotalUnits(currentStudent));
+                if (Student.hasScheduleEvaluated(studentNumber)) {
+                    session.setAttribute("hasSubmittedSchedule", false);
+                    session.setAttribute("hasScheduleEvaluated", Student.hasScheduleEvaluated(studentNumber));
+                    session.setAttribute("evaluation", Student.getEvaluation(currentStudent.getUserID()));
+                } else {
+                    System.out.println("Empty");
+                    String errorNoProposedSched = "You have yet to add a course, please add a course in the Available Courses page";
+                    session.setAttribute("studentProposedSchedule", studentProposedSchedule);
+                    session.setAttribute("noProposedSched", errorNoProposedSched);
+                    session.setAttribute("totalUnits", Student.getScheduleTotalUnits(currentStudent));
+                }
 
             } else {
                 System.out.println("Not Empty");
