@@ -78,49 +78,54 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:if test="${not empty coursesList}"> 
-                                        <c:forEach items="${coursesList}" var="course">
-                                            <tr>
-                                                <td>${course.getCourseID()}</td>
-                                                <td>${course.getCourseName()}</td>
-                                                <td>${course.getCourseLectUnits()}</td>
-                                                <td>${course.getCourseLabUnits()}</td>
-                                                <td>${course.getSection()} </td>
-                                                <td>${course.getAvailableSlot()} /${course.getMaxSlot()} </td>
-                                                <td>
-                                                    <c:choose>
-                                                        <c:when test="${course.getAvailableSlot() eq 0}">
-                                                            FULL
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            Available
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </td>
-                                                <td>
-                                                    <c:if test="${not empty course.getSchedule()}"> 
-                                                        <c:forEach items="${course.getSchedule()}" var="sched">
-                                                            ${sched.getRoom()} ${sched.getDay()} ${sched.getStartTime()} - ${sched.getEndTime()} <br>
-                                                        </c:forEach>
-                                                    </c:if>
-                                                </td>
-                                                <td>
-                                                    <c:choose>
-                                                        <c:when test="${course.getAvailableSlot() eq 0}">
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <form action="StudentServlet" method="post">
-                                                                <input type="hidden" name="courseID" value="${course.getCourseID()}">
-                                                                <input type="hidden" name="courseSection" value="${course.getSection()}">
-                                                                <button class="btn btn-warning" type="submit" name="addToSchedule">ADD </button>
-                                                            </form>
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${not empty coursesList}">
+                                            <c:forEach items="${coursesList}" var="course">
+                                                <tr>
+                                                    <td>${course.getCourseID()}</td>
+                                                    <td>${course.getCourseName()}</td>
+                                                    <td>${course.getCourseLectUnits()}</td>
+                                                    <td>${course.getCourseLabUnits()}</td>
+                                                    <td>${course.getSection()} </td>
+                                                    <td>${course.getAvailableSlot()} /${course.getMaxSlot()} </td>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${course.getAvailableSlot() eq 0}">
+                                                                FULL
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                Available
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </td>
+                                                    <td>
+                                                        <c:if test="${not empty course.getSchedule()}"> 
+                                                            <c:forEach items="${course.getSchedule()}" var="sched">
+                                                                ${sched.getRoom()} ${sched.getDay()} ${sched.getStartTime()} - ${sched.getEndTime()} <br>
+                                                            </c:forEach>
+                                                        </c:if>
+                                                    </td>
+                                                    <td>
+                                                        <c:choose>
+                                                            <c:when test="${course.getAvailableSlot() eq 0}">
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <form action="StudentServlet" method="post">
+                                                                    <input type="hidden" name="courseID" value="${course.getCourseID()}">
+                                                                    <input type="hidden" name="courseSection" value="${course.getSection()}">
+                                                                    <button class="btn btn-warning" type="submit" name="addToSchedule">ADD </button>
+                                                                </form>
+                                                            </c:otherwise>
+                                                        </c:choose>
 
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </c:if>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:when>
+                                        <c:otherwise>
+                                        <p style="color:#7f7f7f">${noCourses}</p>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </tbody>
                             </table>
                         </div>

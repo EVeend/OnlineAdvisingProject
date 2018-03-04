@@ -5,6 +5,8 @@
  */
 package Model;
 
+import Model.Types.RetentionStatus;
+import Model.Types.StudentStatus;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,8 +25,8 @@ public class Student extends User {
     private String program;
     private String block;
     private int currentUnits;
-    private int retentionStatus;
-    private int status;
+    private RetentionStatus retentionStatus;
+    private StudentStatus status;
     private ArrayList<Course> backSubjects;
     private ArrayList<Course> studentSchedule;
     private int term;
@@ -69,19 +71,19 @@ public class Student extends User {
         this.currentUnits = currentUnits;
     }
 
-    public int getRetentionStatus() {
+    public RetentionStatus getRetentionStatus() {
         return retentionStatus;
     }
 
-    public void setRetentionStatus(int retentionStatus) {
+    public void setRetentionStatus(RetentionStatus retentionStatus) {
         this.retentionStatus = retentionStatus;
     }
 
-    public int getStatus() {
+    public StudentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(StudentStatus status) {
         this.status = status;
     }
 
@@ -135,8 +137,8 @@ public class Student extends User {
                 student.setCollege(rs.getString("College"));
                 student.setBlock(rs.getString("Block"));
                 student.setCurrentUnits(rs.getInt("Current_Units"));
-                student.setRetentionStatus(rs.getInt("Retention_Status"));
-                student.setStatus(rs.getInt("Status"));
+//                student.setRetentionStatus(rs.getInt("Retention_Status"));
+//                student.setStatus(rs.getInt("Status"));
                 student.setFirstName(rs.getString("First_Name"));
                 student.setLastName(rs.getString("Last_Name"));
                 student.setMiddleName(rs.getString("Middle_Name"));
@@ -149,6 +151,46 @@ public class Student extends User {
                 student.setYear(rs.getInt("Year"));
                 student.setPicture(rs.getString("Student_Picture"));
 
+                //Set Retention Status
+                switch (rs.getInt("Retention_Status")) {
+                    case 1:
+                        student.setRetentionStatus(RetentionStatus.Regular);
+                        break;
+                    case 2:
+                        student.setRetentionStatus(RetentionStatus.Irregular);
+                        break;
+                    case 3:
+                        student.setRetentionStatus(RetentionStatus.Conditional);
+                        break;
+                    case 4:
+                        student.setRetentionStatus(RetentionStatus.Debarred);
+                        break;
+                }
+
+                //Set Student Status
+                switch (rs.getInt("Status")) {
+                    case 1:
+                        student.setStatus(StudentStatus.OnGoing);
+                        break;
+                    case 2:
+                        student.setStatus(StudentStatus.Completed);
+                        break;
+                    case 3:
+                        student.setStatus(StudentStatus.Graduated);
+                        break;
+                    case 4:
+                        student.setStatus(StudentStatus.Discontinued);
+                        break;
+                    case 5:
+                        student.setStatus(StudentStatus.HonorableDi);
+                        break;
+                    case 6:
+                        student.setStatus(StudentStatus.Cancelled);
+                        break;
+                    case 7:
+                        student.setStatus(StudentStatus.OnGoing);
+                        break;
+                }
             }
             rs.close();
             state.close();

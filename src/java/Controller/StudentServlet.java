@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Course;
 import Model.Student;
+import Model.Types.RetentionStatus;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,7 +52,8 @@ public class StudentServlet extends HttpServlet {
 
                 Student currentStudent = Student.getStudent(studentNumber, password);
                 if (Student.getStudent(studentNumber, password) != null) {
-                    if (currentStudent.getAccountStatus() == 1 && (currentStudent.getRetentionStatus() == 2 || currentStudent.getRetentionStatus() == 3)) {
+                    if (currentStudent.getAccountStatus() == 1
+                            && (currentStudent.getRetentionStatus() == RetentionStatus.Irregular || currentStudent.getRetentionStatus() == RetentionStatus.Conditional)) {
                         session = request.getSession();
                         session.setAttribute("currentStudent", currentStudent);
                         loadStudentProfile(request, response);
@@ -255,11 +257,18 @@ public class StudentServlet extends HttpServlet {
             throws ServletException, IOException {
 
         Student currentStudent = (Student) session.getAttribute("currentStudent");
-        ArrayList<Course> coursesList = Course.getCoursesList(currentStudent.getUserID());
-        session.setAttribute("coursesList", coursesList);
+        try {
+            ArrayList<Course> coursesList = Course.getCoursesList(currentStudent.getUserID());
+            session.setAttribute("coursesList", coursesList);
 
-        rd = request.getRequestDispatcher("studentavailablecourses.jsp");
-        rd.forward(request, response);
+            rd = request.getRequestDispatcher("studentavailablecourses.jsp");
+            rd.forward(request, response);
+        } catch (NullPointerException e) {
+            String errorNoCoursesMessage = "There are no available courses for you, please contact your adviser.";
+            session.setAttribute("noCourses", errorNoCoursesMessage);
+            rd = request.getRequestDispatcher("studentavailablecourses.jsp");
+            rd.forward(request, response);
+        }
     }
 
     protected void getDeficiencies(HttpServletRequest request, HttpServletResponse response)
