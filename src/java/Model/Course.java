@@ -103,7 +103,6 @@ public class Course {
         this.maxSlot = maxSlot;
     }
 
-    
     public ArrayList<CourseSchedule> getSchedule() {
         return schedule;
     }
@@ -119,7 +118,7 @@ public class Course {
     public void setCourseType(Integer courseType) {
         this.courseType = courseType;
     }
-    
+
     public static Course getCourse(String courseID, String section) {
         conn = DatabaseConnection.connectDatabase();
         String getCourseQuery = "select distinct Course_ID, Section, Instructor, AvailableSlot, MaxSlot from Available_Courses where Course_ID =(?) and Section =(?)";
@@ -139,8 +138,6 @@ public class Course {
                 courseDetails.setInstructor(rs.getString("Instructor"));
                 courseDetails.setSchedule(getSchedules(courseID, section));
                 rs.close();
-                state.close();
-                conn.close();
                 return courseDetails;
             }
         } catch (Exception e) {
@@ -190,11 +187,11 @@ public class Course {
         //String getAvailableCoursesQuery = "select distinct Course_ID, Section, Instructor, Slots from Available_Courses";
         System.out.println("Getting student courses");
         for (Course deficiencies : courseDeficiencies) {
-            for(Course course : availableCourse){
-                if(deficiencies.getCourseID().equals(course.getCourseID()) && course.getAvailableSlot() != 0){
+            for (Course course : availableCourse) {
+                if (deficiencies.getCourseID().equals(course.getCourseID()) && course.getAvailableSlot() != 0) {
                     listOfCourses.add(course);
                 }
-            }    
+            }
         }
         return listOfCourses;
     }
@@ -303,6 +300,23 @@ public class Course {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void openOneSlot(String courseID, String section) {
+        String updateCourseQuery = "UPDATE Available_Courses SET AvailableSlot = (?) Where Course_ID = (?) and Section = (?)";
+        Connection test;
+        test = DatabaseConnection.connectDatabase();
+        //Open 1 slot
+        try {
+            Course courseSlots = Course.getCourse(courseID, section);
+            state = test.prepareStatement(updateCourseQuery);
+            state.setInt(1, courseSlots.getAvailableSlot() + 1);
+            state.setString(2, courseID);
+            state.setString(3, section);
+            state.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -121,6 +121,7 @@ public class Adviser extends User {
             rs = state.executeQuery();
             
             while(rs.next()){
+                System.out.println("something here");
                 Student student = new Student();
                 student.setUserID(rs.getInt("Student_ID"));
                 student.setStudentSchedule(Student.getStudentSchedule(rs.getInt("Student_ID")));
@@ -162,7 +163,6 @@ public class Adviser extends User {
             test.close();
             conn.close();
             
-            Student.resetSchedule(studentID);
             return true;
             
         }catch(Exception e){

@@ -190,8 +190,7 @@ public class Student extends User {
                         student.setStatus(StudentStatus.OnGoing);
                         break;
                 }
-            }
-            else{
+            } else {
                 return null;
             }
             rs.close();
@@ -298,13 +297,40 @@ public class Student extends User {
         return null;
     }
 
+    public static ArrayList<Course> getStudentSchedule(int studentID, int scheduleStatus) {
+        test = DatabaseConnection.connectDatabase();
+        ArrayList<Course> schedules = new ArrayList<>();
+        String getStudentScheduleQuery = "select * from Student_Schedule where Student_ID = (?) and (Status = 3 or Status = 4)";
+        try {
+            pState = test.prepareStatement(getStudentScheduleQuery);
+            pState.setInt(1, studentID);
+            rSet = pState.executeQuery();
+
+            while (rSet.next()) {
+                Course course = Course.getCourseDetails(rSet.getString("Course_ID"));
+                course.setCourseID(rSet.getString("Course_ID"));
+                course.setSection(rSet.getString("Section"));
+                course.setSchedule(Course.getSchedules(rSet.getString("Course_ID"), rSet.getString("Section")));
+                schedules.add(course);
+            }
+            rSet.close();
+            pState.close();
+            test.close();
+            return schedules;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     //Removes a course from the student's schedule
     public static void removeFromMySchedule(Student student, String courseID, String section) {
 
         conn = DatabaseConnection.connectDatabase();
         String removeCourseQuery = "DELETE FROM Student_Schedule WHERE Student_ID = (?) and Course_ID = (?)";
         String updateCourseQuery = "UPDATE Available_Courses SET AvailableSlot = (?) Where Course_ID = (?) and Section = (?)";
-
+        System.out.println("Removing " + courseID);
         if (!Student.hasSubmittedSchedule(student.getUserID())) {
             try {
                 //Removes Subject
@@ -312,6 +338,7 @@ public class Student extends User {
                 state.setInt(1, student.getUserID());
                 state.setString(2, courseID);
                 state.executeUpdate();
+                System.out.println("Successfully removed from the database");
 
                 //Remove the Subject to Student Schedule
                 ArrayList<Course> studentSchedule = student.getStudentSchedule();
@@ -320,22 +347,18 @@ public class Student extends User {
                 System.out.println(removeCourse);
                 for (Course studentCourse : studentSchedule) {
                     if (studentCourse.getCourseID().equals(removeCourse.getCourseID())) {
+                        System.out.println(studentCourse.getCourseID());
                         studentSchedule.remove(studentCourse);
                         System.out.println("Course removed");
+                        System.out.println("Successfully removed from the session");
                         break;
                     }
                 }
-
-                //Open 1 slot
-                pState = conn.prepareStatement(updateCourseQuery);
-                Course courseSlots = Course.getCourse(courseID, section);
-                pState.setInt(1, courseSlots.getAvailableSlot() + 1);
-                pState.setString(2, courseID);
-                pState.setString(3, section);
-                pState.executeUpdate();
-
+                student.setStudentSchedule(studentSchedule);
+                //Open Slot
+                Course.openOneSlot(courseID, section);
                 state.close();
-                pState.close();
+//                pState.close();
                 conn.close();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -347,26 +370,33 @@ public class Student extends User {
     //Returns a specific course from the student's schedule
 
     //Resets schedule
-    public static void resetSchedule(int studentID) {
+    public static void resetSchedule(Student student) {
         conn = DatabaseConnection.connectDatabase();
         String resetCourse = "DELETE FROM Student_Schedule WHERE Student_ID = (?)";
+        ArrayList<Course> studentSchedule = getStudentSchedule(student.getUserID());
+        
         try {
             //Removes Subject
             state = conn.prepareStatement(resetCourse);
-            state.setInt(1, studentID);
+            state.setInt(1, student.getUserID());
             state.executeUpdate();
-            state.close();
-            conn.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        //Open slots
+        for(Course studentCourse : studentSchedule){
+            System.out.println(studentCourse.getCourseID());
+            Course.openOneSlot(studentCourse.getCourseID(), studentCourse.getSection());
+        }
+        studentSchedule.clear();
+        student.setStudentSchedule(studentSchedule);
+            
     }
 
     //Submits schedule
     public static void submitSchedule(int studentID) {
         conn = DatabaseConnection.connectDatabase();
-        ArrayList<Course> studentProposedSchedule = Student.getStudentSchedule(studentID);
         int status = 3;
         String updateStudentSchedStatus = "Update Student_Schedule set Status = (?) where Student_ID = (?)";
 
@@ -466,13 +496,19 @@ public class Student extends User {
         }
         return null;
     }
-    
-    public int getScheduleTotalUnits(){
+
+    public static int getScheduleTotalUnits(Student student) {
         int totalUnits = 0;
-        for(Course course : studentSchedule){
-            totalUnits += course.getCourseLectUnits();
-            totalUnits += course.getCourseLabUnits();
+        if (student.getStudentSchedule().isEmpty()) {
+            totalUnits = 0;
+        } else {
+            for (Course course : student.getStudentSchedule()) {
+                totalUnits += course.getCourseLectUnits();
+                totalUnits += course.getCourseLabUnits();
+            }
         }
+        System.out.println("Total units " + totalUnits);
+
         return totalUnits;
     }
 

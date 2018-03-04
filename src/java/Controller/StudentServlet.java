@@ -173,8 +173,8 @@ public class StudentServlet extends HttpServlet {
         }//Reset Proposed Schedules
         else if (request.getParameter("resetSchedule") != null) {
 
-            int sessionStudent = (Integer) session.getAttribute("studentNumber");
-            Student.resetSchedule(sessionStudent);
+            Student currentStudent = (Student) session.getAttribute("currentStudent");
+            Student.resetSchedule(currentStudent);
 
             loadStudentProposedSchedule(request, response);
         }//Submit schedule
@@ -290,17 +290,22 @@ public class StudentServlet extends HttpServlet {
             throws ServletException, IOException {
 
         Student currentStudent = (Student) session.getAttribute("currentStudent");
+        int proposedStatus = 4;
 
         try {
-            ArrayList<Course> studentProposedSchedule = Student.getStudentSchedule(currentStudent.getUserID());
+            ArrayList<Course> studentProposedSchedule = Student.getStudentSchedule(currentStudent.getUserID(), proposedStatus);
             if (studentProposedSchedule.isEmpty()) {
+                System.out.println("Empty");
                 String errorNoProposedSched = "You have yet to add a course, please add a course in the Available Courses page";
+                session.setAttribute("studentProposedSchedule", studentProposedSchedule);
                 session.setAttribute("noProposedSched", errorNoProposedSched);
+                session.setAttribute("totalUnits", Student.getScheduleTotalUnits(currentStudent));
 
             } else {
+                System.out.println("Not Empty");
                 session.setAttribute("hasSubmittedSchedule", Student.hasSubmittedSchedule(studentNumber));
                 session.setAttribute("studentProposedSchedule", studentProposedSchedule);
-                session.setAttribute("totalUnits", currentStudent.getScheduleTotalUnits());
+                session.setAttribute("totalUnits", Student.getScheduleTotalUnits(currentStudent));
             }
             rd = request.getRequestDispatcher("studentproposedschedule.jsp");
             rd.forward(request, response);
