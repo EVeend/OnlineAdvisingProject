@@ -279,6 +279,7 @@ public class StudentServlet extends HttpServlet {
         session.setAttribute("deficienciesList", deficienciesList);
         rd = request.getRequestDispatcher("studentdeficiencies.jsp");
         rd.forward(request, response);
+
     }
 
     protected void loadStudentProposedSchedule(HttpServletRequest request, HttpServletResponse response)
@@ -286,11 +287,20 @@ public class StudentServlet extends HttpServlet {
 
         Student currentStudent = (Student) session.getAttribute("currentStudent");
 
-        ArrayList<Course> studentProposedSchedule = Student.getStudentSchedule(currentStudent.getUserID());
-        session.setAttribute("hasSubmittedSchedule", Student.hasSubmittedSchedule(studentNumber));
-        session.setAttribute("studentProposedSchedule", studentProposedSchedule);
-        rd = request.getRequestDispatcher("studentproposedschedule.jsp");
-        rd.forward(request, response);
+        try {
+            ArrayList<Course> studentProposedSchedule = Student.getStudentSchedule(currentStudent.getUserID());
+            session.setAttribute("hasSubmittedSchedule", Student.hasSubmittedSchedule(studentNumber));
+            session.setAttribute("studentProposedSchedule", studentProposedSchedule);
+            rd = request.getRequestDispatcher("studentproposedschedule.jsp");
+            rd.forward(request, response);
+
+        } catch (NullPointerException e) {
+            String errorNoProposedSched = "You have yet to add a course, please add a course in the Available Courses page";
+            session.setAttribute("noProposedSched", errorNoProposedSched);
+            rd = request.getRequestDispatcher("studentproposedschedule.jsp");
+            rd.forward(request, response);
+        }
+
     }
 
     protected void loadStudentMySchedule(HttpServletRequest request, HttpServletResponse response)

@@ -74,7 +74,7 @@
                                         </c:forEach>
                                     </c:if>   
                                 </thead>
-                                <tbody>
+<!--                                <tbody>
                                     <tr>
                                         <td>ALL THIRD YEAR COURSES</td>
                                     </tr>
@@ -84,7 +84,7 @@
                                     <tr>
                                         <td>ALL FIFTH YEAR COURSES</td>
                                     </tr>
-                                </tbody>
+                                </tbody>-->
                             </table>
                         </div>
                     </div>

@@ -66,7 +66,7 @@
                             <c:if test="${hasSubmittedSchedule}"> 
                                 <h5>Your schedule has been submitted, please wait for the adviser to evaluate your submitted schedule</h5>
                             </c:if>
-                            
+
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -80,31 +80,36 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:if test="${not empty studentProposedSchedule}"> 
-                                        <c:forEach items="${studentProposedSchedule}" var="course">
-                                            <tr>
-                                                <td>${course.getCourseID()}</td>
-                                                <td>${course.getCourseName()}</td>
-                                                <td>${course.getCourseLectUnits()}</td>
-                                                <td>${course.getCourseLabUnits()}</td>
-                                                <td>${course.getSection()} </td>
-                                                <td>
-                                                    <c:if test="${not empty course.getSchedule()}"> 
-                                                        <c:forEach items="${course.getSchedule()}" var="sched">
-                                                            ${sched.getRoom()} ${sched.getDay()} ${sched.getStartTime()} - ${sched.getEndTime()} <br>
-                                                        </c:forEach>
-                                                    </c:if>
-                                                </td>
-                                                <td> 
-                                                    <form action="StudentServlet" method="post">
-                                                        <input type="hidden" name="courseID" value="${course.getCourseID()}">
-                                                        <input type="hidden" name="courseSection" value="${course.getSection()}">
-                                                        <button class="btn btn-danger" type="submit" name="removeFromSchedule">REMOVE </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </c:if>
+                                    <c:choose>
+                                        <c:when test="${not empty studentProposedSchedule}">
+                                            <c:forEach items="${studentProposedSchedule}" var="course">
+                                                <tr>
+                                                    <td>${course.getCourseID()}</td>
+                                                    <td>${course.getCourseName()}</td>
+                                                    <td>${course.getCourseLectUnits()}</td>
+                                                    <td>${course.getCourseLabUnits()}</td>
+                                                    <td>${course.getSection()} </td>
+                                                    <td>
+                                                        <c:if test="${not empty course.getSchedule()}"> 
+                                                            <c:forEach items="${course.getSchedule()}" var="sched">
+                                                                ${sched.getRoom()} ${sched.getDay()} ${sched.getStartTime()} - ${sched.getEndTime()} <br>
+                                                            </c:forEach>
+                                                        </c:if>
+                                                    </td>
+                                                    <td> 
+                                                        <form action="StudentServlet" method="post">
+                                                            <input type="hidden" name="courseID" value="${course.getCourseID()}">
+                                                            <input type="hidden" name="courseSection" value="${course.getSection()}">
+                                                            <button class="btn btn-danger" type="submit" name="removeFromSchedule">REMOVE </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:when>
+                                        <c:otherwise>
+                                        <p style="color:#7f7f7f">${noProposedSched}</p>
+                                    </c:otherwise>
+                                </c:choose>
                                 </tbody>
                             </table>
                         </div>

@@ -124,8 +124,8 @@
                                         </c:when>
                                         <c:otherwise>
                                         <p style="color:#7f7f7f">${noCourses}</p>
-                                        </c:otherwise>
-                                    </c:choose>
+                                    </c:otherwise>
+                                </c:choose>
                                 </tbody>
                             </table>
                         </div>
