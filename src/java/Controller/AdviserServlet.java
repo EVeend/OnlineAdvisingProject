@@ -129,6 +129,8 @@ public class AdviserServlet extends HttpServlet {
         session.setAttribute("Email", adviserProfile.getEmail());
         session.setAttribute("Birthdate", adviserProfile.getBirthdate());
         session.setAttribute("Employee_Picture", adviserProfile.getPicture());
+        rd = request.getRequestDispatcher("facultyprofile.jsp");
+        rd.forward(request, response);
 
 //                //CHECKER IF ADMIN
 //        if(adviserProfile.getUserID()== 123454321 && adviserProfile.getPassword().equals("admin")){
