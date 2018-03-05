@@ -26,6 +26,7 @@
                         <li role="presentation"><a href="#" style="color: white;">MyProfile</a></li>
                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color: white;">Advising <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
+                                <li role="presentation"><button class="navbar-items" type="submit" name="studentList"/>Students List</a></li>
                                 <li role="presentation"><a href="#">Available Courses</a></li>
                                 <li role="presentation"><a href="#">Proposed Schedule</a></li>
                             </ul>

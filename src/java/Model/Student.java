@@ -25,6 +25,7 @@ public class Student extends User {
     private String block;
     private int currentUnits;
     private RetentionStatus retentionStatus;
+    private int paymentStatus;
     private StudentStatus status;
     private ArrayList<Course> backSubjects;
     private ArrayList<Course> studentSchedule;
@@ -76,6 +77,14 @@ public class Student extends User {
 
     public void setRetentionStatus(RetentionStatus retentionStatus) {
         this.retentionStatus = retentionStatus;
+    }
+    
+    public int getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(int paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public StudentStatus getStatus() {

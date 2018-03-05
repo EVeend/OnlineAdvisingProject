@@ -1,5 +1,7 @@
 package Model;
 
+import static Model.Student.rs;
+import Model.Types.RetentionStatus;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -191,5 +193,51 @@ public class Adviser extends User {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    public static ArrayList<Student> getStudentList(){
+        
+        conn = DatabaseConnection.connectDatabase();
+        ArrayList<Student> studentList = new ArrayList<>();
+        
+        String getStudentList = "Select * from Student";
+        try{
+            state = conn.prepareStatement(getStudentList);
+            rs = state.executeQuery();
+            
+            while(rs.next()){
+                Student studentDetails = new Student();
+                studentDetails.setUserID(rs.getInt("Student_ID"));
+                studentDetails.setLastName(rs.getString("Last_Name"));
+                studentDetails.setFirstName(rs.getString("First_Name"));
+                studentDetails.setYear(rs.getInt("Year"));
+                studentDetails.setCollege(rs.getString("College"));
+                studentDetails.setProgram(rs.getString("Program"));
+                studentDetails.setBlock(rs.getString("Block"));
+                studentDetails.setPaymentStatus(rs.getInt("Payment_Status"));
+                studentList.add(studentDetails);
+                switch (rs.getInt("Retention_Status")) {
+                    case 1:
+                        studentDetails.setRetentionStatus(RetentionStatus.Regular);
+                        break;
+                    case 2:
+                        studentDetails.setRetentionStatus(RetentionStatus.Irregular);
+                        break;
+                    case 3:
+                        studentDetails.setRetentionStatus(RetentionStatus.Conditional);
+                        break;
+                    case 4:
+                        studentDetails.setRetentionStatus(RetentionStatus.Debarred);
+                        break;
+                }
+                //proposedSchedList.add(rs.getInt("Student_ID"));
+            }
+            rs.close();
+            state.close();
+            conn.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return studentList;
     }
 }
