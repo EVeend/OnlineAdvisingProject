@@ -5,6 +5,7 @@
  */
 package Model;
 
+import Model.Types.AccountStatus;
 import Model.Types.RetentionStatus;
 import Model.Types.StudentStatus;
 import java.text.SimpleDateFormat;
@@ -25,6 +26,7 @@ public class Student extends User {
     private String block;
     private int currentUnits;
     private RetentionStatus retentionStatus;
+    private AccountStatus accountStatus;
     private int paymentStatus;
     private StudentStatus status;
     private ArrayList<Course> backSubjects;
@@ -153,8 +155,7 @@ public class Student extends User {
                 student.setPassword(rs.getString("Password"));
                 student.setEmail(rs.getString("Email"));
                 student.setBirthdate(rs.getString("Birthdate"));
-                student.setStudentSchedule(getStudentSchedule(studentNumber));
-                student.setAccountStatus(rs.getInt("AccountStatus"));
+                student.setStudentSchedule(getStudentSchedule(studentNumber));                
                 student.setTerm(rs.getInt("Term"));
                 student.setYear(rs.getInt("Year"));
                 student.setPicture(rs.getString("Student_Picture"));
@@ -197,6 +198,16 @@ public class Student extends User {
                         break;
                     case 7:
                         student.setStatus(StudentStatus.OnGoing);
+                        break;
+                }
+                
+                //Set Account Status
+                switch (rs.getInt("AccountStatus")) {
+                    case 1:
+                        student.setAccountStatus(AccountStatus.Active);
+                        break;
+                    case 2:
+                        student.setAccountStatus(AccountStatus.Inactive);
                         break;
                 }
             } else {

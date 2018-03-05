@@ -114,7 +114,19 @@
                                                         <td>${student.getDepartment()}</td>
                                                         <td>${student.getRank()}</td>
                                                         <td>${student.getAccountStatus()}</td>
-                                                        <td><a href="#updateAccountStatus">SET</a></td>
+                                                        <td>
+                                                            <form action="AdviserServlet" method="post">
+                                                                <input type="hidden" name="userID" value="${user.getUserID}">
+                                                                <c:choose>
+                                                                    <c:when test="${user.getAccountStatus == 'Active'}">
+                                                                        <input type="submit" name="updateStatus" value="Deactivate" style="width: 80px">
+                                                                    </c:when>
+                                                                    <c:when test="${user.getAccountStatus == 'Inactive'}">
+                                                                        <input type="submit" name="updateStatus" value="Activate" style="width: 80px">
+                                                                    </c:when>
+                                                                </c:choose>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                             </c:if>

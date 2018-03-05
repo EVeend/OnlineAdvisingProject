@@ -5,6 +5,8 @@
  */
 package Model;
 
+import Model.Types.AccountStatus;
+
 /**
  *
  * @author edwar
@@ -20,7 +22,7 @@ public class User {
     private String birthdate;
     private String college;
     private String picture;
-    private int accountStatus;
+    private AccountStatus accountStatus;
 
     public User() {
     }
@@ -97,11 +99,11 @@ public class User {
         this.picture = picture;
     }
 
-    public int getAccountStatus() {
+    public AccountStatus getAccountStatus() {
         return accountStatus;
     }
 
-    public void setAccountStatus(int accountStatus) {
+    public void setAccountStatus(AccountStatus accountStatus) {
         this.accountStatus = accountStatus;
     }
     

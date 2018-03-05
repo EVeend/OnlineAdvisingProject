@@ -6,6 +6,7 @@
 package Model;
 import static Model.Student.rs;
 import static Model.Adviser.rs;
+import Model.Types.AccountStatus;
 import Model.Types.RetentionStatus;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -155,7 +156,14 @@ public class Admin extends User {
                 facultyDetails.setCollege(rs.getString("College"));
                 facultyDetails.setDepartment(rs.getString("Department"));
                 facultyDetails.setRank(rs.getString("Rank"));
-                facultyDetails.setAccountStatus(rs.getInt("AccountStatus"));
+                switch (rs.getInt("AccountStatus")) {
+                    case 1:
+                        facultyDetails.setAccountStatus(AccountStatus.Active);
+                        break;
+                    case 2:
+                        facultyDetails.setAccountStatus(AccountStatus.Inactive);
+                        break;
+                }
                 facultyList.add(facultyDetails);
                 //proposedSchedList.add(rs.getInt("Student_ID"));
             }

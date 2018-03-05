@@ -146,6 +146,16 @@ public class AdviserServlet extends HttpServlet {
 //            rd.forward(request, response);
 //        }
     }
+    
+    protected void updateAccountStatus(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        ArrayList<Course> coursesList = Course.getCoursesList();
+        session.setAttribute("coursesList", coursesList);
+
+        rd = request.getRequestDispatcher("facultyavailablecourses.jsp");
+        rd.forward(request, response);
+    }
 
     protected void loadCourses(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

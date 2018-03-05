@@ -1,6 +1,7 @@
 package Model;
 
 import static Model.Student.rs;
+import Model.Types.AccountStatus;
 import Model.Types.RetentionStatus;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -100,6 +101,17 @@ public class Adviser extends User {
                 adviserProfile.setEmail(rs.getString("Email"));
                 adviserProfile.setBirthdate(rs.getString("Birthdate"));
                 adviserProfile.setPicture(rs.getString("Advisor_Picture"));
+                
+                //Set Account Status
+                //Set Account Status
+                switch (rs.getInt("AccountStatus")) {
+                    case 1:
+                        adviserProfile.setAccountStatus(AccountStatus.Active);
+                        break;
+                    case 2:
+                        adviserProfile.setAccountStatus(AccountStatus.Inactive);
+                        break;
+                }
 
             }
             rs.close();

@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Course;
 import Model.Student;
+import Model.Types.AccountStatus;
 import Model.Types.RetentionStatus;
 import java.io.IOException;
 import java.sql.Connection;
@@ -52,7 +53,7 @@ public class StudentServlet extends HttpServlet {
 
                 Student currentStudent = Student.getStudent(studentNumber, password);
                 if (Student.getStudent(studentNumber, password) != null) {
-                    if (currentStudent.getAccountStatus() == 1
+                    if (currentStudent.getAccountStatus() == AccountStatus.Active
                             && (currentStudent.getRetentionStatus() == RetentionStatus.Irregular || currentStudent.getRetentionStatus() == RetentionStatus.Conditional)) {
                         session = request.getSession();
                         session.setAttribute("currentStudent", currentStudent);
