@@ -77,7 +77,6 @@
                                         <th style="width:200px;">First Name</th>
                                         <th style="width:100px;">Year</th>
                                         <th style="width:200px;">College</th>
-                                        <th style="width:200px;">Department</th>
                                         <th style="width:100px;">Block</th>
                                         <th style="width:100px;">Retention Status</th>
                                         <th style="width:100px;">Payment Status</th>
@@ -89,14 +88,13 @@
                                         <c:forEach items="${studentList}" var="student">
                                             <tr>
                                                 <td>${student.getUserID()}</td>
-                                                <td>${course.getLastName()}</td>
-                                                <td>${course.getFirstName()}</td>
-                                                <td>${course.getYear()}</td>
-                                                <td>${course.getCollege()} </td>
-                                                <td>${course.getDepartment()} </td>
-                                                <td>${course.getBlock()} </td>
-                                                <td>${course.getRetentionStatus()} </td>
-                                                <td>${course.getPaymentStatus()} </td>
+                                                <td>${student.getLastName()}</td>
+                                                <td>${student.getFirstName()}</td>
+                                                <td>${student.getYear()}</td>
+                                                <td>${student.getCollege()} </td>
+                                                <td>${student.getBlock()} </td>
+                                                <td>${student.getRetentionStatus()} </td>
+                                                <td>${student.getPaymentStatus()} </td>
                                             </tr>
                                         </c:forEach>
                                     </c:if>

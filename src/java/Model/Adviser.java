@@ -214,7 +214,7 @@ public class Adviser extends User {
                 studentDetails.setCollege(rs.getString("College"));
                 studentDetails.setProgram(rs.getString("Program"));
                 studentDetails.setBlock(rs.getString("Block"));
-                studentDetails.setPaymentStatus(rs.getInt("Payment_Status"));
+                studentDetails.setPaymentStatus(rs.getInt("PaymentStatus"));
                 studentList.add(studentDetails);
                 switch (rs.getInt("Retention_Status")) {
                     case 1:

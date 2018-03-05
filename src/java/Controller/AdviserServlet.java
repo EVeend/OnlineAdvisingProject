@@ -92,6 +92,10 @@ public class AdviserServlet extends HttpServlet {
             Adviser.evaluateSchedule(adviserID, studentID, approve, remark);
             loadProposedScheduleList(request, response);
         }
+        //Students List
+        else if(request.getParameter("studentList") != null){
+            loadsStudentList(request, response);
+        }
     }
 
     @Override
