@@ -53,66 +53,71 @@
                         </ul>
 
                         <div class="tab-content">
-                            <div class="tab-pane active" id="tab1">
+                            <div class="tab-pane active" id="tab1" name="studentList">
                                 <div style="padding:10px;"></div>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>Student No.</th>
-                                                <th>Last Name</th>
-                                                <th>First Name</th>
-                                                <th>Middle Name</th>
-                                                <th>Section</th>
-                                                <th>Course</th>
-                                                <th>College</th>
-                                                <th>Retention Status</th>
-                                                <th>Inactive button</th>
+                                                <th style="width:150px;">Student Number</th>
+                                                <th style="width:200px;">Last Name</th>
+                                                <th style="width:200px;">First Name</th>
+                                                <th style="width:100px;">Year</th>
+                                                <th style="width:200px;">College</th>
+                                                <th style="width:200px;">Program</th>
+                                                <th style="width:100px;">Block</th>
+                                                <th style="width:100px;">Retention Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>2015081861</td>
-                                                <td>Crisostomo</td>
-                                                <td>Joshua</td>
-                                                <td>Santos</td>
-                                                <td>3ECE-E</td>
-                                                <td>Electronics and Communications Engineering</td>
-                                                <td>Faculty of Engineering</td>
-                                                <td>Irregular</td>
-                                                <td></td>
-                                            </tr>
+                                            <c:if test="${not empty studentList}"> 
+                                                <c:forEach items="${studentList}" var="student">
+                                                    <tr>
+                                                        <td>${student.getUserID()}</td>
+                                                        <td>${student.getLastName()}</td>
+                                                        <td>${student.getFirstName()}</td>
+                                                        <td>${student.getYear()}</td>
+                                                        <td>${student.getCollege()}</td>
+                                                        <td>${student.getProgram()}</td>
+                                                        <td>${student.getBlock()}</td>
+                                                        <td>${student.getRetentionStatus()}</td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </c:if>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="tab2">
+                            <div class="tab-pane" id="tab2" name="facultyList">
                                 <div style="padding:10px;"></div>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>Employee No.</th>
-                                                <th>Last Name</th>
-                                                <th>First Name</th>
-                                                <th>Middle Name</th>
-                                                <th>Department</th>
-                                                <th>College</th>
-                                                <th>Rank</th>
-                                                <th>Inactive button</th>
+                                                <th style="width:190px;">Employee Number</th>
+                                                <th style="width:200px;">Last Name</th>
+                                                <th style="width:200px;">First Name</th>
+                                                <th style="width:220px;">College</th>
+                                                <th style="width:220px;">Department</th>
+                                                <th style="width:170px;">Rank</th>
+                                                <th style="width:200px;" colspan="2">Account Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>2005010001</td>
-                                                <td>Santos</td>
-                                                <td>Joseph</td>
-                                                <td>Reyes</td>
-                                                <td>Electronics Engineering</td>
-                                                <td>Faculty of Engineering</td>
-                                                <td>Assistant Professor</td>
-                                                <td></td>
-                                            </tr>
+                                            <c:if test="${not empty facultyList}"> 
+                                                <c:forEach items="${facultyList}" var="faculty">
+                                                    <tr>
+                                                        <td>${student.getUserID()}</td>
+                                                        <td>${student.getLastName()}</td>
+                                                        <td>${student.getFirstName()}</td>
+                                                        <td>${student.getCollege()}</td>
+                                                        <td>${student.getDepartment()}</td>
+                                                        <td>${student.getRank()}</td>
+                                                        <td>${student.getAccountStatus()}</td>
+                                                        <td><a href="#updateAccountStatus">SET</a></td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </c:if>
                                         </tbody>
                                     </table>
                                 </div>

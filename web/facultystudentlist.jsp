@@ -77,10 +77,10 @@
                                         <th style="width:200px;">First Name</th>
                                         <th style="width:100px;">Year</th>
                                         <th style="width:200px;">College</th>
+                                        <th style="width:200px;">Program</th>
                                         <th style="width:100px;">Block</th>
                                         <th style="width:100px;">Retention Status</th>
                                         <th style="width:100px;">Payment Status</th>
-                                        <th> </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,10 +91,11 @@
                                                 <td>${student.getLastName()}</td>
                                                 <td>${student.getFirstName()}</td>
                                                 <td>${student.getYear()}</td>
-                                                <td>${student.getCollege()} </td>
-                                                <td>${student.getBlock()} </td>
-                                                <td>${student.getRetentionStatus()} </td>
-                                                <td>${student.getPaymentStatus()} </td>
+                                                <td>${student.getCollege()}</td>
+                                                <td>${student.getProgram()}</td>
+                                                <td>${student.getBlock()}</td>
+                                                <td>${student.getRetentionStatus()}</td>
+                                                <td>${student.getPaymentStatus()}</td>
                                             </tr>
                                         </c:forEach>
                                     </c:if>

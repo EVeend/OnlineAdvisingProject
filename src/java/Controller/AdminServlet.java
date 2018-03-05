@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Model.Admin;
 import Model.Adviser;
 import Model.Course;
 import Model.Student;
@@ -69,6 +70,14 @@ public class AdminServlet extends HttpServlet {
                 rd.forward(request, response);
             }
         }
+        //Students List
+        else if(request.getParameter("studentList") != null){
+            loadsStudentList(request, response);
+        }
+        //Faculty List
+        else if(request.getParameter("facultyList") != null){
+            loadsFacultyList(request, response);
+        }
     }
 
     @Override
@@ -128,6 +137,28 @@ public class AdminServlet extends HttpServlet {
         session.setAttribute("proposedSchedList", proposedScheduleList);
         
         rd = request.getRequestDispatcher("facultyproposedschedule.jsp");
+        rd.forward(request, response);
+        
+    }
+    
+    protected void loadsStudentList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        
+        ArrayList<Student> studentList = Admin.getStudentList();
+        session.setAttribute("studentList", studentList);
+        
+        rd = request.getRequestDispatcher("adminmanage.jsp");
+        rd.forward(request, response);
+        
+    }
+    
+    protected void loadsFacultyList(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        
+        ArrayList<Adviser> facultyList = Admin.getFacultyList();
+        session.setAttribute("facultyList", facultyList);
+        
+        rd = request.getRequestDispatcher("adminmanage.jsp");
         rd.forward(request, response);
         
     }

@@ -48,7 +48,7 @@ public class Adviser extends User {
         this.rank = rank;
     }
 
-    //Check if students exist
+    //Check if adviser exists
     public static boolean isUser(int teacherID, String password) {
         conn = DatabaseConnection.connectDatabase();
         String loginQuery = "select * from Adviser where Teacher_ID = (?) and Password = (?)";
@@ -215,7 +215,6 @@ public class Adviser extends User {
                 studentDetails.setProgram(rs.getString("Program"));
                 studentDetails.setBlock(rs.getString("Block"));
                 studentDetails.setPaymentStatus(rs.getInt("PaymentStatus"));
-                studentList.add(studentDetails);
                 switch (rs.getInt("Retention_Status")) {
                     case 1:
                         studentDetails.setRetentionStatus(RetentionStatus.Regular);
@@ -230,6 +229,7 @@ public class Adviser extends User {
                         studentDetails.setRetentionStatus(RetentionStatus.Debarred);
                         break;
                 }
+                studentList.add(studentDetails);
                 //proposedSchedList.add(rs.getInt("Student_ID"));
             }
             rs.close();
