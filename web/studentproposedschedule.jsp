@@ -102,11 +102,14 @@
                                                         </c:if>
                                                     </td>
                                                     <td> 
-                                                        <form action="StudentServlet" method="post">
-                                                            <input type="hidden" name="courseID" value="${course.getCourseID()}">
-                                                            <input type="hidden" name="courseSection" value="${course.getSection()}">
-                                                            <button class="btn btn-danger" type="submit" name="removeFromSchedule">REMOVE </button>
-                                                        </form>
+                                                        <c:if test="${not hasScheduleEvaluated && not hasSubmittedSchedule}"> 
+                                                            <form action="StudentServlet" method="post">
+                                                                <input type="hidden" name="courseID" value="${course.getCourseID()}">
+                                                                <input type="hidden" name="courseSection" value="${course.getSection()}">
+                                                                <button class="btn btn-danger" type="submit" name="removeFromSchedule">REMOVE </button>
+                                                            </form>
+                                                        </c:if>
+
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -128,11 +131,13 @@
                 </div>
             </div>
             <div style="padding-right: 70px; ">
-                <form action="StudentServlet" method="post">
-                    <button style="margin-right: 20px; "class="btn btn-info float-right btn-danger" type="submit" name="submitSchedule">Submit</button>
-                    <button style="margin-right: 20px; " class="btn btn-info float-right btn-warning" type="submit" name="resetSchedule">Reset</button> 
-                    <button style="margin-right: 20px; " class="btn btn-info float-right" type="submit">Back</button> 
-                </form>
+                <c:if test="${not hasScheduleEvaluated && not hasSubmittedSchedule}"> 
+                    <form action="StudentServlet" method="post">
+                        <button style="margin-right: 20px; "class="btn btn-info float-right btn-danger" type="submit" name="submitSchedule">Submit</button>
+                        <button style="margin-right: 20px; " class="btn btn-info float-right btn-warning" type="submit" name="resetSchedule">Reset</button> 
+                        <button style="margin-right: 20px; " class="btn btn-info float-right" type="submit">Back</button> 
+                    </form>
+                </c:if>
             </div>
         </section>
 
@@ -151,7 +156,7 @@
                             <p>
                             <section>
                                 <h3>Result:${evaluation.getEvaluation()} </h3>
-
+                                <h4>${message}</h4>
                             </section>
                             </p>
                             <p>Remarks: ${evaluation.getRemarks()}</p>

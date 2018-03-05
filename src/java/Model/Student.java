@@ -317,7 +317,7 @@ public class Student extends User {
         return null;
     }
 
-    public static ArrayList<Course> getStudentSchedule(int studentID, int scheduleStatus) {
+    public static ArrayList<Course> getStudentPropSchedule(int studentID) {
         test = DatabaseConnection.connectDatabase();
         ArrayList<Course> schedules = new ArrayList<>();
         String getStudentScheduleQuery = "select * from Student_Schedule where Student_ID = (?) and (Status = 3 or Status = 4)";
@@ -464,7 +464,6 @@ public class Student extends User {
     public static boolean hasScheduleEvaluated(int studentID) {
         test = DatabaseConnection.connectDatabase();
         String hasSubmittedScheduleQuery = "select * from Student_Schedule where Student_ID = (?) and (Status = 2 or Status = 5)";
-        int forApprovalStatus = 3;
 
         try {
             pState = test.prepareStatement(hasSubmittedScheduleQuery);
@@ -472,6 +471,7 @@ public class Student extends User {
             rSet = pState.executeQuery();
             if (rSet.next()) {
                 System.out.println("Returns True");
+                System.out.println("Sched true");
                 return true;
             }
         } catch (Exception e) {

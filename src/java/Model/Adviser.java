@@ -153,7 +153,7 @@ public class Adviser extends User {
         Set<Integer> propSchedSet = getUniqueStudentProposedSchedule();
         ArrayList<Integer> proposedSchedList = new ArrayList<>(propSchedSet);
         ArrayList<Student> outputList = new ArrayList<>();
-        String getProposedScheduleList = "Select * from Student_Schedule where Status = (?)";
+        String getProposedScheduleList = "Select distinct Student_ID from Student_Schedule where Status = (?)";
         int forApprovalStatus = 3;
         try {
             state = conn.prepareStatement(getProposedScheduleList);

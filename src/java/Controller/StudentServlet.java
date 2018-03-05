@@ -294,12 +294,24 @@ public class StudentServlet extends HttpServlet {
         int proposedStatus = 4;
 
         try {
-            ArrayList<Course> studentProposedSchedule = Student.getStudentSchedule(currentStudent.getUserID(), proposedStatus);
+            ArrayList<Course> studentProposedSchedule = Student.getStudentPropSchedule(currentStudent.getUserID());
             if (studentProposedSchedule.isEmpty()) {
                 if (Student.hasScheduleEvaluated(studentNumber)) {
                     session.setAttribute("hasSubmittedSchedule", false);
                     session.setAttribute("hasScheduleEvaluated", Student.hasScheduleEvaluated(studentNumber));
                     session.setAttribute("evaluation", Student.getEvaluation(currentStudent.getUserID()));
+                    System.out.println("Sched has been evaluated");
+                    String instructionMessage = "";
+                    switch(Student.getEvaluation(currentStudent.getUserID()).getEvaluation()){
+                        case "APPROVED":
+                            instructionMessage = "Please pay at the cashier so that you may be officially enrolled";
+                            session.setAttribute("message", instructionMessage);
+                            break;
+                        case "REJECTED":
+                            instructionMessage = "Your proposed schedule has been rejected, please create another one";
+                            session.setAttribute("message", instructionMessage);
+                            break;
+                    }
                 } else {
                     System.out.println("Empty");
                     String errorNoProposedSched = "You have yet to add a course, please add a course in the Available Courses page";
