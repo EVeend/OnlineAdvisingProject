@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Online Advising System Front-End</title>
+        <title>Available Courses | UST Online Advising System</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="assets/css/styles.min.css">
@@ -12,8 +12,8 @@
     </head>
 
     <body>
-        <header style="height:100px;background-color:#000000;padding:3px;">
-            <div><img class="img-responsive" src="assets/img/ustoaheader.png" style="height:93px;margin-top:0px;padding:9px;margin-bottom:0px;"></div>
+        <header class="black-border">
+            <div><img class="img-responsive" src="assets/img/header.png" style="max-width:80%;height:auto;margin-top:0px;padding:9px;margin-bottom:0px;max-height:100%;"></div>
         </header>
 
         <!-- NAVBAR -->
@@ -25,7 +25,7 @@
                     <form action="AdviserServlet" method="get">
                         <ul class="nav navbar-nav">
                             <li role="presentation"><button class="formBTN" type="submit" name="myProfile">MyProfile</button></li>
-                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color: white;">Advising <span class="caret"></span></a>
+                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color: black;">Advising <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li role="presentation"><button class="navbar-items" type="submit" name="studentList"/>Students List</a></li>
                                     <li role="presentation"><button class="navbar-items" type="submit" name="availableCourses"/>Available Courses</button></li>
@@ -34,7 +34,7 @@
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color: white;">Account <span class="caret"></span></a>
+                            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color: black;">Account <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li role="presentation"><button class="navbar-items" type="submit" name="changePassword"/>Change Password</button></li>
                                 </ul>
@@ -108,11 +108,19 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>
-    <footer> 
-        <div id="footer">
-            <div class="navbar navbar-fixed-bottom" style="background-color: #000000; padding: 2px; width: 1500px;">
-                <p class="muted credit"><h5 style="margin-left: 250px; color: white;"> Copyright © 2016 University of Santo Tomas. All Rights Reserved. Powered by Santo Tomas e-Service Providers (sTeps) </h5>
-                </p>
+
+    <footer style="background-color: #000000; position: absolute; width: 100%; color: white; 
+            padding:10px; padding-top: 15px; margin-top: 35px; height: auto; 
+            line-height: 10px; bottom: auto; z-index: -99999; padding-right: 0px; padding-left: 0px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12s">
+                    <center>
+                        <p style="line-height: 12px;" class="text-cen">Copyright © 2016  University of Santo Tomas. All rights reserved.</p> 
+                        <!-- <p class="text-light">All rights reserved.</p> -->
+                        <p class="text-light">Powered by <a href="http://steps.ust.edu.ph/" style="color: goldenrod;" target="_blank">Santo Tomas e-Service Providers</a></p>
+                    </center>
+                </div>
             </div>
         </div>
     </footer>

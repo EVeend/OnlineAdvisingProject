@@ -92,6 +92,11 @@ public class AdviserServlet extends HttpServlet {
             Adviser.evaluateSchedule(adviserID, studentID, approve, remark);
             loadProposedScheduleList(request, response);
         }
+        else if(request.getParameter("reject") != null){
+//            System.out.println("Reject");
+//            rd = request.getRequestDispatcher("Popup.jsp");
+//            rd.forward(request, response);
+        }
         //Students List
         else if(request.getParameter("studentList") != null){
             loadsStudentList(request, response);

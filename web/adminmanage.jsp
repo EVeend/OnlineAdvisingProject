@@ -4,15 +4,15 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Online Advising System Front-End</title>
+        <title>Manage | UST Online Advising System</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="assets/css/styles.min.css">
     </head>
 
     <body>
-        <header style="height:100px;background-color:#000000;padding:3px;">
-            <div><img class="img-responsive" src="assets/img/ustoaheader.png" style="height:93px;margin-top:0px;padding:9px;margin-bottom:0px;"></div>
+        <header class="black-border">
+            <div><img class="img-responsive" src="assets/img/header.png" style="max-width:80%;height:auto;margin-top:0px;padding:9px;margin-bottom:0px;max-height:100%;"></div>
         </header>
 
         <!-- NAVBAR -->
@@ -32,7 +32,7 @@
                                     <li role="presentation"><button class="navbar-items" type="submit" name="changePassword"/>Change Password</button></li>
                                 </ul>
                             </li>
-                            <li role="presentation"><button class="logoutBTN" type="submit" name="logout"/>Logout</button></li>
+                            <li role="presentation"><button class="logoutBTN" type="submit" name="logout"/>Logout</li>
                         </ul>
                     </form>
                 </div>
@@ -40,7 +40,7 @@
         </nav>
 
         <!-- MANAGE USERS -->
-        
+
         <section style="padding:0px;">
             <div class="container-fluid" style="padding-right:90px;padding-left:90px;">
                 <div class="row">
@@ -53,83 +53,66 @@
                         </ul>
 
                         <div class="tab-content">
-                            <div class="tab-pane active" id="tab1" name="studentList">
+                            <div class="tab-pane active" id="tab1">
                                 <div style="padding:10px;"></div>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th style="width:150px;">Student Number</th>
-                                                <th style="width:200px;">Last Name</th>
-                                                <th style="width:200px;">First Name</th>
-                                                <th style="width:100px;">Year</th>
-                                                <th style="width:200px;">College</th>
-                                                <th style="width:200px;">Program</th>
-                                                <th style="width:100px;">Block</th>
-                                                <th style="width:100px;">Retention Status</th>
+                                                <th>Student No.</th>
+                                                <th>Last Name</th>
+                                                <th>First Name</th>
+                                                <th>Middle Name</th>
+                                                <th>Section</th>
+                                                <th>Course</th>
+                                                <th>College</th>
+                                                <th>Retention Status</th>
+                                                <th>Inactive button</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:if test="${not empty studentList}"> 
-                                                <c:forEach items="${studentList}" var="student">
-                                                    <tr>
-                                                        <td>${student.getUserID()}</td>
-                                                        <td>${student.getLastName()}</td>
-                                                        <td>${student.getFirstName()}</td>
-                                                        <td>${student.getYear()}</td>
-                                                        <td>${student.getCollege()}</td>
-                                                        <td>${student.getProgram()}</td>
-                                                        <td>${student.getBlock()}</td>
-                                                        <td>${student.getRetentionStatus()}</td>
-                                                    </tr>
-                                                </c:forEach>
-                                            </c:if>
+                                            <tr>
+                                                <td>2015081861</td>
+                                                <td>Crisostomo</td>
+                                                <td>Joshua</td>
+                                                <td>Santos</td>
+                                                <td>3ECE-E</td>
+                                                <td>Electronics and Communications Engineering</td>
+                                                <td>Faculty of Engineering</td>
+                                                <td>Irregular</td>
+                                                <td></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="tab2" name="facultyList">
+                            <div class="tab-pane" id="tab2">
                                 <div style="padding:10px;"></div>
                                 <div class="table-responsive">
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th style="width:190px;">Employee Number</th>
-                                                <th style="width:200px;">Last Name</th>
-                                                <th style="width:200px;">First Name</th>
-                                                <th style="width:220px;">College</th>
-                                                <th style="width:220px;">Department</th>
-                                                <th style="width:170px;">Rank</th>
-                                                <th style="width:200px;" colspan="2">Account Status</th>
+                                                <th>Employee No.</th>
+                                                <th>Last Name</th>
+                                                <th>First Name</th>
+                                                <th>Middle Name</th>
+                                                <th>Department</th>
+                                                <th>College</th>
+                                                <th>Rank</th>
+                                                <th>Inactive button</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:if test="${not empty facultyList}"> 
-                                                <c:forEach items="${facultyList}" var="faculty">
-                                                    <tr>
-                                                        <td>${student.getUserID()}</td>
-                                                        <td>${student.getLastName()}</td>
-                                                        <td>${student.getFirstName()}</td>
-                                                        <td>${student.getCollege()}</td>
-                                                        <td>${student.getDepartment()}</td>
-                                                        <td>${student.getRank()}</td>
-                                                        <td>${student.getAccountStatus()}</td>
-                                                        <td>
-                                                            <form action="AdviserServlet" method="post">
-                                                                <input type="hidden" name="userID" value="${user.getUserID}">
-                                                                <c:choose>
-                                                                    <c:when test="${user.getAccountStatus == 'Active'}">
-                                                                        <input type="submit" name="updateStatus" value="Deactivate" style="width: 80px">
-                                                                    </c:when>
-                                                                    <c:when test="${user.getAccountStatus == 'Inactive'}">
-                                                                        <input type="submit" name="updateStatus" value="Activate" style="width: 80px">
-                                                                    </c:when>
-                                                                </c:choose>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-                                            </c:if>
+                                            <tr>
+                                                <td>2005010001</td>
+                                                <td>Santos</td>
+                                                <td>Joseph</td>
+                                                <td>Reyes</td>
+                                                <td>Electronics Engineering</td>
+                                                <td>Faculty of Engineering</td>
+                                                <td>Assistant Professor</td>
+                                                <td></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -142,5 +125,21 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>
+
+    <footer style="background-color: #000000; position: absolute; width: 100%; color: white; 
+            padding:10px; padding-top: 15px; margin-top: 35px; height: auto; 
+            line-height: 10px; bottom: auto; z-index: -99999; padding-right: 0px; padding-left: 0px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12s">
+                    <center>
+                        <p style="line-height: 12px;" class="text-cen">Copyright © 2016  University of Santo Tomas. All rights reserved.</p> 
+                        <!-- <p class="text-light">All rights reserved.</p> -->
+                        <p class="text-light">Powered by <a href="http://steps.ust.edu.ph/" style="color: goldenrod;" target="_blank">Santo Tomas e-Service Providers</a></p>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 </html>

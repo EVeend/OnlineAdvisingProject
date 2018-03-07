@@ -69,7 +69,7 @@
                 <input type="hidden" name="studentID" value="${studentID}">
                 <textarea class="form-control" name="remark"></textarea>
                 <button name="approve" type="submit" style="margin-top: 20px; margin-left: 780px; font-family: arial;" class="btn btn-success">Approve</button> <br> <br>
-                <button name="reject" type="submit" style="margin-left: 780px; font-family: arial;" class="btn btn-danger" data-dismiss="modal">Reject</button>
+                <button name="reject" type="submit" style="margin-left: 780px; font-family: arial;" class="btn btn-danger">Reject</button>
             </form>
 
         </div>

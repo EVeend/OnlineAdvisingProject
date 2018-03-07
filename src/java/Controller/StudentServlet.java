@@ -123,6 +123,9 @@ public class StudentServlet extends HttpServlet {
         }//View ProposedSchedule
         else if (request.getParameter("proposedSchedule") != null) {
             loadStudentProposedSchedule(request, response);
+        } else if (request.getParameter("myGrades") != null) {
+            rd = request.getRequestDispatcher("studentgrades.jsp");
+            rd.forward(request, response);
         } //changepassword
         else if (request.getParameter("changePassword") != null) {
             session.setAttribute("message", null);
@@ -302,7 +305,7 @@ public class StudentServlet extends HttpServlet {
                     session.setAttribute("evaluation", Student.getEvaluation(currentStudent.getUserID()));
                     System.out.println("Sched has been evaluated");
                     String instructionMessage = "";
-                    switch(Student.getEvaluation(currentStudent.getUserID()).getEvaluation()){
+                    switch (Student.getEvaluation(currentStudent.getUserID()).getEvaluation()) {
                         case "APPROVED":
                             instructionMessage = "Please pay at the cashier so that you may be officially enrolled";
                             session.setAttribute("message", instructionMessage);
@@ -322,10 +325,10 @@ public class StudentServlet extends HttpServlet {
 
             } else {
                 System.out.println("Not Empty");
-                session.setAttribute("hasSubmittedSchedule", Student.hasSubmittedSchedule(studentNumber));
                 session.setAttribute("studentProposedSchedule", studentProposedSchedule);
                 session.setAttribute("totalUnits", Student.getScheduleTotalUnits(currentStudent));
             }
+            session.setAttribute("hasSubmittedSchedule", Student.hasSubmittedSchedule(studentNumber));
             rd = request.getRequestDispatcher("studentproposedschedule.jsp");
             rd.forward(request, response);
 
