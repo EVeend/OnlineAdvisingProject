@@ -85,5 +85,5 @@
             </div>
         </footer>
     </body>
-
+<c:set var="error" value="" scope="session"/>
 </html>

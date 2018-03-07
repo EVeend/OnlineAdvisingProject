@@ -161,7 +161,18 @@ public class StudentServlet extends HttpServlet {
                 System.out.println("Successfully Added Schedule");
                 loadStudentProposedSchedule(request, response);
             } else {
-                session.setAttribute("errorMessage", Student.advisingErrorMessage);
+                Course overLappedCourse = Student.isOverLapping(currentStudent, desiredCourse);
+                session.setAttribute("overLappedCourse", overLappedCourse);
+//                session.setAttribute("errorMessage", Student.advisingErrorMessage);
+
+                if(overLappedCourse.getCourseID().equals(desiredCourse.getCourseID())){
+                    String alreadyEnlisted = "You are already enlisted in this course";
+                    session.setAttribute("errorMessage", alreadyEnlisted);
+                }
+                else{
+                    String overLappingSched = "The desired course is in conflict with your current courses";
+                    session.setAttribute("errorMessage", overLappingSched);
+                }
                 System.out.println("Fail to add schedule, schedule overlapping");
                 rd = request.getRequestDispatcher("studentavailablecourses.jsp");
                 rd.forward(request, response);

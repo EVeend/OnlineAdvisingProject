@@ -11,7 +11,8 @@
         <link rel="stylesheet" href="assets/JS/homePageJS.js">
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     </head>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
         function openModal() {
             $('#update').modal('show');
@@ -22,7 +23,7 @@
             <div><img class="img-responsive" src="assets/img/header.png" style="max-width:80%;height:auto;margin-top:0px;padding:9px;margin-bottom:0px;max-height:100%;"></div>
         </header>
 
- 
+
         <!-- NAVBAR -->
 
         <nav class="navbar navbar-default">
@@ -95,7 +96,7 @@
                                                 <td>${course.getCourseLabUnits()}</td>
                                                 <td>${course.getSection()} </td>
                                                 <td>${course.getAvailableSlot()}</td>
-                                                 <td>${course.getMaxSlot()} </td>
+                                                <td>${course.getMaxSlot()} </td>
                                                 <td>
                                                     <c:choose>
                                                         <c:when test="${course.getAvailableSlot() eq 0}">
@@ -130,16 +131,26 @@
                                                                 </c:if>
                                                                 <!-- Modal -->
                                                                 <div id="update" class="modal fade" role="dialog">
-                                                                    <div class="modal-dialog modal-sm">
+                                                                    <div class="modal-dialog modal-md">
                                                                         <div class="modal-content">
                                                                             <!--  <button type="button" class="close" data-dismiss="modal">&times;</button> -->
                                                                             <br>
-                                                                            <center>    <h4 style="color: red; font-weight: bold;" class="modal-title">Sorry!</h4> </center>
-                                                                            <center>  <div class="modal-body" style="font-size: 12px;"> </center>
-                                                                            <p>Your chosen course overlaps another course. </p>
-                                                                            <p>Please try again. </p>
+                                                                            <center>    
+                                                                                <h2 style="color: red; font-weight: bold;" class="modal-title">Sorry!</h2> 
+                                                                            </center>
+                                                                            <center>  
+                                                                                <div class="modal-body" style="font-size: 20px;"> 
+                                                                                    <p>${errorMessage} </p>
+                                                                                    <p>Conflicted Course: ${overLappedCourse.getCourseID()} </p>
+                                                                                    
+                                                                                </div>
+                                                                            </center>
+                                                                            <div style="margin-left: 40%;">
+
+                                                                            </div>
+                                                                            <button style="margin-left: 47%; margin-bottom: 20px;" type="button" class="btn btn-warning" data-dismiss="modal"> OK </button>
                                                                         </div>
-                                                                        <button type="button" class="btn-danger" dismissdata-="modal"> OK </button>
+
                                                                         <br> <br>
                                                                     </div>
                                                                 </div>
@@ -153,6 +164,7 @@
                                     </c:if>
                                 </tbody>
                             </table>
+                            <c:set var="errorMessage" value="" scope="session"/>
                         </div>
                         <div>
                             <form action="StudentServlet" method="get">
@@ -174,8 +186,7 @@
                 </div>
             </div>
         </section>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     </body>
 
     <footer style="background-color: #000000; position: absolute; width: 100%; color: white; 

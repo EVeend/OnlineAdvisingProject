@@ -251,7 +251,7 @@ public class Student extends User {
     //Returns true if success; else return false
     public static boolean addToMyProposedSchedule(Course desiredCourse, Student currentStudent) {
         ArrayList<Course> schedule = currentStudent.getStudentSchedule();
-        if (schedule.isEmpty() || isQualified(currentStudent, desiredCourse)) {
+        if (schedule.isEmpty() || isOverLapping(currentStudent, desiredCourse) == null) {
             currentStudent.getStudentSchedule().add(desiredCourse);
 
             conn = DatabaseConnection.connectDatabase();
@@ -587,7 +587,7 @@ public class Student extends User {
 
     //Check if overlapping
     //Returns true if overlapping, else false
-    public static boolean isQualified(Student student, Course desiredCourse) {
+    public static Course isOverLapping(Student student, Course desiredCourse) {
 
         System.out.println("Check overlapping");
         SimpleDateFormat parser = new SimpleDateFormat("H:mm a");
@@ -597,11 +597,6 @@ public class Student extends User {
         ArrayList<Course> studentSchedule = student.getStudentSchedule();
         ArrayList<CourseSchedule> desiredCourseSchedule = Course.getSchedules(desiredCourse.getCourseID(), desiredCourse.getSection());
 
-        //Check if student already passed prerequisite subject
-        //Check if there are available slots
-        if (desiredCourse.getAvailableSlot() == 0) {
-            return false;
-        }
         for (Course c : studentSchedule) {
 
             try {
@@ -630,25 +625,25 @@ public class Student extends User {
                         if (c.getCourseID().equals(desiredCourse.getCourseID())) {
                             advisingErrorMessage = "Already in the same subject";
                             System.out.println("Already in the same subject");
-                            return false;
+                            return c;
                         }
                         //First check; if it has the same time 
                         if (desiredCourseEndTime.equals(studentCourseEndTime) && desiredCourseStartTime.equals(studentCourseStartTime) && desiredSched.getDay().equals(sc.getDay())) {
                             advisingErrorMessage = "has the same time ";
                             System.out.println("has the same time ");
-                            return false;
+                            return c;
                         }
                         //Second check; if it starts before and ends during another course
                         if (desiredCourseStartTime.before(studentCourseStartTime) && desiredCourseEndTime.before(studentCourseEndTime) && desiredSched.getDay().equals(sc.getDay())) {
                             advisingErrorMessage = "starts before and ends during another course";
                             System.out.println("starts before and ends during another course");
-                            return false;
+                            return c;
                         }
                         //Third Check; if it starts before a course and ends at the same time
                         if (desiredCourseStartTime.before(studentCourseStartTime) && desiredCourseEndTime.equals(studentCourseEndTime) && desiredSched.getDay().equals(sc.getDay())) {
                             advisingErrorMessage = "starts before a course and ends at the same time";
                             System.out.println("starts before a course and ends at the same time");
-                            return false;
+                            return c;
                         }
 //                        //Fourth Check; if it starts after a course and ends during the course
 //                        if (desiredCourseStartTime.after(studentCourseStartTime) && desiredCourseEndTime.before(studentCourseEndTime) && desiredSched.getDay().equals(sc.getDay())) {
@@ -665,7 +660,7 @@ public class Student extends User {
                         if (desiredCourseStartTime.after(studentCourseStartTime) && desiredCourseEndTime.equals(studentCourseEndTime) && desiredSched.getDay().equals(sc.getDay())) {
                             advisingErrorMessage = "starts after a course and ends the same time with the course";
                             System.out.println("starts after a course and ends the same time with the course");
-                            return false;
+                            return c;
                         }
                     }
                 }
@@ -673,7 +668,7 @@ public class Student extends User {
                 e.printStackTrace();
             }
         }
-        return true;
+        return null;
     }
 
 }

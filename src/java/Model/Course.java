@@ -118,6 +118,16 @@ public class Course {
     public void setCourseType(Integer courseType) {
         this.courseType = courseType;
     }
+    
+        //is course full
+    public boolean isFull(){
+        if(availableSlot == maxSlot){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     public static Course getCourse(String courseID, String section) {
         conn = DatabaseConnection.connectDatabase();
@@ -221,7 +231,7 @@ public class Course {
         }
         return null;
     }
-
+    
     public static Course getCourseDetails(String courseID) {
 
         Connection test = DatabaseConnection.connectDatabase();
