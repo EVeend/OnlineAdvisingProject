@@ -155,7 +155,7 @@
                             </table>
                         </div>
                         <div>
-                            <form action="StudentServlet" method="post">
+                            <form action="StudentServlet" method="get">
                                 <button class="btn btn-info float-right" type="submit" name="proposedSchedule">See proposed schedule</button>
                             </form>
                         </div>

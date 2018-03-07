@@ -43,11 +43,80 @@ public class StudentServlet extends HttpServlet {
             throws ServletException, IOException {
 
         session = request.getSession(false);
+        //END OF NAV BAR BUTTONS
 
+        try {
+            sessionUser = (String) session.getAttribute("studentNumber");
+
+        } catch (Exception e) {
+            request.setAttribute("deadsession", true);
+            rd = request.getRequestDispatcher("View/LogInPage.jsp");
+            rd.forward(request, response);
+        }
+
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        session = request.getSession(false);
+
+        // NAV BAR BUTTONS
+        //view Profile
+        if (request.getParameter("profile") != null) {
+            loadStudentProfile(request, response);
+        } //view my schedule
+        else if (request.getParameter("mySchedule") != null) {
+            loadStudentMySchedule(request, response);
+        }//View Curriculum
+        else if (request.getParameter("curriculum") != null) {
+            String[] semesters = {"First Semester", "Second Semester"};
+            String[] years = {"First Year", "Second Year", "Third Year", "Fourth Year"};
+
+            //First Year
+            session.setAttribute("fSemfYear", Course.getCurriculum(semesters[0], years[0]));
+            session.setAttribute("sSemfYear", Course.getCurriculum(semesters[1], years[0]));
+            session.setAttribute("fSemsYear", Course.getCurriculum(semesters[0], years[1]));
+            session.setAttribute("sSemsYear", Course.getCurriculum(semesters[1], years[1]));
+            session.setAttribute("fSemtYear", Course.getCurriculum(semesters[0], years[2]));
+
+            rd = request.getRequestDispatcher("studentcurriculum.jsp");
+            rd.forward(request, response);
+        }//View deficiencies
+        else if (request.getParameter("deficiencies") != null) {
+            getDeficiencies(request, response);
+        }//View availableCourses
+        else if (request.getParameter("availableCourses") != null) {
+            loadCourses(request, response);
+        }//View ProposedSchedule
+        else if (request.getParameter("proposedSchedule") != null) {
+            loadStudentProposedSchedule(request, response);
+        } else if (request.getParameter("myGrades") != null) {
+            rd = request.getRequestDispatcher("studentgrades.jsp");
+            rd.forward(request, response);
+        } //changepassword
+        else if (request.getParameter("changePassword") != null) {
+            session.setAttribute("message", null);
+            rd = request.getRequestDispatcher("studentpassword.jsp");
+            rd.forward(request, response);
+        }//logout
+        else if (request.getParameter("logout") != null) {
+            HttpSession session = request.getSession();
+            if (!session.isNew()) {
+                session.invalidate();
+                rd = request.getRequestDispatcher("studentindex.jsp");
+                rd.forward(request, response);
+            }
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        session = request.getSession(false);
         //Login Student
         if (request.getParameter("logInStudent") != null) {
             try {
-                System.out.println("hahaha");
                 studentNumber = Integer.parseInt(request.getParameter("studentNumber"));
                 password = (String) request.getParameter("password");
 
@@ -76,71 +145,7 @@ public class StudentServlet extends HttpServlet {
                 rd = request.getRequestDispatcher("studentindex.jsp");
                 rd.forward(request, response);
             }
-
-//            if (Student.isIrregular(studentNumber, password).equals("user")) {
-//                System.out.println("You have successfully logged in");
-//                session = request.getSession();
-//                session.setAttribute("studentNumber", studentNumber);
-//                session.setAttribute("password", password);
-//                loadStudentProfile(request, response);
-//            } else {
-//                session.setAttribute("errorMessage", Student.isIrregular(studentNumber, password));
-//                rd = request.getRequestDispatcher("studentindex.jsp");
-//                rd.forward(request, response);
-//            }
-        } // NAV BAR BUTTONS
-        //view Profile
-        else if (request.getParameter("profile") != null) {
-            loadStudentProfile(request, response);
-        } //view my schedule
-        else if (request.getParameter("mySchedule") != null) {
-            loadStudentMySchedule(request, response);
-        }//View Curriculum
-        else if (request.getParameter("curriculum") != null) {
-            String[] semesters = {"First Semester", "Second Semester"};
-            String[] years = {"First Year", "Second Year", "Third Year", "Fourth Year"};
-
-            /*for(int i = 0; i < years.length; i++){
-                for(int j = 0; j < semesters.length; j++){
-                    curriculum.add(Course.getECECurriculum(semesters[j], years[i]));
-                }
-            }   */
-            //First Year
-            session.setAttribute("fSemfYear", Course.getCurriculum(semesters[0], years[0]));
-            session.setAttribute("sSemfYear", Course.getCurriculum(semesters[1], years[0]));
-            session.setAttribute("fSemsYear", Course.getCurriculum(semesters[0], years[1]));
-            session.setAttribute("sSemsYear", Course.getCurriculum(semesters[1], years[1]));
-            session.setAttribute("fSemtYear", Course.getCurriculum(semesters[0], years[2]));
-
-            rd = request.getRequestDispatcher("studentcurriculum.jsp");
-            rd.forward(request, response);
-        }//View deficiencies
-        else if (request.getParameter("deficiencies") != null) {
-            getDeficiencies(request, response);
-        }//View availableCourses
-        else if (request.getParameter("availableCourses") != null) {
-            loadCourses(request, response);
-        }//View ProposedSchedule
-        else if (request.getParameter("proposedSchedule") != null) {
-            loadStudentProposedSchedule(request, response);
-        } else if (request.getParameter("myGrades") != null) {
-            rd = request.getRequestDispatcher("studentgrades.jsp");
-            rd.forward(request, response);
-        } //changepassword
-        else if (request.getParameter("changePassword") != null) {
-            session.setAttribute("message", null);
-            rd = request.getRequestDispatcher("studentpassword.jsp");
-            rd.forward(request, response);
-        } //logout
-        else if (request.getParameter("logout") != null) {
-            HttpSession session = request.getSession();
-            if (!session.isNew()) {
-                session.invalidate();
-                rd = request.getRequestDispatcher("studentindex.jsp");
-                rd.forward(request, response);
-            }
-        } //END OF NAV BAR BUTTONS
-        //add course
+        } //add course
         else if (request.getParameter("addToSchedule") != null) {
 
             Student currentStudent = (Student) session.getAttribute("currentStudent");
@@ -209,27 +214,6 @@ public class StudentServlet extends HttpServlet {
             }
         }
 
-        try {
-            sessionUser = (String) session.getAttribute("studentNumber");
-
-        } catch (Exception e) {
-            request.setAttribute("deadsession", true);
-            rd = request.getRequestDispatcher("View/LogInPage.jsp");
-            rd.forward(request, response);
-        }
-
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     @Override
@@ -318,6 +302,7 @@ public class StudentServlet extends HttpServlet {
                 } else {
                     System.out.println("Empty");
                     String errorNoProposedSched = "You have yet to add a course, please add a course in the Available Courses page";
+                    session.setAttribute("hasScheduleEvaluated", Student.hasScheduleEvaluated(studentNumber));
                     session.setAttribute("studentProposedSchedule", studentProposedSchedule);
                     session.setAttribute("noProposedSched", errorNoProposedSched);
                     session.setAttribute("totalUnits", Student.getScheduleTotalUnits(currentStudent));
@@ -329,8 +314,7 @@ public class StudentServlet extends HttpServlet {
                 session.setAttribute("totalUnits", Student.getScheduleTotalUnits(currentStudent));
             }
             session.setAttribute("hasSubmittedSchedule", Student.hasSubmittedSchedule(studentNumber));
-            rd = request.getRequestDispatcher("studentproposedschedule.jsp");
-            rd.forward(request, response);
+            response.sendRedirect("studentproposedschedule.jsp");
 
         } catch (NullPointerException e) {
             String errorNoProposedSched = "You have yet to add a course, please add a course in the Available Courses page";

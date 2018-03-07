@@ -43,13 +43,43 @@ public class AdviserServlet extends HttpServlet {
     static PreparedStatement state;
     static ResultSet rs;
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         session = request.getSession(false);
 
+        //Profile 
+        if (request.getParameter("myProfile") != null) {
+            loadAdminProfile(request, response);
+        }//Available Courses 
+        else if (request.getParameter("availableCourses") != null) {
+            loadCourses(request, response);
+            rd = request.getRequestDispatcher("facultyavailablecourses.jsp");
+            rd.forward(request, response);
+        }//List of Student's Proposed Schedule
+        else if (request.getParameter("proposedSchedule") != null) {
+            loadProposedScheduleList(request, response);
+        }//View Student's proposed Schedule
+        else if (request.getParameter("view") != null) {
+            System.out.println("heeeeeeeeeey");
+            int studentID = Integer.parseInt(request.getParameter("studentID"));
+            ArrayList<Course> studentSchedule = Student.getStudentSchedule(studentID);
+            session.setAttribute("studentID", studentID);
+            session.setAttribute("studentSched", studentSchedule);
+            rd = request.getRequestDispatcher("ProposedScheduleView.jsp");
+            rd.forward(request, response);
+        } //Students List
+        else if (request.getParameter("studentList") != null) {
+            loadsStudentList(request, response);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        session = request.getSession(false);
         //Login ADviser
         if (request.getParameter("logInEmployee") != null) {
-            System.out.println("hahaha");
             employeeNumber = Integer.parseInt(request.getParameter("employeeNumber"));
             password = (String) request.getParameter("password");
             System.out.println(employeeNumber + " " + password);
@@ -62,57 +92,28 @@ public class AdviserServlet extends HttpServlet {
             } else {
 //                System.out.println("dsada");
             }
-        }//Profile 
-        else if (request.getParameter("myProfile") != null) {
-            loadAdminProfile(request, response);
-        }//Available Courses 
-        else if (request.getParameter("availableCourses") != null) {
-            loadCourses(request, response);
-            rd = request.getRequestDispatcher("facultyavailablecourses.jsp");
-            rd.forward(request, response);
-        }//List of Student's Proposed Schedule
-        else if (request.getParameter("proposedSchedule") != null) {
-            loadProposedScheduleList(request, response);
-        }//View Student's proposed Schedule
-        else if(request.getParameter("view") != null){
-            System.out.println("heeeeeeeeeey");
-            int studentID = Integer.parseInt(request.getParameter("studentID"));
-            ArrayList<Course> studentSchedule = Student.getStudentSchedule(studentID);
-            session.setAttribute("studentID", studentID);
-            session.setAttribute("studentSched", studentSchedule);
-            rd = request.getRequestDispatcher("ProposedScheduleView.jsp");
-            rd.forward(request, response);
-        }//Adviser Approved Schedule
-        else if(request.getParameter("approve") != null){
+        }
+        //Adviser Approved Schedule
+        else if (request.getParameter("approve") != null) {
             System.out.println("APPROVE");
             String approve = "APPROVE";
             String remark = request.getParameter("remark");
-            Integer adviserID = (Integer)session.getAttribute("employeeNumber");
+            Integer adviserID = (Integer) session.getAttribute("employeeNumber");
             int studentID = Integer.parseInt(request.getParameter("studentID"));
             Adviser.evaluateSchedule(adviserID, studentID, approve, remark);
             loadProposedScheduleList(request, response);
-        }
-        else if(request.getParameter("reject") != null){
+        } else if (request.getParameter("reject") != null) {
+            System.out.println("REJECT");
+            String reject = "REJECT";
+            String remark = request.getParameter("remark");
+            Integer adviserID = (Integer) session.getAttribute("employeeNumber");
+            int studentID = Integer.parseInt(request.getParameter("studentID"));
+            Adviser.evaluateSchedule(adviserID, studentID, reject, remark);
+            loadProposedScheduleList(request, response);
 //            System.out.println("Reject");
 //            rd = request.getRequestDispatcher("Popup.jsp");
 //            rd.forward(request, response);
         }
-        //Students List
-        else if(request.getParameter("studentList") != null){
-            loadsStudentList(request, response);
-        }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     @Override
@@ -151,7 +152,7 @@ public class AdviserServlet extends HttpServlet {
 //            rd.forward(request, response);
 //        }
     }
-    
+
     protected void updateAccountStatus(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -171,26 +172,24 @@ public class AdviserServlet extends HttpServlet {
         rd = request.getRequestDispatcher("facultyavailablecourses.jsp");
         rd.forward(request, response);
     }
-    
+
     protected void loadProposedScheduleList(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
-        
+            throws ServletException, IOException {
+
         ArrayList<Student> proposedScheduleList = Adviser.getStudentProposedSchedule();
         session.setAttribute("proposedSchedList", proposedScheduleList);
-        
-        rd = request.getRequestDispatcher("facultyproposedschedule.jsp");
-        rd.forward(request, response);
-        
+        response.sendRedirect("facultyproposedschedule.jsp");
+
     }
-    
+
     protected void loadsStudentList(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
-        
+            throws ServletException, IOException {
+
         ArrayList<Student> studentList = Adviser.getStudentList();
         session.setAttribute("studentList", studentList);
-        
+
         rd = request.getRequestDispatcher("facultystudentlist.jsp");
         rd.forward(request, response);
-        
+
     }
 }

@@ -64,7 +64,7 @@
             </div>
         </section>
         <div>
-            <form action="AdviserServlet" method="post">
+            <form action="AdviserServlet" method="POST">
                 <h4>Remarks: </h4>
                 <input type="hidden" name="studentID" value="${studentID}">
                 <textarea class="form-control" name="remark"></textarea>

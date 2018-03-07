@@ -186,7 +186,7 @@ public class Adviser extends User {
             case "APPROVE":
                 adviserEvaluation = 2;
                 break;
-            case "REJECTED":
+            case "REJECT":
                 adviserEvaluation = 5;
                 break;
         }

@@ -23,7 +23,7 @@
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                         <h5 class="header-yellow"><i class="glyphicon glyphicon-user"></i> &nbsp; Login </h5>
                         <div class="login-box">
-                            <form action="AdviserServlet" method="post">
+                            <form action="AdviserServlet" method="POST">
                                 <div class="form-group"><label class="control-label"><strong>Employee Number</strong></label><input class="form-control" type="text" name="employeeNumber"></div>
                                 <div class="form-group"><label class="control-label">Password </label><input class="form-control" type="password" name="password">
                                     <p class="help-block" style="color:rgb(0,0,0);"><strong>Initial password is your birthdate format :</strong> <span style="color:rgb(255,0,0);"><strong>MM/DD/YYYY</strong></span></p>

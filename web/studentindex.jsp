@@ -27,7 +27,7 @@
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                         <h5 class="header-yellow"><i class="glyphicon glyphicon-user"></i> &nbsp; Login </h5>
                         <div class="login-box">
-                            <form action="StudentServlet" method="post">
+                            <form action="StudentServlet" method="POST">
                                 <p class="errorMessage">
                                     <c:set var="error" value="${errorMessage}" />
                                     <c:if test="${error eq 'noAccess'}">
