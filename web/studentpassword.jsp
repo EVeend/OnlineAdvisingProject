@@ -48,7 +48,7 @@
                                     <li role="presentation"><button class="navbar-items" type="submit" name="changePassword"/>Change Password</a></li>
                                 </ul>
                             </li>
-                            <li role="presentation"><button class="logoutBTN" type="submit" name="logout"/>Logout</li>
+                            <li role="presentation"><a style="color: black;" href="StudentServlet?logout=logout">Logout</a></li>
                         </ul>
                     </form>
                 </div>

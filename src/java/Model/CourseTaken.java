@@ -11,65 +11,53 @@ import Model.Types.*;
  *
  * @author Laiza Marie
  */
-public class CourseTaken extends User {
+public class CourseTaken extends User{
     
-    public static int studentID;
-    public static String courseID;
-    public static Float grade;
-    public static RemarkType remarkType;
-    public static Term term;
-    public static YearStatus year;
-    
-    public CourseTaken(){
-        
-    }
-    
-    public static int getStudentID() {
-        return studentID;
-    }
+    private String courseID;
+    private Double grade;
+    private RemarkType remarkType;
+    private Term term;
+    private YearStatus yearStatus;
 
-    public static void setStudentID(int studentID) {
-        CourseTaken.studentID = studentID;
-    }
-    
-    public static String getCourseID() {
+    public String getCourseID() {
         return courseID;
     }
 
-    public static void setCourseID(String courseID) {
-        CourseTaken.courseID = courseID;
+    public void setCourseID(String courseID) {
+        this.courseID = courseID;
     }
-    
-    public static Float getGrade() {
+
+    public Double getGrade() {
         return grade;
     }
 
-    public static void setGrade(Float Grade) {
-        CourseTaken.grade = grade;
+    public void setGrade(Double grade) {
+        this.grade = grade;
     }
-    
-    public static RemarkType getRemarkType() {
+
+    public RemarkType getRemarkType() {
         return remarkType;
     }
 
-    public static void setRemarkType(RemarkType remarkType) {
-        CourseTaken.remarkType = remarkType;
+    public void setRemarkType(RemarkType remarkType) {
+        this.remarkType = remarkType;
     }
-    
-    public static Term getTerm() {
+
+    public Term getTerm() {
         return term;
     }
-    
-    public static void setTerm(Term term) {
-        CourseTaken.term = term;
+
+    public void setTerm(Term term) {
+        this.term = term;
     }
-    
-    public static YearStatus getYearStatus() {
-        return year;
+
+    public YearStatus getYearStatus() {
+        return yearStatus;
     }
-    
-    public static void setYearStatus(YearStatus year) {
-        CourseTaken.year = year;
+
+    public void setYearStatus(YearStatus yearStatus) {
+        this.yearStatus = yearStatus;
     }
+
     
 }

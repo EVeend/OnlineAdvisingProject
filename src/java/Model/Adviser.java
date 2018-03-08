@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.tomcat.util.codec.binary.Base64;
 
 /**
  *
@@ -102,7 +101,7 @@ public class Adviser extends User {
                 adviserProfile.setEmail(rs.getString("Email"));
                 adviserProfile.setBirthdate(rs.getString("Birthdate"));
                 adviserProfile.setPicture(rs.getString("Advisor_Picture"));
-                
+
                 //Set Account Status
                 //Set Account Status
                 switch (rs.getInt("AccountStatus")) {
@@ -149,7 +148,7 @@ public class Adviser extends User {
     }
 
     public static ArrayList<Student> getStudentProposedSchedule() {
-        
+
         conn = DatabaseConnection.connectDatabase();
         Set<Integer> propSchedSet = getUniqueStudentProposedSchedule();
         ArrayList<Integer> proposedSchedList = new ArrayList<>(propSchedSet);
@@ -171,7 +170,7 @@ public class Adviser extends User {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return outputList;
 
     }
@@ -207,18 +206,18 @@ public class Adviser extends User {
         }
         return false;
     }
-    
-    public static ArrayList<Student> getStudentList(){
-        
+
+    public static ArrayList<Student> getStudentList() {
+
         conn = DatabaseConnection.connectDatabase();
         ArrayList<Student> studentList = new ArrayList<>();
-        
+
         String getStudentList = "Select * from Student";
-        try{
+        try {
             state = conn.prepareStatement(getStudentList);
             rs = state.executeQuery();
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 Student studentDetails = new Student();
                 studentDetails.setUserID(rs.getInt("Student_ID"));
                 studentDetails.setLastName(rs.getString("Last_Name"));
@@ -243,7 +242,7 @@ public class Adviser extends User {
                 studentDetails.setCollege(rs.getString("College"));
                 studentDetails.setProgram(rs.getString("Program"));
                 studentDetails.setBlock(rs.getString("Block"));
-                switch (rs.getInt("Payment_Status")) {
+                switch (rs.getInt("PaymentStatus")) {
                     case 1:
                         studentDetails.setPaymentStatus(PaymentStatus.PAID);
                         break;
@@ -271,7 +270,39 @@ public class Adviser extends User {
             rs.close();
             state.close();
             conn.close();
-        }catch(Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return studentList;
+    }
+
+    public static ArrayList<Student> getOfficialClassList(String courseID, String section) {
+        conn = DatabaseConnection.connectDatabase();
+        ArrayList<Student> studentList = new ArrayList<>();
+
+        String getStudentList = "SELECT Student_Schedule.Student_ID, Student.Last_Name, Student.First_Name\n"
+                + "FROM Student_Schedule\n"
+                + "INNER JOIN Student\n"
+                + "ON Student_Schedule.Student_ID = Student.Student_ID AND Student_Schedule.Course_ID = (?) AND Student_Schedule.Section = (?)\n"
+                + "ORDER BY Student_Schedule.Student_ID;";
+        try {
+            state = conn.prepareStatement(getStudentList);
+            state.setString(1, courseID);
+            state.setString(2, section);
+            rs = state.executeQuery();
+
+            while (rs.next()) {
+                Student studentDetails = new Student();
+                studentDetails.setUserID(rs.getInt("Student_ID"));
+                studentDetails.setLastName(rs.getString("Last_Name"));
+                studentDetails.setFirstName(rs.getString("First_Name"));
+                studentList.add(studentDetails);
+                //proposedSchedList.add(rs.getInt("Student_ID"));
+            }
+            rs.close();
+            state.close();
+            conn.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return studentList;

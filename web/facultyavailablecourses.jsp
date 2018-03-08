@@ -4,11 +4,12 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Available Courses | UST Online Advising System</title>
+        <title>Proposed Schedule | UST Online Advising System</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="assets/css/styles.min.css">
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+        <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
     </head>
 
     <body>
@@ -42,10 +43,10 @@
                             <li role="presentation"><a style="color: black;" href="adminfacultyindex.jsp">Logout</a></li>
                         </ul>
                     </form>
-
                 </div>
             </div>
         </nav>
+
         <!-- AVAILABLE COURSES -->
 
         <section style="padding:0px;">
@@ -95,6 +96,23 @@
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </td>
+                                                    <td> 
+                                                        <c:set var="string1" value="${course.getCourseID()}"/>
+                                                        <c:set var="courseID" value="${fn:replace(string1,' ', '')}" />
+                                                        <a data-toggle="modal" data-target="#update" class="btn btn-warning btn-sm" href="AdviserServlet?classList=classList&courseID=<c:out value="${courseID}"/>&section=<c:out value="${course.getSection()}"/>">View</a>
+                                                        <!-- Modal -->
+                                                        <div id="update" class="modal fade" role="dialog">
+                                                            <div class="modal-dialog modal-lg">
+
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+
+                                                                </div>
+                                                                <c:set var="courseID" value="" scope="session"/>
+                                                                <c:set var="courseID" value="" scope="session"/>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </c:forEach>
                                         </c:if>
@@ -105,13 +123,13 @@
                 </div>
             </div>
         </section>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>
-
     <footer style="background-color: #000000; position: absolute; width: 100%; color: white; 
             padding:10px; padding-top: 15px; margin-top: 35px; height: auto; 
-            line-height: 10px; bottom: 0; z-index: -99999; padding-right: 0px; padding-left: 0px;">
+            line-height: 10px; bottom: auto; z-index: -99999; padding-right: 0px; padding-left: 0px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12s">

@@ -72,6 +72,19 @@ public class AdviserServlet extends HttpServlet {
         else if (request.getParameter("studentList") != null) {
             loadsStudentList(request, response);
         }
+        else if(request.getParameter("classList") != null){
+            System.out.println("Classlist");
+            String courseID = request.getParameter("courseID");
+            String formattedCourseID = Course.format(courseID);
+            String section = request.getParameter("section");
+            System.out.println(courseID);
+            ArrayList<Student> classList = Adviser.getOfficialClassList(formattedCourseID, section);
+            session.setAttribute("classList", classList);
+            session.setAttribute("course", formattedCourseID);
+            session.setAttribute("section", section);
+            rd = request.getRequestDispatcher("Classlist.jsp");
+            rd.forward(request, response);
+        }
     }
 
     @Override
@@ -192,4 +205,5 @@ public class AdviserServlet extends HttpServlet {
         rd.forward(request, response);
 
     }
+    
 }

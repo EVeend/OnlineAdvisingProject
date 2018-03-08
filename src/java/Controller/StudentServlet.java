@@ -66,17 +66,14 @@ public class StudentServlet extends HttpServlet {
         //View Profile
         if (request.getParameter("profile") != null) {
             loadStudentProfile(request, response);
-        }
-        
-        //View MySchedule
+        } //View MySchedule
         else if (request.getParameter("mySchedule") != null) {
+            System.out.println("sched");
             loadStudentMySchedule(request, response);
-        }
-        
-        //View Curriculum
+        } //View Curriculum
         else if (request.getParameter("curriculum") != null) {
             String[] semesters = {"First Semester", "Second Semester"};
-            String[] years = {"First Year", "Second Year", "Third Year", "Fourth Year"};
+            String[] years = {"First Year", "Second Year", "Third Year", "Fourth Year", "Fifth Year"};
 
             //First Year
             session.setAttribute("fSemfYear", Course.getCurriculum(semesters[0], years[0]));
@@ -84,6 +81,11 @@ public class StudentServlet extends HttpServlet {
             session.setAttribute("fSemsYear", Course.getCurriculum(semesters[0], years[1]));
             session.setAttribute("sSemsYear", Course.getCurriculum(semesters[1], years[1]));
             session.setAttribute("fSemtYear", Course.getCurriculum(semesters[0], years[2]));
+            session.setAttribute("sSemtYear", Course.getCurriculum(semesters[1], years[2]));
+            session.setAttribute("fSemfrtYear", Course.getCurriculum(semesters[0], years[3]));
+            session.setAttribute("sSemfrtYear", Course.getCurriculum(semesters[1], years[3]));
+            session.setAttribute("fSemfftYear", Course.getCurriculum(semesters[0], years[4]));
+            session.setAttribute("sSemfftYear", Course.getCurriculum(semesters[1], years[4]));
 
             rd = request.getRequestDispatcher("studentcurriculum.jsp");
             rd.forward(request, response);
@@ -96,8 +98,7 @@ public class StudentServlet extends HttpServlet {
         }//View ProposedSchedule
         else if (request.getParameter("proposedSchedule") != null) {
             loadStudentProposedSchedule(request, response);
-        } 
-        else if (request.getParameter("myGrades") != null) {
+        } else if (request.getParameter("myGrades") != null) {
             System.out.println("studeng graaaaades");
             loadStudentMyGrades(request, response);
         } //changepassword
@@ -171,11 +172,10 @@ public class StudentServlet extends HttpServlet {
                 session.setAttribute("overLappedCourse", overLappedCourse);
 //                session.setAttribute("errorMessage", Student.advisingErrorMessage);
 
-                if(overLappedCourse.getCourseID().equals(desiredCourse.getCourseID())){
+                if (overLappedCourse.getCourseID().equals(desiredCourse.getCourseID())) {
                     String alreadyEnlisted = "You are already enlisted in this course";
                     session.setAttribute("errorMessage", alreadyEnlisted);
-                }
-                else{
+                } else {
                     String overLappingSched = "The desired course is in conflict with your current courses";
                     session.setAttribute("errorMessage", overLappingSched);
                 }
@@ -347,20 +347,19 @@ public class StudentServlet extends HttpServlet {
 
         Student currentStudent = (Student) session.getAttribute("currentStudent");
 
-        ArrayList<Course> studentMySchedule = Student.getMySchedule(currentStudent.getUserID());
+        ArrayList<Course> studentMySchedule = Student.getEnrolledSchedule(currentStudent.getUserID());
         session.setAttribute("studentMySchedule", studentMySchedule);
         rd = request.getRequestDispatcher("studentmyschedule.jsp");
         rd.forward(request, response);
     }
-    
-    
+
     protected void loadStudentMyGrades(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         Student currentStudent = (Student) session.getAttribute("currentStudent");
         System.out.println("kkk");
         ArrayList<CourseTaken> studentMyGrades = Student.getStudentGrades(currentStudent.getUserID());
-        for(CourseTaken ct : studentMyGrades){
+        for (CourseTaken ct : studentMyGrades) {
             System.out.println("Course");
             System.out.println(ct.getCourseID());
         }

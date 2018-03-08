@@ -16,7 +16,7 @@
             <div><img class="img-responsive" src="assets/img/header.png" style="max-width:60%;height:auto;margin-top:0px;padding:9px;margin-bottom:0px;max-height:100%;"></div>
         </header>
 
-       <!-- NAVBAR -->
+        <!-- NAVBAR -->
 
         <nav class="navbar navbar-default">
             <div class="container-fluid">
@@ -47,7 +47,7 @@
                                     <li role="presentation"><button class="navbar-items" type="submit" name="changePassword"/>Change Password</a></li>
                                 </ul>
                             </li>
-                            <li role="presentation"><a style="color: black;" href="studentindex.jsp">Logout</a></li>
+                            <li role="presentation"><a style="color: black;" href="StudentServlet?logout=logout">Logout</a></li>
                         </ul>
                     </form>
                 </div>
@@ -276,15 +276,21 @@
                                                         <th>Pre-Req</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Cell 1</td>
-                                                        <td>Cell 2</td>
-                                                        <td>Text</td>
-                                                        <td>Text</td>
-                                                        <td>Text</td>
-                                                    </tr>
-                                                </tbody>
+                                                <c:if test="${not empty fSemtYear}">
+                                                    <c:forEach items="${fSemtYear}" var="course">
+                                                        <tr>
+                                                            <td>${course.getCourseID()}</td>
+                                                            <td>${course.getCourseName()}</td>
+                                                            <td>${course.getCourseLectUnits()}</td>
+                                                            <td>${course.getCourseLabUnits()}</td>
+                                                            <td><c:if test="${not empty course.getPrerequisite()}">
+                                                                    <c:forEach items="${course.getPrerequisite()}" var="prereq">
+                                                                        ${prereq} 
+                                                                    </c:forEach>
+                                                                </c:if></td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </c:if>
                                             </table>
                                         </div>
                                     </div>
@@ -308,13 +314,21 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Cell 1</td>
-                                                        <td>Cell 2</td>
-                                                        <td>Text</td>
-                                                        <td>Text</td>
-                                                        <td>Text</td>
-                                                    </tr>
+                                                    <c:if test="${not empty sSemtYear}">
+                                                        <c:forEach items="${sSemtYear}" var="course">
+                                                            <tr>
+                                                                <td>${course.getCourseID()}</td>
+                                                                <td>${course.getCourseName()}</td>
+                                                                <td>${course.getCourseLectUnits()}</td>
+                                                                <td>${course.getCourseLabUnits()}</td>
+                                                                <td><c:if test="${not empty course.getPrerequisite()}">
+                                                                        <c:forEach items="${course.getPrerequisite()}" var="prereq">
+                                                                            ${prereq} 
+                                                                        </c:forEach>
+                                                                    </c:if></td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </c:if>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -339,13 +353,21 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Cell 1</td>
-                                                        <td>Cell 2</td>
-                                                        <td>Text</td>
-                                                        <td>Text</td>
-                                                        <td>Text</td>
-                                                    </tr>
+                                                    <c:if test="${not empty fSemfrtYear}">
+                                                        <c:forEach items="${fSemfrtYear}" var="course">
+                                                            <tr>
+                                                                <td>${course.getCourseID()}</td>
+                                                                <td>${course.getCourseName()}</td>
+                                                                <td>${course.getCourseLectUnits()}</td>
+                                                                <td>${course.getCourseLabUnits()}</td>
+                                                                <td><c:if test="${not empty course.getPrerequisite()}">
+                                                                        <c:forEach items="${course.getPrerequisite()}" var="prereq">
+                                                                            ${prereq} 
+                                                                        </c:forEach>
+                                                                    </c:if></td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </c:if>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -370,13 +392,21 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Cell 1</td>
-                                                        <td>Cell 2</td>
-                                                        <td>Text</td>
-                                                        <td>Text</td>
-                                                        <td>Text</td>
-                                                    </tr>
+                                                    <c:if test="${not empty fSemfrtYear}">
+                                                        <c:forEach items="${fSemfrtYear}" var="course">
+                                                            <tr>
+                                                                <td>${course.getCourseID()}</td>
+                                                                <td>${course.getCourseName()}</td>
+                                                                <td>${course.getCourseLectUnits()}</td>
+                                                                <td>${course.getCourseLabUnits()}</td>
+                                                                <td><c:if test="${not empty course.getPrerequisite()}">
+                                                                        <c:forEach items="${course.getPrerequisite()}" var="prereq">
+                                                                            ${prereq} 
+                                                                        </c:forEach>
+                                                                    </c:if></td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </c:if>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -419,23 +449,23 @@
                 </div>
             </div>
         </section>
-        
+
         <footer style="background-color: #000000; position: absolute; width: 100%; color: white; 
-            padding:10px; padding-top: 15px; margin-top: 35px; height: auto; 
-            line-height: 10px; bottom: auto; z-index: -99999; padding-right: 0px; padding-left: 0px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12s">
-                    <center>
-                        <p style="line-height: 12px;" class="text-cen">Copyright © 2016  University of Santo Tomas. All rights reserved.</p> 
-                        <!-- <p class="text-light">All rights reserved.</p> -->
-                        <p class="text-light">Powered by <a href="http://steps.ust.edu.ph/" style="color: goldenrod;" target="_blank">Santo Tomas e-Service Providers</a></p>
-                    </center>
+                padding:10px; padding-top: 15px; margin-top: 35px; height: auto; 
+                line-height: 10px; bottom: auto; z-index: -99999; padding-right: 0px; padding-left: 0px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12s">
+                        <center>
+                            <p style="line-height: 12px;" class="text-cen">Copyright © 2016  University of Santo Tomas. All rights reserved.</p> 
+                            <!-- <p class="text-light">All rights reserved.</p> -->
+                            <p class="text-light">Powered by <a href="http://steps.ust.edu.ph/" style="color: goldenrod;" target="_blank">Santo Tomas e-Service Providers</a></p>
+                        </center>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
-        
+        </footer>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>

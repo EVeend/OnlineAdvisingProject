@@ -118,13 +118,12 @@ public class Course {
     public void setCourseType(Integer courseType) {
         this.courseType = courseType;
     }
-    
-        //is course full
-    public boolean isFull(){
-        if(availableSlot == maxSlot){
+
+    //is course full
+    public boolean isFull() {
+        if (availableSlot == maxSlot) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -231,7 +230,7 @@ public class Course {
         }
         return null;
     }
-    
+
     public static Course getCourseDetails(String courseID) {
 
         Connection test = DatabaseConnection.connectDatabase();
@@ -264,7 +263,7 @@ public class Course {
 
         conn = DatabaseConnection.connectDatabase();
         ArrayList<Course> courses = new ArrayList<>();
-        String getECECurriculumQuery = "select distinct Course_ID from Curriculum where Semester = (?) and Year = (?)";
+        String getECECurriculumQuery = "select distinct Course_ID from CurriculumTable where Semester = (?) and Year = (?)";
 
         try {
             state = conn.prepareStatement(getECECurriculumQuery);
@@ -292,7 +291,7 @@ public class Course {
 
         Connection test = DatabaseConnection.connectDatabase();
         ArrayList<String> coursePrerequisute = new ArrayList<>();
-        String getCoursePrerequisiteQuery = "select Prerequisite from ECECurriculum where Course_ID = (?)";
+        String getCoursePrerequisiteQuery = "select Prerequisite from CurriculumTable where Course_ID = (?)";
 
         try {
             PreparedStatement pState = test.prepareStatement(getCoursePrerequisiteQuery);
@@ -327,6 +326,22 @@ public class Course {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static String format(String str) {
+        String number = "";
+        String letter = "";
+        for (int i = 0; i < str.length(); i++) {
+            char a = str.charAt(i);
+            if (Character.isDigit(a)) {
+                number = number + a;
+
+            } else {
+                letter = letter + a;
+
+            }
+        }
+        return letter + " " + number;
     }
 
 }

@@ -94,10 +94,10 @@
                                     <li role="presentation"><button class="navbar-items" type="submit" name="changePassword"/>Change Password</a></li>
                                 </ul>
                             </li>
-                           <li role="presentation"><a style="color: black;" href="studentindex.jsp">Logout</a></li>
+                           <li role="presentation"><a style="color: black;" href="StudentServlet?logout=logout">Logout</a></li>
                         </ul>
-                    </form>
-                </div>
+                    </form> 
+               </div>
             </div>
         </nav>
 
@@ -179,7 +179,7 @@
                 </div>
             </div>
             <div style="padding-right: 70px; ">
-                <<c:if test="${not hasScheduleEvaluated && not hasSubmittedSchedule}"> 
+                <c:if test="${not hasScheduleEvaluated && not hasSubmittedSchedule}"> 
                     <!-- Trigger the modal with a button -->
                     <!--                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#error1">For Overlapping Sched</button>-->
 

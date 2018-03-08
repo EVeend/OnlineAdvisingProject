@@ -39,7 +39,6 @@ public class Student extends User {
     private ArrayList<CourseTaken> courseTaken;
     private Term term;
     private YearStatus year;
-    private double courseGrade;
 
     //Error Message
     public static String advisingErrorMessage;
@@ -376,6 +375,33 @@ public class Student extends User {
         }
         return null;
     }
+    
+        public static ArrayList<Course> getEnrolledSchedule(int studentID) {
+        test = DatabaseConnection.connectDatabase();
+        ArrayList<Course> schedules = new ArrayList<>();
+        String getStudentScheduleQuery = "select * from Student_Schedule where Student_ID = (?) and Status = 1";
+        try {
+            pState = test.prepareStatement(getStudentScheduleQuery);
+            pState.setInt(1, studentID);
+            rSet = pState.executeQuery();
+
+            while (rSet.next()) {
+                Course course = Course.getCourseDetails(rSet.getString("Course_ID"));
+                course.setCourseID(rSet.getString("Course_ID"));
+                course.setSection(rSet.getString("Section"));
+                course.setSchedule(Course.getSchedules(rSet.getString("Course_ID"), rSet.getString("Section")));
+                schedules.add(course);
+            }
+            rSet.close();
+            pState.close();
+            test.close();
+            return schedules;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     //Removes a course from the student's schedule
     public static void removeFromMySchedule(Student student, String courseID, String section) {
@@ -586,12 +612,12 @@ public class Student extends User {
             rs = state.executeQuery();
             
             while(rs.next()){
-
                 CourseTaken studentGrade = new CourseTaken();
                 studentGrade.setUserID(rs.getInt("Student_ID"));
                 studentGrade.setCourseID(rs.getString("Course_ID"));
                 System.out.println(studentGrade.getCourseID());
-                studentGrade.setGrade(rs.getFloat("Course_Grade"));
+                studentGrade.setGrade(rs.getDouble("Course_Grade"));
+                System.out.println(rs.getDouble("Course_Grade"));
                 switch (rs.getInt("Year")) {
                     case 1:
                         studentGrade.setYearStatus(YearStatus.First);
@@ -635,36 +661,6 @@ public class Student extends User {
             e.printStackTrace();
         }
         return courseTaken;
-    }
-
-    public static ArrayList<Course> getMySchedule(int studentID) {
-        test = DatabaseConnection.connectDatabase();
-        ArrayList<Course> schedules = new ArrayList<>();
-        int status = 1;
-        String getStudentScheduleQuery = "select * from Student_Schedule where Student_ID = (?) and Status = (?)";
-
-        try {
-            pState = test.prepareStatement(getStudentScheduleQuery);
-            pState.setInt(1, studentID);
-            pState.setInt(2, status);
-            rSet = pState.executeQuery();
-
-            while (rSet.next()) {
-                Course course = Course.getCourseDetails(rSet.getString("Course_ID"));
-                course.setCourseID(rSet.getString("Course_ID"));
-                course.setSection(rSet.getString("Section"));
-                course.setSchedule(Course.getSchedules(rSet.getString("Course_ID"), rSet.getString("Section")));
-                schedules.add(course);
-            }
-            rSet.close();
-            pState.close();
-            test.close();
-            return schedules;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public static int getScheduleTotalUnits(Student student) {
