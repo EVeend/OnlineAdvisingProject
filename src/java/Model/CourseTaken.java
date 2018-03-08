@@ -5,7 +5,7 @@
  */
 package Model;
 
-import Model.Types.RemarkType;
+import Model.Types.*;
 
 /**
  *
@@ -15,8 +15,10 @@ public class CourseTaken extends User {
     
     public static int studentID;
     public static String courseID;
-    public static double grade;
+    public static Float grade;
     public static RemarkType remarkType;
+    public static Term term;
+    public static YearStatus year;
     
     public CourseTaken(){
         
@@ -38,11 +40,11 @@ public class CourseTaken extends User {
         CourseTaken.courseID = courseID;
     }
     
-    public static double getGrade() {
+    public static Float getGrade() {
         return grade;
     }
 
-    public static void setGrade(double Grade) {
+    public static void setGrade(Float Grade) {
         CourseTaken.grade = grade;
     }
     
@@ -52,6 +54,22 @@ public class CourseTaken extends User {
 
     public static void setRemarkType(RemarkType remarkType) {
         CourseTaken.remarkType = remarkType;
+    }
+    
+    public static Term getTerm() {
+        return term;
+    }
+    
+    public static void setTerm(Term term) {
+        CourseTaken.term = term;
+    }
+    
+    public static YearStatus getYearStatus() {
+        return year;
+    }
+    
+    public static void setYearStatus(YearStatus year) {
+        CourseTaken.year = year;
     }
     
 }

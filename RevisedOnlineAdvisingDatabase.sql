@@ -114,11 +114,16 @@ CREATE TABLE Admin(
 	Admin_Picture	varchar(100)
 );
 
+DROP TABLE Student_Grade;
 CREATE TABLE Student_Grade(
 	Student_ID		int			NOT NULL,
 	Course_ID		varchar(20)	NOT NULL,
-	Course_Grade	decimal		NOT NULL,
-	Remark			int			NOT NULL --1 = PASS, 2 = FAIL, 3 INC
-	FOREIGN KEY(Student_ID) REFERENCES Student(Student_ID),
+	Course_Grade	numeric NOT NULL,
+	Remark			int			NOT NULL, --1 = PASS, 2 = FAIL, 3 INC
+	Term			int			NOT NULL, --1 = First Term, 2 = Second Term, 3 = Third Term
+	Year 			int			NOT NULL, --1= First Year, 2 = Second Year, 3 = Third Year, 4 = Fourth Year, 5 = Fifth Year
+	FOREIGN KEY(Student_ID)	REFERENCES Student(Student_ID),
 	FOREIGN KEY(Course_ID) REFERENCES Course(Course_ID)
 );
+
+SELECT * FROM Student_Grade where Student_ID = 2015081874 ;

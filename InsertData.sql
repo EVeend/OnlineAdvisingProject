@@ -57,3 +57,17 @@ Values ('MATH 208', '2EE-A', 'Rm. 303', '7:00 AM', '9:00 AM', 'Monday', 40, 40, 
 
 Insert into Available_Courses (Course_ID, Section, Room, Start_Time , End_Time, Day, AvailableSlot, MaxSlot, Instructor, CourseType)
 Values ('MATH 208', '2EE-B', 'Rm. 47', '7:00 AM', '9:00 AM', 'Tuesday', 40, 40, 987654321, 1);
+
+
+--Insert Grades
+Insert into Student_Grade (Student_ID, Course_ID, Course_Grade, Remark, Term, Year)
+Values (2015081874, 'MATH 208', 1.75, 1, 1, 2);
+Insert into Student_Grade (Student_ID, Course_ID, Course_Grade, Remark, Term, Year)
+Values (2015081874, 'ECE 311L', 2.0, 1, 2, 2);
+Insert into Student_Grade (Student_ID, Course_ID, Course_Grade, Remark, Term, Year)
+Values (2015081874, 'COMP 202', 5.0, 2, 1, 1);
+SELECT * FROM Student_Grade;
+Insert into Student_Grade (Student_ID, Course_ID, Course_Grade, Remark)
+Values (2015081830, 'COMP 202', 1.5, 1);
+Insert into Student_Grade (Student_ID, Course_ID, Course_Grade, Remark)
+Values (2015081830, 'MATH 208', 2.0, 2);

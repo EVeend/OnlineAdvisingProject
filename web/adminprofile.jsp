@@ -33,8 +33,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li role="presentation"><button class="navbar-items" type="submit" name="changePassword"/>Change Password</button></li>
                                 </ul>
-                            </li>
-                            <li role="presentation"><button class="logoutBTN" type="submit" name="logout"/>Logout</button></li>
+                          <li role="presentation"><a style="color: black;" href="adminfacultyindex.jsp">Logout</a></li>
                         </ul>
                     </form>
 
@@ -50,7 +49,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <h3 class="text-nowrap" style="color:#ffcd48;">Administrator Profile</h3>
                     </div>
-                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><img class="img-responsive" src="${Employee_Picture}" style="height:145px;max-height:100%;"></div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12"><img class="img-responsive" src="assets/img/Angelo.jpg" style="height:145px;max-height:100%;"></div>
                     <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
                         <h5 class="header-prof-yellow" style="margin:0px;">Personal Information</h5>
                         <div class="table-responsive">
@@ -58,29 +57,29 @@
                                 <thead>
                                     <tr>
                                         <th style="width:251px;">Employee Number</th>
-                                        <th>${Employee_ID} </th>
+                                        <th>${Employee_ID} 123456789 </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td style="width:250px;">Last Name</td>
-                                        <td>${Last_Name}  </td>
+                                        <td>${Last_Name} Dela Cruz </td>
                                     </tr>
                                     <tr>
                                         <td>First Name</td>
-                                        <td>${First_Name}  </td>
+                                        <td>${First_Name} Juan </td>
                                     </tr>
                                     <tr>
                                         <td>Middle Name</td>
-                                        <td>${Middle_Name}  </td>
+                                        <td>${Middle_Name} Cruz </td>
                                     </tr>
                                     <tr>
                                         <td>Birth Date</td>
-                                        <td>${Birthdate}  </td>
+                                        <td>${Birthdate} 01/01/1969 </td>
                                     </tr>
                                     <tr>
                                         <td>Email Address</td>
-                                        <td>${Email}  </td>
+                                        <td>${Email} juandelacruz@gmail.com  </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -92,7 +91,7 @@
                                 <thead>
                                     <tr>
                                         <th style="width:250px;"><strong>Department</strong> </th>
-                                        <th>${Department} </th>
+                                        <th>${Department} Electronics Engineering</th>
                                     </tr>
                                 </thead>
                             </table>

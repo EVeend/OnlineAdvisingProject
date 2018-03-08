@@ -47,7 +47,7 @@
                                     <li role="presentation"><button class="navbar-items" type="submit" name="changePassword"/>Change Password</a></li>
                                 </ul>
                             </li>
-                            <li role="presentation"><button class="logoutBTN" type="submit" name="logout"/>Logout</li>
+                            <li role="presentation"><a style="color: black;" href="studentindex.jsp">Logout</a></li>
                         </ul>
                     </form>
                 </div>
@@ -73,207 +73,24 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>Subject Name</th>
-                                                    <th>Description</th>
-                                                    <th>Lec Units</th>
-                                                    <th>Lab Units</th>
-                                                    <th>Prelims</th>
-                                                    <th>Finals</th>
+                                                    <th>Course Code</th>
+                                                    <th>Grade</th>
+                                                    <th>Remarks</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <c:if test="${not empty fSemfYear}">
-                                                    <c:forEach items="${fSemfYear}" var="course">
+                                                <c:if test="${not empty myGrades}">
+                                                    <c:forEach items="${myGrades}" var="myGrade">
                                                         <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
+                                                            <td>${myGrade.getCourseID()}</td>
+                                                            <td>${myGrade.getGrade()}</td>
+                                                            <td>${myGrade.getRemarkType()}</td>
                                                         </tr>
                                                     </c:forEach>
                                                 </c:if>
 
                                             </tbody>
                                         </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab">
-                                    <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion-1" aria-expanded="false" href="#accordion-1 .item-2">2017-2018, First Semester</a></h4>
-                                </div>
-                                <div class="panel-collapse collapse item-2" role="tabpanel">
-                                    <div class="panel-body">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Subject Name</th>
-                                                        <th>Description</th>
-                                                        <th>Lec Units</th>
-                                                        <th>Lab Units</th>
-                                                        <th>Prelims</th>
-                                                        <th>Finals</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <c:if test="${not empty sSemfYear}">
-                                                        <c:forEach items="${sSemfYear}" var="course">
-                                                            <tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </c:if>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab">
-                                    <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion-1" aria-expanded="false" href="#accordion-1 .item-3">2016-2017, Second Term</a></h4>
-                                </div>
-                                <div class="panel-collapse collapse item-3" role="tabpanel">
-                                    <div class="panel-body">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Subject Name</th>
-                                                        <th>Description</th>
-                                                        <th>Lec Units</th>
-                                                        <th>Lab Units</th>
-                                                        <th>Prelims</th>
-                                                        <th>Finals</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <c:if test="${not empty fSemsYear}">
-                                                        <c:forEach items="${fSemsYear}" var="course">
-                                                            <tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </c:if>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab">
-                                    <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion-1" aria-expanded="false" href="#accordion-1 .item-4">2016-2017, First Term</a></h4>
-                                </div>
-                                <div class="panel-collapse collapse item-4" role="tabpanel">
-                                    <div class="panel-body">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Subject Name</th>
-                                                        <th>Description</th>
-                                                        <th>Lec Units</th>
-                                                        <th>Lab Units</th>
-                                                        <th>Prelims</th>
-                                                        <th>Finals</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <c:if test="${not empty sSemsYear}">
-                                                        <c:forEach items="${sSemsYear}" var="course">
-                                                            <tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </c:if>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab">
-                                    <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion-1" aria-expanded="false" href="#accordion-1 .item-6">2015-2016, Second Term</a></h4>
-                                </div>
-                                <div class="panel-collapse collapse item-6" role="tabpanel">
-                                    <div class="panel-body">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Subject Name</th>
-                                                        <th>Description</th>
-                                                        <th>Lec Units</th>
-                                                        <th>Lab Units</th>
-                                                        <th>Prelims</th>
-                                                        <th>Finals</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab">
-                                    <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion-1" aria-expanded="false" href="#accordion-1 .item-7">2015-2016, First Term</a></h4>
-                                </div>
-                                <div class="panel-collapse collapse item-7" role="tabpanel">
-                                    <div class="panel-body">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Subject Name</th>
-                                                        <th>Description</th>
-                                                        <th>Lec Units</th>
-                                                        <th>Lab Units</th>
-                                                        <th>Prelims</th>
-                                                        <th>Finals</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -287,7 +104,7 @@
 
 <footer style="background-color: #000000; position: absolute; width: 100%; color: white; 
         padding:10px; padding-top: 15px; margin-top: 35px; height: auto; 
-        line-height: 10px; bottom: auto; z-index: -99999; padding-right: 0px; padding-left: 0px;">
+        line-height: 10px; bottom: 0; z-index: -99999; padding-right: 0px; padding-left: 0px;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12s">

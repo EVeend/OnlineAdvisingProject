@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Course;
+import Model.CourseTaken;
 import Model.Student;
 import Model.Types.AccountStatus;
 import Model.Types.RetentionStatus;
@@ -62,13 +63,17 @@ public class StudentServlet extends HttpServlet {
         session = request.getSession(false);
 
         // NAV BAR BUTTONS
-        //view Profile
+        //View Profile
         if (request.getParameter("profile") != null) {
             loadStudentProfile(request, response);
-        } //view my schedule
+        }
+        
+        //View MySchedule
         else if (request.getParameter("mySchedule") != null) {
             loadStudentMySchedule(request, response);
-        }//View Curriculum
+        }
+        
+        //View Curriculum
         else if (request.getParameter("curriculum") != null) {
             String[] semesters = {"First Semester", "Second Semester"};
             String[] years = {"First Year", "Second Year", "Third Year", "Fourth Year"};
@@ -91,9 +96,10 @@ public class StudentServlet extends HttpServlet {
         }//View ProposedSchedule
         else if (request.getParameter("proposedSchedule") != null) {
             loadStudentProposedSchedule(request, response);
-        } else if (request.getParameter("myGrades") != null) {
-            rd = request.getRequestDispatcher("studentgrades.jsp");
-            rd.forward(request, response);
+        } 
+        else if (request.getParameter("myGrades") != null) {
+            System.out.println("studeng graaaaades");
+            loadStudentMyGrades(request, response);
         } //changepassword
         else if (request.getParameter("changePassword") != null) {
             session.setAttribute("message", null);
@@ -344,6 +350,22 @@ public class StudentServlet extends HttpServlet {
         ArrayList<Course> studentMySchedule = Student.getMySchedule(currentStudent.getUserID());
         session.setAttribute("studentMySchedule", studentMySchedule);
         rd = request.getRequestDispatcher("studentmyschedule.jsp");
+        rd.forward(request, response);
+    }
+    
+    
+    protected void loadStudentMyGrades(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        Student currentStudent = (Student) session.getAttribute("currentStudent");
+        System.out.println("kkk");
+        ArrayList<CourseTaken> studentMyGrades = Student.getStudentGrades(currentStudent.getUserID());
+        for(CourseTaken ct : studentMyGrades){
+            System.out.println("Course");
+            System.out.println(ct.getCourseID());
+        }
+        session.setAttribute("myGrades", studentMyGrades);
+        rd = request.getRequestDispatcher("studentgrades.jsp");
         rd.forward(request, response);
     }
 }

@@ -30,8 +30,8 @@
                                 <div style="padding:3px;"></div>
                                 <input type="submit" value="Submit" class="btn btn-block btn-default">
                                 <div style="padding:3px;"></div>
+                                <input value="Cancel" class="btn btn-block btn-danger">
                             </div>
-                            <input value="Cancel" class="btn btn-block btn-danger">
                         </form>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
 
         <footer style="background-color: #000000; position: absolute; width: 100%; color: white; 
                 padding:10px; padding-top: 15px; margin-top: 35px; height: auto; 
-                line-height: 10px; bottom: auto; z-index: -99999; padding-right: 0px; padding-left: 0px;">
+                line-height: 10px; bottom: 0; z-index: -99999; padding-right: 0px; padding-left: 0px;">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12s">

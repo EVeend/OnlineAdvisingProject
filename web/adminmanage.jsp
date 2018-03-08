@@ -23,8 +23,8 @@
                 <div class="collapse navbar-collapse" id="navcol-1">
                     <form action="AdminServlet" method="get">
                         <ul class="nav navbar-nav">
-                            <li role="presentation"><button class="formBTN" type="submit" name="myProfile">MyProfile</button></li>
-                            <li role="presentation"><button class="formBTN" type="submit" name="manage">Manage</button></li>
+                            <li role="presentation"><a style="color: black;" href="#">Profile</a></li>
+                            <li role="presentation"><a style="color: black;" href="#">Manage</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color: white;">Account <span class="caret"></span></a>
@@ -32,7 +32,7 @@
                                     <li role="presentation"><button class="navbar-items" type="submit" name="changePassword"/>Change Password</button></li>
                                 </ul>
                             </li>
-                            <li role="presentation"><button class="logoutBTN" type="submit" name="logout"/>Logout</li>
+                            <li role="presentation"><a style="color: black;" href="adminfacultyindex.jsp">Logout</a></li>
                         </ul>
                     </form>
                 </div>
@@ -45,11 +45,12 @@
             <div class="container-fluid" style="padding-right:90px;padding-left:90px;">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <h5 class="header-prof-yellow" style="margin:0px;">Manage Users</h5>
+                        <h5 class="header-prof-yellow" style="margin:0px;">Manage</h5>
                         <div style="height:15px;"></div>
                         <ul class="nav nav-pills">
                             <li class="active"><a href="#tab1" data-toggle="tab">STUDENTS</a></li>
                             <li><a href="#tab2" data-toggle="tab">FACULTY</a></li>
+                            <li><a href="#tab3" data-toggle="tab">REFERENCES</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -117,6 +118,31 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="tab-pane" id="tab3">
+                                <div style="padding:10px;"></div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Agenda</th>
+                                                <th>Date Started:</th>
+                                                <th>Date Ended:</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Blah Blah Blah</td>
+                                                <td>Today</td>
+                                                <td>Tonight</td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -128,7 +154,7 @@
 
     <footer style="background-color: #000000; position: absolute; width: 100%; color: white; 
             padding:10px; padding-top: 15px; margin-top: 35px; height: auto; 
-            line-height: 10px; bottom: auto; z-index: -99999; padding-right: 0px; padding-left: 0px;">
+            line-height: 10px; bottom: 0; z-index: -99999; padding-right: 0px; padding-left: 0px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12s">

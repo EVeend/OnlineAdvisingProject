@@ -61,8 +61,8 @@
 
                         <!-- GUIDELINES -->
 
-                        <h5 class="header-label-box"> <span class="header-label-box-inner"><strong>GUIDELINES </strong></span></h5>
-                        <p class="color-yellow"> <span>&gt; <strong>Account Activation Guide</strong></span> <br><span>&gt; <strong>Frequently Asked Questions</strong></span> </p>
+                        <h5 class="header-label-box"> <span class="header-label-box-inner"><strong>GUIDELINES</strong></span></h5>
+                        <p class="color-yellow"><span>&gt; <strong>Frequently Asked Questions</strong></span></p>
                     </div>
                 </div>
             </div>

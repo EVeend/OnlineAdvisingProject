@@ -1,6 +1,54 @@
 <!DOCTYPE html>
 <html>
+     <style>
 
+        #tabs{
+
+            border-top-left-radius: 15px;
+            color: #000;
+            background: #fff;
+            position: static;
+            left:10px;
+            text-align: center;
+            bottom: 100px;
+            padding: 10px;
+            height:30px;
+            width: 80px;
+            overflow:hidden;
+            -webkit-transition: opacity 0.7s linear;
+            -webkit-transition: all 0.7s ease-in-out;
+            -moz-transition: all 0.7s ease-in-out;
+            -o-transition: all 0.7s ease-in-out;
+            z-index:999999999;
+        }
+
+
+
+        #tabs:hover{
+            text-align: center;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+            -webkit-transition: opacity 0.7s linear;
+            -webkit-transition: all 0.7s ease-in-out;
+            -moz-transition: all 0.7s ease-in-out;
+            -o-transition: all 0.7s ease-in-out;
+            padding:5px;
+            height:160px;
+            width:258px;
+            z-index:999999999;
+            opacity: 2.0;
+            background:white;
+        }
+
+
+
+        .ttitle {
+            background: #E3E4FA;
+            padding: 5px;
+            font-size: 12px;
+        }
+
+    </style>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,7 +103,7 @@
                                     <li role="presentation"><button class="navbar-items" type="submit" name="changePassword"/>Change Password</a></li>
                                 </ul>
                             </li>
-                            <li role="presentation"><button class="logoutBTN" type="submit" name="logout"/>Logout</li>
+                            <li role="presentation"><a style="color: black;" href="studentindex.jsp">Logout</a></li>
                         </ul>
                     </form>
                 </div>
@@ -136,13 +184,13 @@
                                                                             <!--  <button type="button" class="close" data-dismiss="modal">&times;</button> -->
                                                                             <br>
                                                                             <center>    
-                                                                                <h2 style="color: red; font-weight: bold;" class="modal-title">Sorry!</h2> 
+                                                                                <h2 style="color: red; font-weight: bold; text-size: 12px;" class="modal-title">Sorry!</h2> 
                                                                             </center>
                                                                             <center>  
                                                                                 <div class="modal-body" style="font-size: 20px;"> 
                                                                                     <p>${errorMessage} </p>
                                                                                     <p>Conflicted Course: ${overLappedCourse.getCourseID()} </p>
-                                                                                    
+
                                                                                 </div>
                                                                             </center>
                                                                             <div style="margin-left: 40%;">
@@ -188,6 +236,22 @@
         </section>
 
     </body>
+    
+    <!-- bubble tab -->
+
+        <div class="wrapper">
+
+            <div id="tabs">
+                <b style="font-size: 16px;"><!--<i class="glyphicon glyphicon-question-sin"></i> -->?</b><br>
+                <div style="background: #ffcd49 ;padding: 5px;font-size: 12px; color:white;"><b>GUIDE</b></div>
+                <p>
+                <li style="font-family: Lato; text-size: 10px"> To add your desired course, click the <b> add </b> button. </li>
+        <li style="font-family: Lato; text-size: 10px"> To remove a course, click <b>See proposed schedule </b> button then click the <b> remove </b> button. </li>
+                </p>
+
+            </div>
+
+            <!-- bubble tab -->
 
     <footer style="background-color: #000000; position: absolute; width: 100%; color: white; 
             padding:10px; padding-top: 15px; margin-top: 35px; height: auto; 
@@ -196,7 +260,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12s">
                     <center>
-                        <p style="line-height: 12px;" class="text-cen">Copyright © 2016  University of Santo Tomas. All rights reserved.</p> 
+                        <p style="line-height: 12px; color: white;" class="text-cen">Copyright © 2016  University of Santo Tomas. All rights reserved.</p> 
                         <!-- <p class="text-light">All rights reserved.</p> -->
                         <p class="text-light">Powered by <a href="http://steps.ust.edu.ph/" style="color: goldenrod;" target="_blank">Santo Tomas e-Service Providers</a></p>
                     </center>

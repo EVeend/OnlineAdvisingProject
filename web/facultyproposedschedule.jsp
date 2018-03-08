@@ -39,7 +39,7 @@
                                     <li role="presentation"><button class="navbar-items" type="submit" name="changePassword"/>Change Password</button></li>
                                 </ul>
                             </li>
-                            <li role="presentation"><button class="logoutBTN" type="submit" name="logout"/>Logout</button></li>
+                            <li role="presentation"><a style="color: black;" href="adminfacultyindex.jsp">Logout</a></li>
                         </ul>
                     </form>
                 </div>
@@ -100,7 +100,7 @@
     </body>
     <footer style="background-color: #000000; position: absolute; width: 100%; color: white; 
             padding:10px; padding-top: 15px; margin-top: 35px; height: auto; 
-            line-height: 10px; bottom: auto; z-index: -99999; padding-right: 0px; padding-left: 0px;">
+            line-height: 10px; bottom: 0; z-index: -99999; padding-right: 0px; padding-left: 0px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12s">

@@ -38,7 +38,7 @@
                                 <li role="presentation"><a href="#">Change Password</a></li>
                             </ul>
                         </li>
-                        <li role="presentation"><a href="#" style="color: black;">Logout</a></li>
+                        <li role="presentation"><a style="color: black;" href="adminfacultyindex.jsp">Logout</a></li>
                     </ul>
 
                 </div>

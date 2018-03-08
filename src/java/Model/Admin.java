@@ -8,6 +8,7 @@ import static Model.Student.rs;
 import static Model.Adviser.rs;
 import Model.Types.AccountStatus;
 import Model.Types.RetentionStatus;
+import Model.Types.YearStatus;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -108,7 +109,23 @@ public class Admin extends User {
                 studentDetails.setUserID(rs.getInt("Student_ID"));
                 studentDetails.setLastName(rs.getString("Last_Name"));
                 studentDetails.setFirstName(rs.getString("First_Name"));
-                studentDetails.setYear(rs.getInt("Year"));
+                switch (rs.getInt("Year")) {
+                    case 1:
+                        studentDetails.setYearStatus(YearStatus.First);
+                        break;
+                    case 2:
+                        studentDetails.setYearStatus(YearStatus.Second);
+                        break;
+                    case 3:
+                        studentDetails.setYearStatus(YearStatus.Third);
+                        break;
+                    case 4:
+                        studentDetails.setYearStatus(YearStatus.Fourth);
+                        break;
+                    case 5:
+                        studentDetails.setYearStatus(YearStatus.Fifth);
+                        break;
+                }
                 studentDetails.setCollege(rs.getString("College"));
                 studentDetails.setProgram(rs.getString("Program"));
                 studentDetails.setBlock(rs.getString("Block"));

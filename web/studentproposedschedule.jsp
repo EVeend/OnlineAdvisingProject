@@ -7,8 +7,8 @@
             border-top-left-radius: 15px;
             color: #000;
             background: #fff;
-            position:fixed;
-            right:10px;
+            position: static;
+            left:10px;
             text-align: center;
             bottom: 100px;
             padding: 10px;
@@ -33,8 +33,8 @@
             -moz-transition: all 0.7s ease-in-out;
             -o-transition: all 0.7s ease-in-out;
             padding:5px;
-            height:150px;
-            width:250px;
+            height:160px;
+            width:280px;
             z-index:999999999;
             opacity: 2.0;
             background:white;
@@ -94,7 +94,7 @@
                                     <li role="presentation"><button class="navbar-items" type="submit" name="changePassword"/>Change Password</a></li>
                                 </ul>
                             </li>
-                            <li role="presentation"><button class="logoutBTN" type="submit" name="logout"/>Logout</li>
+                           <li role="presentation"><a style="color: black;" href="studentindex.jsp">Logout</a></li>
                         </ul>
                     </form>
                 </div>
@@ -221,17 +221,16 @@
         <div class="wrapper">
 
             <div id="tabs">
-                <b style="font-size: 16px;">?</b><br>
-                <p><div style="background: #ffcd49 ;padding: 5px;font-size: 12px;"><b>HELP</b></div>
-                <p>BLAH BLAH BLAH</p>
+                <b style="font-size: 16px;"><!--<i class="glyphicon glyphicon-question-sin"></i> -->?</b><br>
+                <div style="background: #ffcd49 ;padding: 5px;font-size: 12px; color:white;"><b>Guidelines</b></div>
+                <p>
+                <li style="font-family: Lato; text-size: 10px"> To remove a course, click the <b> remove </b>  button. </li>
+                <li style="font-family: Lato; text-size: 10px"> To add another course, click the <b> Back to available courses </b> button then click the <b> add </b> button. </li>
+                </p>
 
             </div>
 
             <!-- bubble tab -->
-
-
-
-
 
             <footer style="background-color: #000000; position: relative; width: 100%; color: white; 
                     padding:10px; padding-top: 15px; margin-top: 50px; height: auto; 
@@ -262,11 +261,12 @@
                             <section style="padding:0px;">
                                 <p>
                                 <section>
-                                    <h3>Result:${evaluation.getEvaluation()} </h3>
-                                    <h4>${message}</h4>
+                                    
+                                    <center> <h3>RESULT: <b style="color: green;"> ${evaluation.getEvaluation()} </b> </h3>
+                                        <h4>${message}</h4> </center>
                                 </section>
-                                </p>
-                                <p>Remarks: ${evaluation.getRemarks()}</p>
+                                    
+                                <center> <p>Remarks: ${evaluation.getRemarks()}</p> </center>
                             </section>
                         </div>
                         <div class="modal-footer">
@@ -280,7 +280,6 @@
                                     <button type="button" class="btn btn-info" data-dismiss="modal">Back</button>
                                 </c:otherwise>
                             </c:choose>
-
                         </div>
                     </div>
 

@@ -46,9 +46,8 @@
                         <div style="height:20px;"></div>
 
                         <!-- GUIDELINES SECTION -->
-
-                        <h5 class="header-label-box"> <span class="header-label-box-inner"><strong>GUIDELINES </strong></span></h5>
-                        <p class="color-yellow"> <span>&gt; <strong>Account Activation Guide</strong></span><br><span>&gt; <strong>Frequently Asked Questions</strong></span></p>
+                        <h5 class="header-label-box"> <span class="header-label-box-inner"><strong>GUIDELINES</strong></span></h5>
+                        <p class="color-yellow"><span>&gt; <strong>Frequently Asked Questions</strong></span></p>
                     </div>
                 </div>
             </div>
@@ -58,7 +57,7 @@
     </body>
     <footer style="background-color: #000000; position: absolute; width: 100%; color: white; 
             padding:10px; padding-top: 15px; margin-top: 35px; height: auto; 
-            line-height: 10px; bottom: auto; z-index: -99999; padding-right: 0px; padding-left: 0px;">
+            line-height: 10px; bottom: 0; z-index: -99999; padding-right: 0px; padding-left: 0px;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12s">

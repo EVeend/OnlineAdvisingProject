@@ -6,8 +6,12 @@
 package Model;
 
 import Model.Types.AccountStatus;
+import Model.Types.PaymentStatus;
+import Model.Types.RemarkType;
 import Model.Types.RetentionStatus;
 import Model.Types.StudentStatus;
+import Model.Types.Term;
+import Model.Types.YearStatus;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,15 +28,18 @@ public class Student extends User {
     //Student variables
     private String program;
     private String block;
+    private String courseID;
     private int currentUnits;
     private RetentionStatus retentionStatus;
     private AccountStatus accountStatus;
-    private int paymentStatus;
+    private PaymentStatus paymentStatus;
     private StudentStatus status;
     private ArrayList<Course> backSubjects;
     private ArrayList<Course> studentSchedule;
-    private int term;
-    private int year;
+    private ArrayList<CourseTaken> courseTaken;
+    private Term term;
+    private YearStatus year;
+    private double courseGrade;
 
     //Error Message
     public static String advisingErrorMessage;
@@ -48,7 +55,7 @@ public class Student extends User {
 
     public Student() {
     }
-
+    
     public String getProgram() {
         return program;
     }
@@ -81,11 +88,11 @@ public class Student extends User {
         this.retentionStatus = retentionStatus;
     }
     
-    public int getPaymentStatus() {
+    public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
 
-    public void setPaymentStatus(int paymentStatus) {
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
 
@@ -113,19 +120,19 @@ public class Student extends User {
         this.studentSchedule = studentSchedule;
     }
 
-    public int getTerm() {
+    public Term getTerm() {
         return term;
     }
 
-    public void setTerm(int term) {
+    public void setTerm(Term term) {
         this.term = term;
     }
 
-    public int getYear() {
+    public YearStatus getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYearStatus(YearStatus year) {
         this.year = year;
     }
 
@@ -156,8 +163,34 @@ public class Student extends User {
                 student.setEmail(rs.getString("Email"));
                 student.setBirthdate(rs.getString("Birthdate"));
                 student.setStudentSchedule(getStudentSchedule(studentNumber));                
-                student.setTerm(rs.getInt("Term"));
-                student.setYear(rs.getInt("Year"));
+                switch (rs.getInt("Term")) {
+                    case 1:
+                        student.setTerm(Term.First);
+                        break;
+                    case 2:
+                        student.setYearStatus(YearStatus.Second);
+                        break;
+                    case 3:
+                        student.setYearStatus(YearStatus.Third);
+                        break;
+                }
+                switch (rs.getInt("Year")) {
+                    case 1:
+                        student.setYearStatus(YearStatus.First);
+                        break;
+                    case 2:
+                        student.setYearStatus(YearStatus.Second);
+                        break;
+                    case 3:
+                        student.setYearStatus(YearStatus.Third);
+                        break;
+                    case 4:
+                        student.setYearStatus(YearStatus.Fourth);
+                        break;
+                    case 5:
+                        student.setYearStatus(YearStatus.Fifth);
+                        break;
+                }
                 student.setPicture(rs.getString("Student_Picture"));
 
                 //Set Retention Status
@@ -538,6 +571,70 @@ public class Student extends User {
             e.printStackTrace();
         }
         return false;
+    }
+    
+    public static ArrayList<CourseTaken> getStudentGrades(int studentID){
+        
+        conn = DatabaseConnection.connectDatabase();
+        ArrayList<CourseTaken> courseTaken = new ArrayList<>();
+        
+        String getStudentGrades = "Select * from Student_Grade where Student_ID = (?)";
+        try{
+            System.out.println("yahu");
+            state = conn.prepareStatement(getStudentGrades);
+            state.setInt(1, studentID);
+            rs = state.executeQuery();
+            
+            while(rs.next()){
+
+                CourseTaken studentGrade = new CourseTaken();
+                studentGrade.setUserID(rs.getInt("Student_ID"));
+                studentGrade.setCourseID(rs.getString("Course_ID"));
+                System.out.println(studentGrade.getCourseID());
+                studentGrade.setGrade(rs.getFloat("Course_Grade"));
+                switch (rs.getInt("Year")) {
+                    case 1:
+                        studentGrade.setYearStatus(YearStatus.First);
+                        break;
+                    case 2:
+                        studentGrade.setYearStatus(YearStatus.Second);
+                        break;
+                    case 3:
+                        studentGrade.setYearStatus(YearStatus.Third);
+                        break;
+                    case 4:
+                        studentGrade.setYearStatus(YearStatus.Fourth);
+                        break;
+                    case 5:
+                        studentGrade.setYearStatus(YearStatus.Fifth);
+                        break;
+                }
+                switch (rs.getInt("Remark")) {
+                    case 1:
+                        studentGrade.setRemarkType(RemarkType.PASSED);
+                        break;
+                    case 2:
+                        studentGrade.setRemarkType(RemarkType.FAILED);
+                        break;
+                    case 3:
+                        studentGrade.setRemarkType(RemarkType.INCOMPLETE);
+                        break;
+                }
+                
+                System.out.println("Course about to add: " + studentGrade.getCourseID() + " with grade + " + studentGrade.getGrade() );
+                courseTaken.add(studentGrade);
+                //proposedSchedList.add(rs.getInt("Student_ID"));
+            }
+            for(CourseTaken course : courseTaken){
+                System.out.println("Course ID: " + course.getCourseID());
+            }
+            rs.close();
+            state.close();
+            conn.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return courseTaken;
     }
 
     public static ArrayList<Course> getMySchedule(int studentID) {
