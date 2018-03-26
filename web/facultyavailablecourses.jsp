@@ -101,15 +101,60 @@
                                                         <c:set var="courseID" value="${fn:replace(string1,' ', '')}" />
                                                         <a data-toggle="modal" data-target="#update" class="btn btn-warning btn-sm" href="AdviserServlet?classList=classList&courseID=<c:out value="${courseID}"/>&section=<c:out value="${course.getSection()}"/>">View</a>
                                                         <!-- Modal -->
-                                                        <div id="update" class="modal fade" role="dialog">
+                                                        <div id="sched" class="modal fade" role="dialog">
                                                             <div class="modal-dialog modal-lg">
 
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                        <h4 class="modal-title"><center> ${studentID}'S PROPOSED SCHEDULE</center> </h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <section style="padding:0px;">
+                                                                            <div class="container-fluid" style="padding-right:90px;padding-left:90px;">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <div class="table-responsive">
+                                                                                            <c:set var="courseID" value="${course}"/>
+                                                                                            <c:set var="courseSection" value="${section}"/>
+                                                                                            <h3>Course: ${courseID}</h3>
+                                                                                            <h3>Section: ${courseSection}</h3>
+                                                                                            <table class="table">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th style="width:130px;">Student Number</th>
+                                                                                                        <th style="width:300px;">Name</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    <c:if test="${not empty classList}"> 
+                                                                                                        <c:forEach items="${classList}" var="student">
+                                                                                                            <tr>
+                                                                                                                <td>${student.getUserID()}</td>
+                                                                                                                <td>${student.getLastName()}, ${student.getFirstName()} </td>
+                                                                                                            </tr>
+                                                                                                        </c:forEach>
+                                                                                                    </c:if>
+                                                                                                    <c:set var="student" value="" scope="session"/>
+                                                                                                    <c:set var="courseID" value="" scope="session"/>
+                                                                                                    <c:set var="courseSection" value="" scope="session"/>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </section>
 
+                                                                        <button type="button" style="margin-left: 800px; font-family: arial;" class="btn btn-success" data-dismiss="modal">Approve</button> <br> <br>
+                                                                        <button type="button" style="margin-left: 800px; font-family: arial;" class="btn btn-danger" data-dismiss="modal">Reject</button>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-info" data-dismiss="modal">Back</button>
+                                                                    </div>
                                                                 </div>
-                                                                <c:set var="courseID" value="" scope="session"/>
-                                                                <c:set var="courseID" value="" scope="session"/>
+
                                                             </div>
                                                         </div>
                                                     </td>
