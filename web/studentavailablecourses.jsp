@@ -171,7 +171,7 @@
                                                                 <input type="hidden" name="courseID" value="${course.getCourseID()}">
                                                                 <input type="hidden" name="courseSection" value="${course.getSection()}">
                                                                 <button class="btn btn-warning" type="submit" name="addToSchedule">ADD </button>
-                                                                <c:if test="${not empty errorMessage}"> 
+                                                                <c:if test="${isError eq 'error'}"> 
                                                                     <script>
                                                                         console.log("Error");
                                                                         openModal();

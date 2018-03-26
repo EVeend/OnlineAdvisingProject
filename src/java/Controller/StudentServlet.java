@@ -170,6 +170,7 @@ public class StudentServlet extends HttpServlet {
             } else {
                 Course overLappedCourse = Student.isOverLapping(currentStudent, desiredCourse);
                 session.setAttribute("overLappedCourse", overLappedCourse);
+                session.setAttribute("isError", "error");
 //                session.setAttribute("errorMessage", Student.advisingErrorMessage);
 
                 if (overLappedCourse.getCourseID().equals(desiredCourse.getCourseID())) {

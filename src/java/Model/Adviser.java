@@ -50,7 +50,7 @@ public class Adviser extends User {
     }
 
     //Check if adviser exists
-    public static boolean isUser(int teacherID, String password) {
+    public static String isUser(int teacherID, String password) {
         conn = DatabaseConnection.connectDatabase();
         String loginQuery = "select * from Adviser where Teacher_ID = (?) and Password = (?)";
         int active = 1;
@@ -58,14 +58,19 @@ public class Adviser extends User {
             state = conn.prepareStatement(loginQuery);
             state.setInt(1, teacherID);
             state.setString(2, password);
+            System.out.println("ID: " + teacherID + " Pass: " + password);
             rs = state.executeQuery();
             while (rs.next()) {
                 if (rs.getInt("AccountStatus") == active) {
+                    System.out.println("Active");
                     if (rs.getInt("Teacher_ID") == teacherID && rs.getString("Password").equals(password)) {
-                        rs.close();
-                        state.close();
-                        conn.close();
-                        return true;
+                        System.out.println("Verified Creds");
+                        if(rs.getString("Rank").equals("Administrator")){
+                            return "Administrator";
+                        }
+                        else{
+                            return "Faculty";
+                        }
                     }
                 }
             }
@@ -75,7 +80,8 @@ public class Adviser extends User {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        System.out.println("Null");
+        return null;
     }
 
     //View Profile

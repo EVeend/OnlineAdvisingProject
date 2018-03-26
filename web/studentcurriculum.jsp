@@ -393,7 +393,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <c:if test="${not empty fSemfrtYear}">
-                                                        <c:forEach items="${fSemfrtYear}" var="course">
+                                                        <c:forEach items="${fSemfftYear}" var="course">
                                                             <tr>
                                                                 <td>${course.getCourseID()}</td>
                                                                 <td>${course.getCourseName()}</td>
@@ -431,13 +431,21 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Cell 1</td>
-                                                        <td>Cell 2</td>
-                                                        <td>Text</td>
-                                                        <td>Text</td>
-                                                        <td>Text</td>
-                                                    </tr>
+                                                    <c:if test="${not empty fSemfrtYear}">
+                                                        <c:forEach items="${sSemfftYear}" var="course">
+                                                            <tr>
+                                                                <td>${course.getCourseID()}</td>
+                                                                <td>${course.getCourseName()}</td>
+                                                                <td>${course.getCourseLectUnits()}</td>
+                                                                <td>${course.getCourseLabUnits()}</td>
+                                                                <td><c:if test="${not empty course.getPrerequisite()}">
+                                                                        <c:forEach items="${course.getPrerequisite()}" var="prereq">
+                                                                            ${prereq} 
+                                                                        </c:forEach>
+                                                                    </c:if></td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </c:if>
                                                 </tbody>
                                             </table>
                                         </div>

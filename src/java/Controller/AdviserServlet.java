@@ -47,10 +47,16 @@ public class AdviserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         session = request.getSession(false);
+        session.setAttribute("studentID", null);
+        session.setAttribute("studentSched", null);
+        session.setAttribute("schedule", null);
 
         //Profile 
         if (request.getParameter("myProfile") != null) {
-            loadAdminProfile(request, response);
+            Integer employeeNum = (Integer) session.getAttribute("employeeNumber");
+            String password = (String) session.getAttribute("password");
+            String userRank = Adviser.isUser(employeeNum, password);
+            loadAdminProfile(request, response, userRank);
         }//Available Courses 
         else if (request.getParameter("availableCourses") != null) {
             loadCourses(request, response);
@@ -61,18 +67,19 @@ public class AdviserServlet extends HttpServlet {
             loadProposedScheduleList(request, response);
         }//View Student's proposed Schedule
         else if (request.getParameter("view") != null) {
-            System.out.println("heeeeeeeeeey");
             int studentID = Integer.parseInt(request.getParameter("studentID"));
+            System.out.println("Schedule of " + studentID);
             ArrayList<Course> studentSchedule = Student.getStudentSchedule(studentID);
             session.setAttribute("studentID", studentID);
             session.setAttribute("studentSched", studentSchedule);
-            rd = request.getRequestDispatcher("ProposedScheduleView.jsp");
+            session.setAttribute("schedule", "schedule");
+            System.out.println(studentID);
+            rd = request.getRequestDispatcher("facultyproposedschedule.jsp");
             rd.forward(request, response);
         } //Students List
         else if (request.getParameter("studentList") != null) {
             loadsStudentList(request, response);
-        }
-        else if(request.getParameter("classList") != null){
+        } else if (request.getParameter("classList") != null) {
             System.out.println("Classlist");
             String courseID = request.getParameter("courseID");
             String formattedCourseID = Course.format(courseID);
@@ -96,17 +103,30 @@ public class AdviserServlet extends HttpServlet {
             employeeNumber = Integer.parseInt(request.getParameter("employeeNumber"));
             password = (String) request.getParameter("password");
             System.out.println(employeeNumber + " " + password);
-            if (Adviser.isUser(employeeNumber, password)) {
-                System.out.println("You have successfully logged in");
-                session = request.getSession();
-                session.setAttribute("employeeNumber", employeeNumber);
-                session.setAttribute("password", password);
-                loadAdminProfile(request, response);
-            } else {
-//                System.out.println("dsada");
+            String userRank = "";
+            try {
+                if (Adviser.isUser(employeeNumber, password).equals("Faculty")) {
+                    System.out.println("You have successfully logged in");
+                    session = request.getSession();
+                    userRank = Adviser.isUser(employeeNumber, password);
+                    session.setAttribute("employeeNumber", employeeNumber);
+                    session.setAttribute("password", password);
+                    loadAdminProfile(request, response, userRank);
+                }
+            } catch (NullPointerException e) {
+                session.setAttribute("errorMessage", "noUser");
+                rd = request.getRequestDispatcher("adminfacultyindex.jsp");
+                rd.forward(request, response);
             }
-        }
-        //Adviser Approved Schedule
+//            } else if (Adviser.isUser(employeeNumber, password).equals("Administrator")) {
+////               System.out.println("You have successfully logged in");
+//                session = request.getSession();
+//                userRank = Adviser.isUser(employeeNumber, password);
+//                session.setAttribute("employeeNumber", employeeNumber);
+//                session.setAttribute("password", password);
+//                loadAdminProfile(request, response, userRank);
+//            }
+        } //Adviser Approved Schedule
         else if (request.getParameter("approve") != null) {
             System.out.println("APPROVE");
             String approve = "APPROVE";
@@ -134,7 +154,7 @@ public class AdviserServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    protected void loadAdminProfile(HttpServletRequest request, HttpServletResponse response)
+    protected void loadAdminProfile(HttpServletRequest request, HttpServletResponse response, String rank)
             throws ServletException, IOException {
 
         int sessionEmployee = (Integer) session.getAttribute("employeeNumber");
@@ -152,8 +172,14 @@ public class AdviserServlet extends HttpServlet {
         session.setAttribute("Email", adviserProfile.getEmail());
         session.setAttribute("Birthdate", adviserProfile.getBirthdate());
         session.setAttribute("Employee_Picture", adviserProfile.getPicture());
-        rd = request.getRequestDispatcher("facultyprofile.jsp");
-        rd.forward(request, response);
+
+        if (rank.equals("Administrator")) {
+            rd = request.getRequestDispatcher("adminprofile.jsp");
+            rd.forward(request, response);
+        } else {
+            rd = request.getRequestDispatcher("facultyprofile.jsp");
+            rd.forward(request, response);
+        }
 
 //                //CHECKER IF ADMIN
 //        if(adviserProfile.getUserID()== 123454321 && adviserProfile.getPassword().equals("admin")){
@@ -205,5 +231,5 @@ public class AdviserServlet extends HttpServlet {
         rd.forward(request, response);
 
     }
-    
+
 }
