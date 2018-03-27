@@ -46,11 +46,9 @@ public class AdviserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        session = request.getSession(false);
-        session.setAttribute("studentID", null);
-        session.setAttribute("studentSched", null);
-        session.setAttribute("schedule", null);
-
+        
+        //Clears session values
+        clear(request, response);
         //Profile 
         if (request.getParameter("myProfile") != null) {
             Integer employeeNum = (Integer) session.getAttribute("employeeNumber");
@@ -84,12 +82,12 @@ public class AdviserServlet extends HttpServlet {
             String courseID = request.getParameter("courseID");
             String formattedCourseID = Course.format(courseID);
             String section = request.getParameter("section");
-            System.out.println(courseID);
+            System.out.println(section);
             ArrayList<Student> classList = Adviser.getOfficialClassList(formattedCourseID, section);
             session.setAttribute("classList", classList);
             session.setAttribute("course", formattedCourseID);
             session.setAttribute("section", section);
-            rd = request.getRequestDispatcher("Classlist.jsp");
+            rd = request.getRequestDispatcher("facultyavailablecourses.jsp");
             rd.forward(request, response);
         }
     }
@@ -153,6 +151,18 @@ public class AdviserServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    protected void clear(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        session = request.getSession(false);
+        session.setAttribute("studentID", null);
+        session.setAttribute("studentSched", null);
+        session.setAttribute("schedule", null);
+
+        session.setAttribute("classList", null);
+        session.setAttribute("course", null);
+        session.setAttribute("section", null);
+    }
 
     protected void loadAdminProfile(HttpServletRequest request, HttpServletResponse response, String rank)
             throws ServletException, IOException {
