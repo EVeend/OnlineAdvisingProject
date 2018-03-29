@@ -76,13 +76,9 @@
                                             <tr>
                                                 <td>${sched.getUserID()}</td>
                                                 <td> 
-                                                    <!-- Trigger the modal with a button -->
-                                                    <!--                                                    
-                                                                                                        <a data-toggle="modal" data-target="#update" class="btn btn-warning btn-sm" href="AdviserServlet?view=view&studentID=<c:out value="${sched.getUserID()}"/>">View</a>
-                                                    -->
                                                     <form method="get" action="AdviserServlet">
                                                         <input type="hidden" name="studentID" value="${sched.getUserID()}">
-                                                        <input class="btn btn-warning btn-sm" type="submit" value="view" name="view">
+                                                        <input class="btn btn-warning btn-sm" type="submit" value="View" name="view">
                                                     </form>
                                                     <c:if test="${not empty schedule}"> 
                                                         <script>
@@ -96,7 +92,9 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                    <form method="get" action="AdviserServlet">
+                                                                        <button type="submit" class="close" name="proposedSchedule">&times;</button>
+                                                                    </form>
                                                                     <h4 class="modal-title"><center> ${studentID}'S PROPOSED SCHEDULE</center> </h4>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -146,7 +144,9 @@
                                                                     <button type="button" style="margin-left: 800px; font-family: arial;" class="btn btn-danger" data-dismiss="modal">Reject</button>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Back</button>
+                                                                    <form method="get" action="AdviserServlet">
+                                                                        <button type="submit" class="btn btn-info" name="proposedSchedule">Back</button>
+                                                                    </form>
                                                                 </div>
                                                             </div>
 

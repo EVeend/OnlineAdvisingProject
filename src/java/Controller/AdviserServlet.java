@@ -6,14 +6,19 @@
 package Controller;
 
 import Model.Adviser;
+import Model.PDFGenerator;
 import Model.Course;
 import Model.Student;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,14 +48,14 @@ public class AdviserServlet extends HttpServlet {
     static PreparedStatement state;
     static ResultSet rs;
 
+//    URL url = getClass().getResource("/main/web/downloadables/hello.pdf");
+//    final String filePath = url.toString();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        session = request.getSession(false);
-        session.setAttribute("studentID", null);
-        session.setAttribute("studentSched", null);
-        session.setAttribute("schedule", null);
 
+        //Clears session values
+        clear(request, response);
         //Profile 
         if (request.getParameter("myProfile") != null) {
             Integer employeeNum = (Integer) session.getAttribute("employeeNumber");
@@ -79,18 +84,66 @@ public class AdviserServlet extends HttpServlet {
         } //Students List
         else if (request.getParameter("studentList") != null) {
             loadsStudentList(request, response);
-        } else if (request.getParameter("classList") != null) {
+        } //class list
+        else if (request.getParameter("classList") != null) {
             System.out.println("Classlist");
             String courseID = request.getParameter("courseID");
             String formattedCourseID = Course.format(courseID);
             String section = request.getParameter("section");
-            System.out.println(courseID);
+            System.out.println(section);
             ArrayList<Student> classList = Adviser.getOfficialClassList(formattedCourseID, section);
             session.setAttribute("classList", classList);
             session.setAttribute("course", formattedCourseID);
             session.setAttribute("section", section);
-            rd = request.getRequestDispatcher("Classlist.jsp");
+            rd = request.getRequestDispatcher("facultyavailablecourses.jsp");
             rd.forward(request, response);
+        } else if (request.getParameter("classListPDF") != null) {
+            //Generate PDF
+            String courseID = request.getParameter("courseID");
+            String section = request.getParameter("section");
+            String newFilePath = courseID + section + ".pdf";
+            System.out.println(newFilePath);
+            System.out.println(System.getProperty("user.dir"));
+            PDFGenerator.generateClassListPDF(newFilePath, courseID, section);
+
+            //Make PDF Downloadable
+            // reads input file from an absolute path
+            String filePath = System.getProperty("user.dir") + "/" + newFilePath;
+            File downloadFile = new File(filePath);
+            FileInputStream inStream = new FileInputStream(downloadFile);
+
+            // obtains ServletContext
+            ServletContext context = getServletContext();
+
+            // gets MIME type of the file
+            String mimeType = context.getMimeType(filePath);
+            if (mimeType == null) {
+                // set to binary type if MIME mapping not found
+                mimeType = "application/octet-stream";
+            }
+            System.out.println("MIME type: " + mimeType);
+            // modifies response
+            response.setContentType(mimeType);
+            response.setContentLength((int) downloadFile.length());
+
+            // forces download
+            String headerKey = "Content-Disposition";
+            String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
+            response.setHeader(headerKey, headerValue);
+
+            // obtains response's output stream
+            OutputStream outStream = response.getOutputStream();
+
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+
+            while ((bytesRead = inStream.read(buffer)) != -1) {
+                outStream.write(buffer, 0, bytesRead);
+            }
+
+            inStream.close();
+            outStream.close();
+
         }
     }
 
@@ -153,6 +206,18 @@ public class AdviserServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    protected void clear(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        session = request.getSession(false);
+        session.setAttribute("studentID", null);
+        session.setAttribute("studentSched", null);
+        session.setAttribute("schedule", null);
+
+        session.setAttribute("classList", null);
+        session.setAttribute("course", null);
+        session.setAttribute("section", null);
+    }
 
     protected void loadAdminProfile(HttpServletRequest request, HttpServletResponse response, String rank)
             throws ServletException, IOException {
