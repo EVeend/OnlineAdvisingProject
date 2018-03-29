@@ -54,8 +54,8 @@ public class AdviserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        //Clears session values
-        clear(request, response);
+//        clear(request, response);
+        
         //Profile 
         if (request.getParameter("myProfile") != null) {
             Integer employeeNum = (Integer) session.getAttribute("employeeNumber");
@@ -107,43 +107,21 @@ public class AdviserServlet extends HttpServlet {
             PDFGenerator.generateClassListPDF(newFilePath, courseID, section);
 
             //Make PDF Downloadable
-            // reads input file from an absolute path
             String filePath = System.getProperty("user.dir") + "/" + newFilePath;
             File downloadFile = new File(filePath);
-            FileInputStream inStream = new FileInputStream(downloadFile);
+            downloadFile(request, response, downloadFile, filePath);
 
-            // obtains ServletContext
-            ServletContext context = getServletContext();
+        }
+        else if(request.getParameter("coursesPDF") != null){
+            ArrayList<Course> coursesList = Course.getCoursesList();
+            String newFilePath = "AvailableCourses.pdf";
+            //Generate PDF
+            PDFGenerator.generateAvailableCoursesPDF(newFilePath, coursesList);
 
-            // gets MIME type of the file
-            String mimeType = context.getMimeType(filePath);
-            if (mimeType == null) {
-                // set to binary type if MIME mapping not found
-                mimeType = "application/octet-stream";
-            }
-            System.out.println("MIME type: " + mimeType);
-            // modifies response
-            response.setContentType(mimeType);
-            response.setContentLength((int) downloadFile.length());
-
-            // forces download
-            String headerKey = "Content-Disposition";
-            String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
-            response.setHeader(headerKey, headerValue);
-
-            // obtains response's output stream
-            OutputStream outStream = response.getOutputStream();
-
-            byte[] buffer = new byte[4096];
-            int bytesRead = -1;
-
-            while ((bytesRead = inStream.read(buffer)) != -1) {
-                outStream.write(buffer, 0, bytesRead);
-            }
-
-            inStream.close();
-            outStream.close();
-
+            //Make PDF Downloadable
+            String filePath = System.getProperty("user.dir") + "/" + newFilePath;
+            File downloadFile = new File(filePath);
+            downloadFile(request, response, downloadFile, filePath);
         }
     }
 
@@ -171,14 +149,6 @@ public class AdviserServlet extends HttpServlet {
                 rd = request.getRequestDispatcher("adminfacultyindex.jsp");
                 rd.forward(request, response);
             }
-//            } else if (Adviser.isUser(employeeNumber, password).equals("Administrator")) {
-////               System.out.println("You have successfully logged in");
-//                session = request.getSession();
-//                userRank = Adviser.isUser(employeeNumber, password);
-//                session.setAttribute("employeeNumber", employeeNumber);
-//                session.setAttribute("password", password);
-//                loadAdminProfile(request, response, userRank);
-//            }
         } //Adviser Approved Schedule
         else if (request.getParameter("approve") != null) {
             System.out.println("APPROVE");
@@ -196,9 +166,6 @@ public class AdviserServlet extends HttpServlet {
             int studentID = Integer.parseInt(request.getParameter("studentID"));
             Adviser.evaluateSchedule(adviserID, studentID, reject, remark);
             loadProposedScheduleList(request, response);
-//            System.out.println("Reject");
-//            rd = request.getRequestDispatcher("Popup.jsp");
-//            rd.forward(request, response);
         }
     }
 
@@ -206,6 +173,45 @@ public class AdviserServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    protected void downloadFile(HttpServletRequest request, HttpServletResponse response, File pdfFile, String filePath)
+            throws ServletException, IOException {
+        
+        FileInputStream inStream = new FileInputStream(pdfFile);
+        
+        // obtains ServletContext
+        ServletContext context = getServletContext();
+
+        // gets MIME type of the file
+        String mimeType = context.getMimeType(filePath);
+        if (mimeType == null) {
+            // set to binary type if MIME mapping not found
+            mimeType = "application/octet-stream";
+        }
+        System.out.println("MIME type: " + mimeType);
+        // modifies response
+        response.setContentType(mimeType);
+        response.setContentLength((int) pdfFile.length());
+
+        // forces download
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"", pdfFile.getName());
+        response.setHeader(headerKey, headerValue);
+
+        // obtains response's output stream
+        OutputStream outStream = response.getOutputStream();
+
+        byte[] buffer = new byte[4096];
+        int bytesRead = -1;
+
+        while ((bytesRead = inStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, bytesRead);
+        }
+
+        inStream.close();
+        outStream.close();
+
+    }
 
     protected void clear(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
