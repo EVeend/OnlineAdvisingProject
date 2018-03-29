@@ -123,7 +123,7 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <form method="get" action="AdviserServlet">
-                                                                        <button type="submit" class="btn btn-info" name="availableCourses">Back</button>
+                                                                        <button type="submit" class="close" name="availableCourses">&times;</button>
                                                                     </form>
                                                                     <h3>Course: ${courseID}</h3>
                                                                     <h3>Section: ${section}</h3>
@@ -156,6 +156,11 @@
                                                                                             </tbody>
                                                                                         </table>
                                                                                     </div>
+                                                                                    <form method="get" action="AdviserServlet">
+                                                                                        <input type="hidden" name="courseID" value="${courseID}">
+                                                                                        <input type="hidden" name="section" value="${course.getSection()}">
+                                                                                        <button type="submit" class="btn btn-info" name="classListPDF">Download Class list</button>
+                                                                                    </form>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
