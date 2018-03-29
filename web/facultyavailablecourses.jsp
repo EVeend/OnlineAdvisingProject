@@ -122,9 +122,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <form method="get" action="AdviserServlet">
-                                                                        <button type="submit" class="close" name="availableCourses">&times;</button>
-                                                                    </form>
+                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                     <h3>Course: ${courseID}</h3>
                                                                     <h3>Section: ${section}</h3>
                                                                 </div>
@@ -167,9 +165,7 @@
                                                                     </section>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <form method="get" action="AdviserServlet">
-                                                                        <button type="submit" class="btn btn-info" name="availableCourses">Back</button>
-                                                                    </form>
+                                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Back</button>
                                                                 </div>
                                                             </div>
 
@@ -182,6 +178,9 @@
                                     </c:if>
                                 </tbody>
                             </table>
+                            <form method="get" action="AdviserServlet">
+                                <button type="submit" class="btn btn-info" name="coursesPDF">Download List of Available Courses</button>
+                            </form>
                         </div>
                     </div>
                 </div>

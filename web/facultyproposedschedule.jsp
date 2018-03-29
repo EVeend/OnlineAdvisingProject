@@ -92,9 +92,7 @@
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <form method="get" action="AdviserServlet">
-                                                                        <button type="submit" class="close" name="proposedSchedule">&times;</button>
-                                                                    </form>
+                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                     <h4 class="modal-title"><center> ${studentID}'S PROPOSED SCHEDULE</center> </h4>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -144,9 +142,7 @@
                                                                     <button type="button" style="margin-left: 800px; font-family: arial;" class="btn btn-danger" data-dismiss="modal">Reject</button>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <form method="get" action="AdviserServlet">
-                                                                        <button type="submit" class="btn btn-info" name="proposedSchedule">Back</button>
-                                                                    </form>
+                                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Back</button>
                                                                 </div>
                                                             </div>
 
