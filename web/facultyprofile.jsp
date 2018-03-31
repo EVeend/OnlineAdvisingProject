@@ -10,7 +10,13 @@
         <link rel="stylesheet" href="assets/css/styles.min.css">
         <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     </head>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function openModal() {
+            $('#notif').modal('show');
+        }
+    </script>
     <body>
         <header class="black-border">
             <div><img class="img-responsive" src="assets/img/header.png" style="max-width:60%;height:auto;margin-top:0px;padding:9px;margin-bottom:0px;max-height:100%;"></div>
@@ -40,15 +46,44 @@
                                     <li role="presentation"><button class="navbar-items" type="submit" name="changePassword"/>Change Password</button></li>
                                 </ul>
                             </li>
-                           <li role="presentation"><a style="color: black;" href="adminfacultyindex.jsp">Logout</a></li>
+                            <li role="presentation"><a style="color: black;" href="adminfacultyindex.jsp">Logout</a></li>
                         </ul>
                     </form>
                 </div>
             </div>
         </nav>
 
-        <!-- PROFILE -->
+        <!-- Modal -->
+        <div id="notif" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <!--  <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                    <br>
+                    <center>  
+                        <div class="modal-body" style="font-size: 20px;"> 
+                            <p>A student has submitted a proposed schedule</p>
+                            <p>Click <a href="AdviserServlet?proposedSchedule=proposedSchedule">here</a> to go to proposed schedules</p>
 
+                        </div>
+                    </center>
+                    <div style="margin-left: 40%;">
+
+                    </div>
+                    <button style="margin-left: 47%; margin-bottom: 20px;" type="button" class="btn btn-warning" data-dismiss="modal"> OK </button>
+                </div>
+
+                <br> <br>
+            </div>
+        </div>
+        <!-- PROFILE -->
+        
+        
+        <c:if test="${hasProposedSched}"> 
+            <script>
+                openModal();
+            </script>
+        </c:if>
+            
         <section style="padding:0px;">
             <div class="container-fluid" style="padding-right:90px;padding-left:90px;">
                 <div class="row">
@@ -130,9 +165,6 @@
                 </div>
             </div>
         </footer>                          
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>
 
 </html>
