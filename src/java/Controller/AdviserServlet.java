@@ -97,7 +97,9 @@ public class AdviserServlet extends HttpServlet {
             session.setAttribute("section", section);
             rd = request.getRequestDispatcher("facultyavailablecourses.jsp");
             rd.forward(request, response);
-        } else if (request.getParameter("classListPDF") != null) {
+        } 
+        //Download classlist of a course pdf
+        else if (request.getParameter("classListPDF") != null) {
             //Generate PDF
             String courseID = request.getParameter("courseID");
             String section = request.getParameter("section");
@@ -112,6 +114,7 @@ public class AdviserServlet extends HttpServlet {
             downloadFile(request, response, downloadFile, filePath);
 
         }
+        //Download all available courses pdf
         else if(request.getParameter("coursesPDF") != null){
             ArrayList<Course> coursesList = Course.getCoursesList();
             String newFilePath = "AvailableCourses.pdf";
@@ -243,6 +246,12 @@ public class AdviserServlet extends HttpServlet {
         session.setAttribute("Email", adviserProfile.getEmail());
         session.setAttribute("Birthdate", adviserProfile.getBirthdate());
         session.setAttribute("Employee_Picture", adviserProfile.getPicture());
+        
+        ArrayList<Student> proposedScheduleList = Adviser.getStudentProposedSchedule();
+        if(!proposedScheduleList.isEmpty()){
+            System.out.println("TRUE");
+            session.setAttribute("hasProposedSched", true);
+        }
 
         if (rank.equals("Administrator")) {
             rd = request.getRequestDispatcher("adminprofile.jsp");
