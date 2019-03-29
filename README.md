@@ -28,9 +28,14 @@ comfort of their homes.
 This project was a product of Committed Technologists who are Resilient, Logistical
 andXperienced(CTRLX). The following is the list of members and their contributions.
 
-VENDIVIL, Rafael Edward - Project managers/Lead Developer
+Vendivil, Rafael Edward - Project managers/Lead Developer
+
 Alcones, Laiza Marie - Business Analyst
+
 Guevarra, Kiara Angelica - System Analyst
+
 Gerardino, Rae Mikhael - Back End Developer
+
 Palma, Coleen Gayle - Front End Developer
+
 Untalan, Carrie Lyle - Front End Developer
